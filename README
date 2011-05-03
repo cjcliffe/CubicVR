@@ -1,0 +1,21 @@
+CubicVR 3D Engine, C++ Version, copyright (c) 2003 by Charles J. Cliffe
+
+Licensed under the MIT license, refer to LICENSE.TXT for information.
+
+
+CubicVR utilizes the CMake cross-platform build system.
+
+CMake and relevant documentation can be acquired at http://www.cmake.org/
+
+
+CubicVR Library:
+
+  Use CMake source of the cubicvr repository, and set the destination to the product/ subfolder.
+
+  build the 'install' project to place libraries into build/lib, headers into build/include and shaders into build/shaders
+
+
+CubicVR Examples:
+
+  Use CMake source of the examples/ repository subfolder, and set the destination to examples/product/ subfolder.
+

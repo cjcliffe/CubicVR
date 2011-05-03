@@ -1,0 +1,69 @@
+Date: 14th of July 2002.
+
+Quake3: Arena - FFA/Tourney level.
+
+====================================================
+title:            HardWired
+file:             akumaq3dm8.zip
+author:           Akuma
+email:            Akuma@pc.freewire.co.uk
+URL:              http://speedmaps.fragland.net/
+                  http://www.pc.freewire.co.uk/
+description:      1v1 / Small FFA, good for upto 5 players.
+previous work:    Metal Rocket (Quake1)
+                  Hasty Retreat (Quake3)
+                  Chaos Reigns (Quake3 - Fuguestate Tetrad mappack)
+                  Outpost 0240 (Quake3)
+                  Vertical Gimmick (Quake3)
+                  Temple of the Dead (Quake3)
+                  Chaos Catalyst (Quake3)
+                  Iron Core (Quake3)
+
+====================================================
+play information
+
+tourney:          yes
+deathmatch:       Small FFA (up to 5 players)
+CTF:              no
+Bot File (aas):   yes
+other:            no
+new sounds:       no
+new graphics:     IKBase - Iikka "Fingers" Keranen - www.planetquake.com/ikq/
+new music:        no
+installation:     Just rename "akumaq3dm8.zip" to "akumaq3dm8.pk3" and place
+                  in your quake3\baseq3\ directory
+
+====================================================
+construction
+
+base:           none
+editor:         GTKRadiant 1.2.9 (www.qeradiant.com)
+other progs:    mapacker (pk3 tool) www.planetquake.com/equim/
+know bugs:      none known
+build time:     A while.
+
+====================================================
+Thanks to
+
+The Speedmappers Guild.
+Everyone who hangs out in #speed
+Equim for Mapacker :D
+Iikka Keranen for the IKBase texture set
+
+====================================================
+Distribution / Copyright / Permissions 
+
+Copyright (c) 2002 Akuma
+All rights reserved.
+
+Quake III Arena is a registered trademark of 
+id Software, Inc.
+
+This level may be electronically distributed only at 
+NO CHARGE to the recipient in its current state, MUST 
+include this .txt file, and may NOT be modified IN 
+ANY WAY. UNDER NO CIRCUMSTANCES IS THIS LEVEL TO BE 
+DISTRIBUTED ON CD-ROM WITHOUT PRIOR WRITTEN PERMISSION.
+
+====================================================
+

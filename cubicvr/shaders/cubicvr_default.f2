@@ -1,0 +1,15 @@
+uniform sampler2DShadow shadowMap;
+varying vec4 ProjShadow;
+
+void main();
+
+vec4 doShadow(vec4 color_in)
+{
+//		color_in = color_in * shadow2DProj(shadowMap, ProjShadow, 0.6).r;
+	
+//   return color_in * 
+//		color_in.r+=0.5;
+
+
+		return color_in;
+}
