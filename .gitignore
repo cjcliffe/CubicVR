@@ -1,1 +1,3 @@
-product
+product/
+build/
+examples/product/
