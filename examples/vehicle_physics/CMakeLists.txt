@@ -5,6 +5,10 @@ project (vehicle_physics)
 find_package (OpenGL)
 find_package (GLUT)
 
+if(WIN32)
+configure_file(${PROJECT_SOURCE_DIR}/../resources/win32/GLUT/glut32.dll ${PROJECT_BINARY_DIR}/glut32.dll COPYONLY)
+endif(WIN32)
+
 include_directories ( "${PROJECT_SOURCE_DIR}/../../build/include" ) 
 link_directories ( "${PROJECT_SOURCE_DIR}/../../build/lib" )
 

@@ -214,7 +214,7 @@ void GLShader::setupShader()
 
 void GLShader::setupShader(GLShader &extShader)
 {	
-	std::map<const char *, shaderValPair, string_less>::iterator shaderVals_i;
+	std::map<const char *, shaderValPair>::iterator shaderVals_i;
 	
 	for (shaderVals_i = shaderVals.begin(); shaderVals_i != shaderVals.end(); shaderVals_i++)
 	{

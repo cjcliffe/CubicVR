@@ -98,7 +98,7 @@
 //}
 //
 //#else
-static inline unsigned char descale_and_clamp(int x, int shift)
+static unsigned char descale_and_clamp(int x, int shift)
 {
   x += (1UL<<(shift-1));
   if (x<0)

@@ -84,8 +84,8 @@
 #endif
 
 #ifdef _WIN32
-	#include <GL/glew.h>
-	#include <GL/wglew.h>
+	#include <CubicVR/glew/glew.h>
+	#include <CubicVR/glew/wglew.h>
 //	#include <GL/glut.h>
 	#include <gl/GL.h>
 //	#include <gl/GLAux.h>

@@ -2920,6 +2920,10 @@ Motion &Scene::motion(const std::string name_in)
 void Scene::saveScreenshot(char *path, int seq)
 {
 	FILE * file;
+
+#ifndef PATH_MAX
+#define PATH_MAX MAX_PATH
+#endif
 	
 	//first calculate the filename to save to
 	char filename[PATH_MAX];

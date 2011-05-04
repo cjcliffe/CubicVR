@@ -24,7 +24,6 @@
 
 #include <CubicVR/UVMapper.h>
 
-
 UVMapper::UVMapper() : rotation(0,0,0), scale(1,1,1), center(0,0,0), projection_mode(UV_PROJECTION_PLANAR), projection_axis(UV_AXIS_X), wrap_w_count(1), wrap_h_count(1)
 {
 	

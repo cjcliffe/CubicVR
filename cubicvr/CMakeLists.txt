@@ -1,7 +1,13 @@
 include_directories (include) 
 include_directories (external/bullet-2.78/src) 
 
-SET (CMAKE_CXX_FLAGS "-g -Wall -fno-inline-functions-called-once -Wextra")
+IF(WIN32)
+add_definitions (-DGLEW_STATIC)
+ENDIF(WIN32)
+
+IF(CMAKE_COMPILER_IS_GNUCXX)
+SET (CMAKE_CXX_FLAGS "-g -Wall -fno-inline-functions-called-once ")
+ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 SET(CubicVR_SRCS
   source/AreaLight.cpp
@@ -206,11 +212,18 @@ SET (TinyJPEG_HDRS
   include/CubicVR/tinyjpeg/tinyjpeg-internal.h
 )
 
+IF(WIN32)
+	SET(CubicVR_platform_SRCS source/glew/glew.c)
+	SET(CubicVR_platform_HDRS include/CubicVR/glew/glew.h include/CubicVR/glew/wglew.h)
+ENDIF(WIN32)
+
 add_library(cubicvr 
   ${CubicVR_SRCS}
   ${CubicVR_HDRS}
   ${TinyJPEG_SRCS}
   ${TinyJPEG_HDRS}
+  ${CubicVR_platform_SRCS}
+  ${CubicVR_platform_HDRS}
 )
 
 FILE(GLOB cubicvr_header_files "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/*.h")
@@ -237,6 +250,10 @@ INSTALL(FILES ${cubicvr_header_files6} DESTINATION include/CubicVR/ph/)
 FILE(GLOB cubicvr_shader_files "${CMAKE_CURRENT_SOURCE_DIR}/shaders/*.[fv]")
 INSTALL(FILES ${cubicvr_shader_files} DESTINATION shaders)
 
+IF(WIN32)
+FILE(GLOB cubicvr_header_files_win "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/glew/*.h")
+INSTALL(FILES ${cubicvr_header_files_win} DESTINATION include/CubicVR/glew/)
+ENDIF(WIN32)
 
 INSTALL(TARGETS cubicvr
   ARCHIVE DESTINATION lib/

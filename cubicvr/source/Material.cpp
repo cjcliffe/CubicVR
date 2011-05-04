@@ -25,7 +25,7 @@
 #include <CubicVR/Material.h>
 #include <CubicVR/Camera.h>
 
-#define nullMaterial Material::nullMaterial
+//#define nullMaterial Material::nullMaterial
 
 //std::vector<Material> Material::materials;
 //std::map<std::string, cvrIndex, string_less> Material::nameref;

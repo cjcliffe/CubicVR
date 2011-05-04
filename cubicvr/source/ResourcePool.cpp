@@ -31,10 +31,14 @@
 
 #include <CubicVR/ResourcePool.h>
 #include <CubicVR/Logger.h>
+#include <CubicVR/cvr_defines.h>
 #ifdef ARCH_PSP
 #include <sys/unistd.h>
 #endif
 
+#ifndef WIN32
+#include <dirent.h>
+#endif
 
 ResourcePool::ResourcePool()
 {
@@ -89,7 +93,7 @@ void ResourcePool::findByExtension(const char *ext,std::vector<std::string> &fil
 
 int ResourcePool::getSize(const char *dirname)
 {/* finds and returns the size of the directory entry (in bytes) */
-	
+#ifndef WIN32
 	DIR *dir;
 	struct dirent *ent;
 	int size=0;
@@ -112,11 +116,15 @@ int ResourcePool::getSize(const char *dirname)
 	if (closedir(dir) != 0)
 		perror("Unable to close directory");
 	return(size);
+#else
+	return 0;
+#endif
 }
 
 
 int ResourcePool::scanDir(const char *dirname,char *entries)
 {/* scan the directory and store the entries in a buffer */
+#ifndef WIN32
 	DIR *dir;
 	struct dirent *ent;
 	int count=1;
@@ -149,6 +157,9 @@ int ResourcePool::scanDir(const char *dirname,char *entries)
 		perror("Unable to close directory");
 	
 	return(count);
+#else
+	return 0;
+#endif
 }
 
 void ResourcePool::refresh()
@@ -181,6 +192,7 @@ void ResourcePool::clearPaths()
 
 void ResourcePool::addPath(const char *dirname, bool recursive)
 {/* scan the buffer and recursively enter any directories found */
+#ifndef WIN32
 	pathList.insert(dirname);
 	recList[dirname] = recursive;
 	
@@ -286,6 +298,7 @@ void ResourcePool::addPath(const char *dirname, bool recursive)
 	chdir(initialpath);
 	
 	return;
+#endif
 }
 
 
@@ -294,7 +307,7 @@ std::string ResourcePool::StringToLower(std::string str)
 	const int length = str.length();
 	for(int i=0; i!=length; ++i)
 	{
-		str[i] = std::tolower(str[i]);
+		str[i] = tolower(str[i]);
 	}
 	return str;
 }

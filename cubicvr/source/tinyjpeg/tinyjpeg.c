@@ -61,7 +61,8 @@ enum std_markers {
 #define BLACK_U 127
 #define BLACK_V 127
 
-#if DEBUG
+#if 0
+#if TINYJPEG_DEBUG
 #define trace(fmt, args...) do { \
    fprintf(stderr, fmt, ## args); \
    fflush(stderr); \
@@ -73,7 +74,10 @@ enum std_markers {
    snprintf(error_string, sizeof(error_string), fmt, ## args); \
    return -1; \
 } while(0)
-
+#else
+#define error printf
+#define trace printf
+#endif
 
 #if 0
 static char *print_bits(unsigned int value, char *bitstr)
@@ -376,7 +380,7 @@ static void process_Huffman_data_unit(struct jdec_private *priv, int component)
 	j += count_0;	/* skip count_0 zeroes */
 	if (__unlikely(j >= 64))
 	 {
-	   snprintf(error_string, sizeof(error_string), "Bad huffman data (buffer overflow)");
+	   sprintf(error_string, "Bad huffman data (buffer overflow)");
 	   break;
 	 }
 	get_nbits(priv->reservoir, priv->nbits_in_reservoir, priv->stream, size_val, DCT[j]);
@@ -1510,7 +1514,7 @@ static void decode_MCU_1x2_1plane(struct jdec_private *priv)
 static void print_SOF(const unsigned char *stream)
 {
   int width, height, nr_components, precision;
-#if DEBUG
+#if TINYJPEG_DEBUG
   const char *nr_components_to_string[] = {
      "????",
      "Grayscale",
@@ -1524,12 +1528,13 @@ static void print_SOF(const unsigned char *stream)
   height = be16_to_cpu(stream+3);
   width  = be16_to_cpu(stream+5);
   nr_components = stream[7];
-
+#ifndef _WIN32
   trace("> SOF marker\n");
   trace("Size:%dx%d nr_components:%d (%s)  precision:%d\n", 
       width, height,
       nr_components, nr_components_to_string[nr_components],
       precision);
+#endif
 }
 
 /*******************************************************************************
@@ -1736,7 +1741,7 @@ static int parse_DRI(struct jdec_private *priv, const unsigned char *stream)
 
   priv->restart_interval = be16_to_cpu(stream+2);
 
-#if DEBUG
+#if TINYJPEG_DEBUG
   trace("Restart interval = %d\n", priv->restart_interval);
 #endif
 

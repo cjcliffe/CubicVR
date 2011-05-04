@@ -1,5 +1,12 @@
 set(CUBICVR_LIBRARIES cubicvr bulletcollision bulletdynamics bulletlinearmath bulletsoftbody)
 
+if(WIN32)
+include_directories ( "${PROJECT_SOURCE_DIR}/resources/win32" ) 
+link_directories ( "${PROJECT_SOURCE_DIR}/resources/win32/GLUT" )
+
+SET(GLUT_LIBRARIES "glut32")
+
+endif(WIN32)	
 
 macro(configure_files srcDir destDir)
     message(STATUS "Configuring directory ${destDir}")

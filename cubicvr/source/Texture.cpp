@@ -541,7 +541,12 @@ void Texture::clear()
 	tex_lock = 0;
 }
 
-TextureInit::TextureInit() {};
+TextureInit::TextureInit() {
+#ifdef _WIN32
+	Logger::log(LOG_DEBUG,"Initializing GLEW..\n");
+	GLenum err = glewInit();
+#endif
+};
 
 TextureInit::~TextureInit()
 {

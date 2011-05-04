@@ -339,8 +339,8 @@ XYZ &Curve::getCurvePoint(unsigned int ptNum)
 int Curve::addCurvePoint(unsigned int ptNum)
 {
 	int oPt;
-	
-	oPt = (int)trunc((float)ptNum/divisions)+1;
+
+	oPt = (int)floor((float)ptNum/divisions)+1;
 	
 	CurveNode tmp;
 	

@@ -50,8 +50,8 @@
 	#pragma warning(disable:4273)
 	#pragma warning(disable:4099)
 	#pragma warning(disable:4305)
-	#pragma warning(disable:4217)
 	#pragma warning(disable:4996)
+	#pragma warning (disable: 4820)
 	
 #else
 	#define IMPEXP
@@ -66,12 +66,10 @@
 #ifdef CVR_FLOAT_PRECISION
 	#define cvrFloat float
 
-//	#ifndef M_PI
 	#ifdef M_PI
 	#undef M_PI
-	#define M_PI 3.14159265358979323846f
 	#endif
-//	#endif
+	#define M_PI 3.14159265358979323846f
 
 	#define DEGTORAD(x) (x*(3.14159265358979323846f/180.0f))
 	#define RADTODEG(x) (x*(180.0f/3.14159265358979323846f))

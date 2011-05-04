@@ -25,6 +25,7 @@
  */
 
 #include <CubicVR/Pencil.h>
+#include <CubicVR/cvr_defines.h>
 
 std::vector<XYZ>::iterator Pencil::point_i;
 
@@ -306,7 +307,7 @@ void Pencil::drawGrid(const XYZ &center, const XYZ &dimensions, float gridsize, 
 }
 
 
-void Pencil::drawFrustum(XYZ &position, float modelview[16], float fov, float near, float far, float aspect)
+void Pencil::drawFrustum(XYZ &position, float modelview[16], float fov, float znear, float zfar, float aspect)
 {
 #ifndef ARCH_PSP
 #ifndef OPENGL_ES
@@ -325,16 +326,16 @@ void Pencil::drawFrustum(XYZ &position, float modelview[16], float fov, float ne
 	forward.makeUnit();
 	
 	nearpt = forward;
-	nearpt *= near;
+	nearpt *= znear;
 	
 	farpt = forward;
-	farpt *= far;
+	farpt *= zfar;
 	
 	float wNear,hNear,wFar,hFar;
 	
-	hNear = 2.0f * tan(DEGTORAD(fov) / 2.0f) * near;
+	hNear = 2.0f * tan(DEGTORAD(fov) / 2.0f) * znear;
 	wNear = hNear * aspect;
-	hFar = 2.0f * tan(DEGTORAD(fov) / 2.0f) * far;
+	hFar = 2.0f * tan(DEGTORAD(fov) / 2.0f) * zfar;
 	wFar = hFar * aspect;
 	
 	

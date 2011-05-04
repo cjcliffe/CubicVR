@@ -678,10 +678,10 @@ IMPEXP void loadLWO(Object &obj, const string &fn, MapString *mapStr, map<Materi
 							reflCount++;
 						break;
 						case CHAN_TRAN:
-#warning undef behavior //
+//warning undef behavior //
 							surfMat->bindTexture(texLayer,newTex,TEXTURE_ALPHA);
 							Logger::log("Channel type: TRAN\n");
-#warning undef behavior //
+//warning undef behavior //
 							surfMat->layer[texLayer].blend_mode = MATERIAL_BLEND_ALPHA;
 						break;
 					}

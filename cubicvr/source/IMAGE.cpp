@@ -31,10 +31,7 @@
 	#endif
 	#endif
 #else
-    extern "C"
-    {
-        #include <CubicVR/tinyjpeg/tinyjpeg.h>
-    }
+    #include <CubicVR/tinyjpeg/tinyjpeg.h>
 #endif
 
 //Load - load a texture from a file

@@ -53,15 +53,15 @@ enum tinyjpeg_fmt {
 };
 
 struct jdec_private *tinyjpeg_init(void);
-void tinyjpeg_free(struct jdec_private *priv);
+extern void tinyjpeg_free(struct jdec_private *priv);
 
-int tinyjpeg_parse_header(struct jdec_private *priv, const unsigned char *buf, unsigned int size);
-int tinyjpeg_decode(struct jdec_private *priv, int pixel_format);
-const char *tinyjpeg_get_errorstring(struct jdec_private *priv);
-void tinyjpeg_get_size(struct jdec_private *priv, unsigned int *width, unsigned int *height);
-int tinyjpeg_get_components(struct jdec_private *priv, unsigned char **components);
-int tinyjpeg_set_components(struct jdec_private *priv, unsigned char **components, unsigned int ncomponents);
-int tinyjpeg_set_flags(struct jdec_private *priv, int flags);
+extern int tinyjpeg_parse_header(struct jdec_private *priv, const unsigned char *buf, unsigned int size);
+extern int tinyjpeg_decode(struct jdec_private *priv, int pixel_format);
+extern const char *tinyjpeg_get_errorstring(struct jdec_private *priv);
+extern void tinyjpeg_get_size(struct jdec_private *priv, unsigned int *width, unsigned int *height);
+extern int tinyjpeg_get_components(struct jdec_private *priv, unsigned char **components);
+extern int tinyjpeg_set_components(struct jdec_private *priv, unsigned char **components, unsigned int ncomponents);
+extern int tinyjpeg_set_flags(struct jdec_private *priv, int flags);
 
 #ifdef __cplusplus
 }
