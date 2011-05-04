@@ -1528,13 +1528,13 @@ static void print_SOF(const unsigned char *stream)
   height = be16_to_cpu(stream+3);
   width  = be16_to_cpu(stream+5);
   nr_components = stream[7];
-#ifndef _WIN32
-  trace("> SOF marker\n");
-  trace("Size:%dx%d nr_components:%d (%s)  precision:%d\n", 
-      width, height,
-      nr_components, nr_components_to_string[nr_components],
-      precision);
-#endif
+//#ifndef _WIN32
+//  trace("> SOF marker\n");
+//  trace("Size:%dx%d nr_components:%d (%s)  precision:%d\n", 
+//      width, height,
+//      nr_components, nr_components_to_string[nr_components],
+//      precision);
+//#endif
 }
 
 /*******************************************************************************
