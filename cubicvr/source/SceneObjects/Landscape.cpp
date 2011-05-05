@@ -835,7 +835,9 @@ public:
 void Landscape::drawDebugHeightField()
 {
 	Texture::clearAllTextures();
+#if !defined(ARCH_DC)
 	GLShader::clear();
+#endif
 	glDisable(GL_LIGHTING);
 	glDisable(GL_COLOR_MATERIAL);
 	glDisable(GL_BLEND);

@@ -127,10 +127,12 @@ public:
 
 	FRUSTUM frustum;
 
-#if !defined(ARCH_PSP) && !defined(OPENGL_ES) && !defined(ARCH_DC)
+#if !defined(ARCH_PSP) && !defined(OPENGL_ES)
+#if !defined(ARCH_DC)
 	FRUSTUM spot_frustum;
 	HDR hdrProcess;
-	
+#endif
+
 	Light dummyLight;
 	set<Light *> dummySet;
 #endif
@@ -145,8 +147,10 @@ public:
 	set<Light *>::iterator active_light_i;
 
 	ObjectShader oShader;
-#if !defined(ARCH_PSP) && !defined(OPENGL_ES) && !defined(ARCH_DC)
+#if !defined(ARCH_PSP) && !defined(OPENGL_ES)
+#if !defined(ARCH_DC)
 	ShadowShader sShader;
+#endif
 	LineShader lShader;
 #endif
 

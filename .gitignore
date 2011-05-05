@@ -1,3 +1,8 @@
 product/
 build/
 examples/product/
+dreamcast/*.o
+dreamcast/*.a
+dreamcast/bullet/*.o
+dreamcast/bullet/*.a
+dreamcast/build/

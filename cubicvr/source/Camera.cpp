@@ -243,7 +243,9 @@ void Camera::setup()
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear The Screen And The Depth Buffer
 
 #ifndef OPENGL_ES
+#ifndef ARCH_DC
 	GLShader::defaultShader.setShaderValue("camPos",position); 
+#endif
 #endif
 
 #endif

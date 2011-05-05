@@ -343,7 +343,7 @@ bool Object::init()
 	string modelFn = rm->pool("resources").getMap().getString(getModelFile().c_str());	
 	loadLWO(*this,modelFn,&rm->pool("resources").getMap());
 	
-#if !defined(ARCH_PSP) && !defined(OPENGL_ES)
+#if !defined(ARCH_PSP) && !defined(OPENGL_ES) && !defined(ARCH_DC)
 	triangulate();
 #endif
 	

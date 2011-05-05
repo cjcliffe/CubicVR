@@ -1434,8 +1434,9 @@ void Scene::renderStage(Shader &renderer, int stage)
 				{
 					glDisable(GL_LIGHTING);
 					glDisable(GL_TEXTURE_2D);
+#if !defined(ARCH_DC)
 					GLShader::clear();
-
+#endif
 					Pencil::drawBB((*obj_i)->aabbMin,(*obj_i)->aabbMax);
 				}
 #endif
@@ -2741,7 +2742,9 @@ if (deferred_shading)
 		if (cam) cam->setup();
 		
 		Texture::clearAllTextures();
+#ifndef ARCH_DC
 		GLShader::clear();
+#endif
 		glDepthFunc(GL_LESS);
 		glDepthMask(GL_TRUE);
 		glDisable(GL_LIGHTING);
@@ -2751,7 +2754,7 @@ if (deferred_shading)
 
 		
 		//Pencil::drawFrustum(cam->position,cam->viewMatrix,cam->fov,cam->nearclip,cam->farclip,cam->aspect);
-
+#if !defined(ARCH_DC)
 		for (active_light_i = active_lights.begin(); active_light_i != active_lights.end(); active_light_i++)
 		{
 			if ((*active_light_i)->type == LIGHT_POINT && (*active_light_i)->cutoff)
@@ -2843,6 +2846,8 @@ if (deferred_shading)
 			}
 			
 		}		
+#endif
+		
 		glDepthFunc(GL_LESS);
 	}
 #endif

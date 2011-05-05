@@ -1203,7 +1203,7 @@ void SceneObject::calcVisibility(const XYZ & camPosition, FRUSTUM &frustum)
 			glPushMatrix();
 //			glLoadIdentity();
 			
-			memcpy(ml,t_trans,sizeof(float)*16);
+			memcpy(ml,w_trans,sizeof(float)*16);
 
 			mat_load(&ml);
 

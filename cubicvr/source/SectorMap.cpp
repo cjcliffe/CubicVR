@@ -418,8 +418,9 @@ void SectorMap::renderFrustum(MATRIX4X4 projMatrix, MATRIX4X4 modelMatrix, float
 //	
 //	loc_start = getSector(aabb1);
 //	loc_end = getSector(aabb2);
-	
+#ifndef ARCH_DC	
 	glEnable(GL_LINE_SMOOTH);
+#endif
 	glLineWidth(4.0f);
 	glColor3f(1,0,0);
 	glBegin(GL_LINE_STRIP);
@@ -791,8 +792,9 @@ void SectorMap::renderOrthoFrustum(XYZ position, float ortho_width, float ortho_
 	far_bottom_left += forward*farClip;
 	far_bottom_right += forward*farClip;
 	
-	
+#ifndef ARCH_DC
 	glEnable(GL_LINE_SMOOTH);
+#endif
 	glLineWidth(4.0f);
 	glColor3f(1,0,0);
 	glBegin(GL_LINES);
