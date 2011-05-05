@@ -6,3 +6,7 @@ dreamcast/*.a
 dreamcast/bullet/*.o
 dreamcast/bullet/*.a
 dreamcast/build/
+dreamcast/examples/*/*.o
+dreamcast/examples/*/*.elf
+dreamcast/examples/*/*.img
+dreamcast/examples/*/romdisk/

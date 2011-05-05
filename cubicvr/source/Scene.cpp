@@ -2483,11 +2483,13 @@ void Scene::render()
 		else
 #endif
 		{
+#if !defined(OPENGL_ES) && !defined(ARCH_DC)
 			if ((*active_light_i)->type == LIGHT_AREA)
 			{
 				AreaLight *aLight = (AreaLight*)(*active_light_i);
 				aLight->update();
 			}
+#endif
 			
 			has_regular_lights = true; 
 			(*active_light_i)->setup(GL_LIGHT0+i);

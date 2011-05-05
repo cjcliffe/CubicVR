@@ -19,7 +19,7 @@ subject to the following restrictions:
 #include "btMinMax.h"
 #include "btVector3.h"
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(_arch_dreamcast) 
 	#include <stdint.h>
 #elif defined(_MSC_VER)
 	typedef __int32 int32_t;

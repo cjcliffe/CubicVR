@@ -6,10 +6,12 @@
 
 BULLET_PREFIX=build/include/
 
-CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matrix.o Motion.o RGB.o RGBA.o Timer.o Transform.o Vector.o XYZ.o XYZRGB.o SectorMap.o BITSET.o BSP.o MATRIX4X4.o PLANE.o VECTOR3D.o systemfont.o tinyxml.o tinystr.o tinyxmlerror.o tinyxmlparser.o
+CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matrix.o Motion.o RGB.o RGBA.o Timer.o Transform.o Vector.o XYZ.o XYZRGB.o SectorMap.o BITSET.o BSP.o MATRIX4X4.o PLANE.o VECTOR3D.o systemfont.o tinyxml.o tinystr.o tinyxmlerror.o tinyxmlparser.o Resource.o ResourceManager.o ResourcePool.o Logger.o StringUtil.o
+
 # TGALoader.o Font.o Bitmap.o VECTOR2D.o VECTOR4D.o  RigidSceneDebug.o BSPSceneObject.o 
+
 CUBICVR_GL_OBJS = Camera.o  GLExt.o  Object.o objectLWO.o UV.o UVMapper.o SceneObject.o ObjectController.o Scene.o sceneLWS.o Shader.o CollisionMap.o Texture.o Light.o Material.o \
- Bone.o DataTree.o FRUSTUM.o IMAGE.o sceneLWS.o SceneObject.o textureTGA.o 
+ Bone.o DataTree.o FRUSTUM.o IMAGE.o sceneLWS.o SceneObject.o textureTGA.o Pencil.o
 
 CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o Vehicle.o RigidBox.o RigidSphere.o SoftScene.o SoftSceneObject.o Particle.o ParticleEmitter.o ParticleSystem.o RigidCapsule.o
 
@@ -58,6 +60,8 @@ IFFReader.o: ../cubicvr/source/IFFReader.cpp
 	$(BUILDCMD) IFFReader.o $^
 Light.o: ../cubicvr/source/Light.cpp
 	$(BUILDCMD) Light.o $^
+Logger.o: ../cubicvr/source/Logger.cpp
+	$(BUILDCMD) Logger.o $^
 lodepng.o: ../cubicvr/source/lodepng.cpp
 	$(BUILDCMD) lodepng.o $^
 Material.o: ../cubicvr/source/Material.cpp
@@ -78,6 +82,14 @@ ParticleEmitter.o: ../cubicvr/source/ParticleEmitter.cpp
 	$(BUILDCMD) ParticleEmitter.o $^
 ParticleSystem.o: ../cubicvr/source/ParticleSystem.cpp
 	$(BUILDCMD) ParticleSystem.o $^
+Pencil.o: ../cubicvr/source/Pencil.cpp
+	$(BUILDCMD) Pencil.o $^
+Resource.o: ../cubicvr/source/Resource.cpp
+	$(BUILDCMD) Resource.o $^
+ResourceManager.o: ../cubicvr/source/ResourceManager.cpp
+	$(BUILDCMD) ResourceManager.o $^
+ResourcePool.o: ../cubicvr/source/ResourcePool.cpp
+	$(BUILDCMD) ResourcePool.o $^
 RGB.o: ../cubicvr/source/RGB.cpp
 	$(BUILDCMD) RGB.o $^
 RGBA.o: ../cubicvr/source/RGBA.cpp
@@ -90,6 +102,8 @@ SceneObject.o: ../cubicvr/source/SceneObject.cpp
 	$(BUILDCMD) SceneObject.o $^
 Shader.o: ../cubicvr/source/Shader.cpp
 	$(BUILDCMD) Shader.o $^
+StringUtil.o: ../cubicvr/source/StringUtil.cpp
+	$(BUILDCMD) StringUtil.o $^
 systemfont.o: ../cubicvr/source/systemfont.cpp
 	$(BUILDCMD) systemfont.o $^
 Texture.o: ../cubicvr/source/Texture.cpp
