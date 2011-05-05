@@ -10,3 +10,13 @@ dreamcast/examples/*/*.o
 dreamcast/examples/*/*.elf
 dreamcast/examples/*/*.img
 dreamcast/examples/*/romdisk/
+psp/*.o
+psp/*.a
+psp/bullet/*.o
+psp/bullet/*.a
+psp/examples/*/*.o
+psp/examples/*/*.elf
+psp/examples/*/*.img
+psp/examples/*/*.PBP
+psp/examples/*/*.SFO
+psp/examples/*/content/

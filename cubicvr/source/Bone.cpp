@@ -25,6 +25,7 @@
 
 #include <CubicVR/Bone.h>
 #include <CubicVR/Transform.h>
+#include <CubicVR/GLExt.h>
 
 Bone::Bone() :  parent(NULL), restLength(1), strength(1)
 {
@@ -53,10 +54,15 @@ void Bone::calcMatrix(bool childBones, bool firstBone)
 	
 	glTranslatef(position.x,position.y,position.z);
 
+#ifdef ARCH_PSP
+	sceGumRotateX(DEGTORAD(rotation.x)-DEGTORAD(restDirection.x));
+	sceGumRotateY(DEGTORAD(rotation.y)-DEGTORAD(restDirection.y));
+	sceGumRotateZ(DEGTORAD(rotation.z)-DEGTORAD(restDirection.z));
+#else
 	glRotatef(rotation.z-restDirection.z,0,0,1);
 	glRotatef(rotation.y-restDirection.y,0,1,0);
 	glRotatef(rotation.x-restDirection.x,1,0,0);
-	
+#endif	
 //	glRotatef(-restDirection.z,0,0,1);
 //	glRotatef(-restDirection.y,0,1,0);
 //	glRotatef(-restDirection.x,1,0,0);
@@ -94,9 +100,15 @@ void Bone::calcNodes(bool firstBone)
 		glTranslatef(position.x,position.y,position.z-1);
 	}
 	
-	glRotatef(rotation.z,0,0,1);
+#ifdef ARCH_PSP
+	sceGumRotateX(DEGTORAD(rotation.x));
+	sceGumRotateY(DEGTORAD(rotation.y));
+	sceGumRotateZ(DEGTORAD(rotation.z));
+#else
+	glRotatef(rotation.x,0,0,1);
 	glRotatef(rotation.y,0,1,0);
-	glRotatef(rotation.x,1,0,0);
+	glRotatef(rotation.z,1,0,0);
+#endif
 	
 	glGetFloatv(GL_MODELVIEW_MATRIX,nodeMat);
 	

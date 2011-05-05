@@ -1,45 +1,95 @@
-#
-# CubicVR Makefile http://www.cubicvr.org/
-#   
+INCDIR = ../cubicvr/include/ ../cubicvr/external/bullet-2.78/src/ ./ {$PSPSDK}/psp/include
+CFLAGS = -O3 
+#CFLAGS = -g -Wall
+CXXFLAGS = $(CFLAGS) -fexceptions -fno-rtti -DARCH_PSP 
+ASFLAGS = $(CFLAGS)
 
-#TARGET = cubicvr.elf
+LIBDIR = 
+LDFLAGS =
+PSPSDK=$(shell psp-config --pspsdk-path)
+
+ifeq ($(PSPSDK),)
+$(error $$(PSPSDK) is undefined.  Use "PSPSDK := $$(shell psp-config --pspsdk-path)" in your Makefile)
+endif
+
+CC       = psp-gcc
+CXX      = psp-g++
+AS       = psp-gcc
+LD       = psp-gcc
+AR       = psp-ar
+RANLIB   = psp-ranlib
+STRIP    = psp-strip
+MKSFO    = mksfo
+PACK_PBP = pack-pbp
+FIXUP    = psp-fixup-imports
+
+# Add in PSPSDK includes and libraries.
+INCDIR   := $(INCDIR) . $(PSPSDK)/include
+LIBDIR   := $(LIBDIR) . $(PSPSDK)/lib
+
+CFLAGS   := $(addprefix -I,$(INCDIR)) $(CFLAGS)
+CXXFLAGS := $(CFLAGS) $(CXXFLAGS)
+ASFLAGS  := $(CFLAGS) $(ASFLAGS)
+
+ifeq ($(PSP_FW_VERSION),)
+PSP_FW_VERSION=150
+endif
+
+CFLAGS += -D_PSP_FW_VERSION=$(PSP_FW_VERSION)
+
+ifeq ($(BUILD_PRX),1)
+LDFLAGS  := $(addprefix -L,$(LIBDIR)) -specs=$(PSPSDK)/lib/prxspecs -Wl,-q,-T$(PSPSDK)/lib/linkfile.prx $(LDFLAGS)
+EXTRA_CLEAN += $(TARGET).elf
+# Setup default exports if needed
+ifdef PRX_EXPORTS
+EXPORT_OBJ=$(patsubst %.exp,%.o,$(PRX_EXPORTS))
+EXTRA_CLEAN += $(EXPORT_OBJ)
+else 
+EXPORT_OBJ=$(PSPSDK)/lib/prxexports.o
+endif
+else
+LDFLAGS  := $(addprefix -L,$(LIBDIR)) $(LDFLAGS)
+endif
+
+
+#PSPSDK_LIB = -lpsplibc -lstd -lpspgum -lpspgu -lm -lpspdebug -lpspdisplay -lpspge -lpspctrl -lpspsdk -lc -lpspnet -lpspnet_inet -lpspnet_apctl -lpspnet_resolver -lpsputility -lpspuser #-lpspkernel
+
+
+
+# Link with following default libraries.  Other libraries should be specified in the $(LIBS) variable.
+# TODO: This library list needs to be generated at configure time.
+#
+PSPSDK_LIBS = -lpspdebug -lpspdisplay_driver -lpspctrl_driver -lpspsdk -lbulletcollision -lbulletdynamics -lbulletmath -lbulletsoftbody
+LIBS     := $(LIBS) $(PSPSDK_LIBS) $(PSPSDK_LIBC_LIB) -lpspkernel
+
+BUILDCMD=$(CC) $(CFLAGS) $(CXXFLAGS) -c -o 	
 
 BULLET_PREFIX=build/include/
 
-CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matrix.o Motion.o RGB.o RGBA.o Timer.o Transform.o Vector.o XYZ.o XYZRGB.o SectorMap.o BITSET.o BSP.o MATRIX4X4.o PLANE.o VECTOR3D.o systemfont.o tinyxml.o tinystr.o tinyxmlerror.o tinyxmlparser.o Resource.o ResourceManager.o ResourcePool.o Logger.o StringUtil.o
+CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matrix.o Motion.o RGB.o RGBA.o Timer.o Transform.o Vector.o XYZ.o XYZRGB.o SectorMap.o BITSET.o MATRIX4X4.o PLANE.o VECTOR3D.o systemfont.o tinyxml.o tinystr.o tinyxmlerror.o tinyxmlparser.o Resource.o ResourceManager.o ResourcePool.o Logger.o StringUtil.o 
 
-# TGALoader.o Font.o Bitmap.o VECTOR2D.o VECTOR4D.o  RigidSceneDebug.o BSPSceneObject.o 
+# TGALoader.o Font.o Bitmap.o VECTOR2D.o VECTOR4D.o  RigidSceneDebug.o BSPSceneObject.o BSP.o
 
 CUBICVR_GL_OBJS = Camera.o  GLExt.o  Object.o objectLWO.o UV.o UVMapper.o SceneObject.o ObjectController.o Scene.o sceneLWS.o Shader.o CollisionMap.o Texture.o Light.o Material.o \
- Bone.o DataTree.o FRUSTUM.o IMAGE.o sceneLWS.o SceneObject.o textureTGA.o Pencil.o
+ Bone.o DataTree.o FRUSTUM.o sceneLWS.o SceneObject.o TGALoader.o 
 
-CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o Vehicle.o RigidBox.o RigidSphere.o SoftScene.o SoftSceneObject.o Particle.o ParticleEmitter.o ParticleSystem.o RigidCapsule.o
+ #  Pencil.o
 
+CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o Vehicle.o RigidBox.o RigidSphere.o SoftScene.o SoftSceneObject.o Particle.o RigidCapsule.o
 
-all: rm-elf bullet cubicvr
-	@mkdir build
+#   Particle.o ParticleEmitter.o ParticleSystem.o systemfont.o   CollisionMap.o Bone.o 
+
+# not used: Bitmap.o Font.o
+
+all: bullet cubicvr
 	@mkdir build/lib || true
 	@mkdir build/include || true
 	@mkdir build/include/CubicVR || true
 	cp -R ../cubicvr/include/* build/include/
 	cp libcubicvr.a build/lib/
 
-include $(KOS_BASE)/Makefile.rules
-
-clean:
-	-rm -f $(TARGET) $(OBJS) $(CUBICVR_OBJS) $(CUBICVR_GL_OBJS) $(CUBICVR_DYNAMICS_OBJS) *.a romdisk.*
-
-rm-elf:
-	-rm -f $(TARGET)
-
-#$(TARGET): $(OBJS) romdisk.o
-#	$(KOS_CC) $(KOS_CFLAGS) $(KOS_LDFLAGS) -o $(TARGET) $(KOS_START) \
-#		$(OBJS) romdisk.o $(OBJEXTRA) -L$(KOS_BASE)/lib -lkosutils 
-
-
-BUILDCMD=$(KOS_CC) $(KOS_CFLAGS) -DARCH_DC -O3 -funroll-loops -D_arch_dreamcast -I../cubicvr/include/ -I../cubicvr/include/math/ -I$(BULLET_PREFIX) -I./ -c -o 
-	
-# $(KOS_CFLAGS) 
+bullet:
+	cd bullet && make
 
 Bitmap.o: ../cubicvr/source/Bitmap.cpp
 	$(BUILDCMD) Bitmap.o $^
@@ -123,8 +173,8 @@ XYZ.o: ../cubicvr/source/XYZ.cpp
 	$(BUILDCMD) XYZ.o $^
 XYZRGB.o: ../cubicvr/source/XYZRGB.cpp
 	$(BUILDCMD) XYZRGB.o $^
-#TGALoader.o: ../cubicvr/source/psp/TGALoader.cpp
-#	$(BUILDCMD) TGALoader.o $^
+TGALoader.o: ../cubicvr/source/psp/TGALoader.cpp
+	$(BUILDCMD) TGALoader.o $^
 SectorMap.o: ../cubicvr/source/SectorMap.cpp
 	$(BUILDCMD) SectorMap.o $^
 
@@ -230,19 +280,29 @@ tinyxmlparser.o: ../cubicvr/source/tinyxml/tinyxmlparser.cpp
 Resource.o: ../cubicvr/source/Resource.cpp
 	$(BUILDCMD) Resource.o $^
 
-bullet:
-	cd bullet && make
+textureTGA.o: ../cubicvr/src/textureTGA.cpp
+	$(CVRBUILD) textureTGA.o $^
+
+
+
+
 	
 cubicvr: libcubicvr.a
 
 libcubicvr.a: $(CUBICVR_OBJS) $(CUBICVR_GL_OBJS) $(CUBICVR_DYNAMICS_OBJS)
-	$(KOS_AR) cru $@ $^
-	$(KOS_RANLIB) $@
+	$(AR) cru $@ $^ 
+	$(RANLIB) $@
 
+install: libcubicvr.a
+	cp libcubicvr.a $(PSPDEV)/psp/lib/
+	test -d $(PSPDEV)/psp/include/CubicVR || mkdir $(PSPDEV)/psp/include/CubicVR/
+	cp -R ../cubicvr/include/CubicVR/* $(PSPDEV)/psp/include/CubicVR/ || true
+	cd pspbullet && make install
+	cp lua/include/* $(PSPDEV)/psp/include/
+	cp lua/lib/* $(PSPDEV)/psp/lib/
 
-run: $(TARGET)
-	$(KOS_LOADER) $(TARGET)
+clean: 
+	rm *.o || true
+	rm libcubicvr.a || true
 
-dist:
-	$(KOS_STRIP) $(TARGET)
-
+rebuild: clean all

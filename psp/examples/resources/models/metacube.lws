@@ -1,0 +1,681 @@
+LWSC
+3
+
+RenderRangeType 0
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+RenderRangeArbitrary 1-60
+PreviewFirstFrame -232
+PreviewLastFrame 1200
+PreviewFrameStep 1
+CurrentFrame 734
+FramesPerSecond 30
+Plugin MasterHandler 1 .SceneEditorStandardBanks
+EndPlugin
+Plugin MasterHandler 2 SceneEditor
+VERS 2
+{ CurrentWorkspace
+  Name "<default>"
+  WindowDimensions 10 10 1f4 12c
+  Divider1 0.30000001
+  LayoutItemFilterEnabled 0
+  LayoutItemChannelFilterEnabled 0
+  SurfaceFilterEnabled 0
+  SurfaceChannelFilterEnabled 0
+  ChannelFilterEnabled 0
+  { Bank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { SurfaceListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { ChannelListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  BackgroundColorOdd 78 78 78 ff
+  BackgroundColorEven 6f 6f 6f ff
+  HierarchyIndent c
+  HighlightColor b5 b0 a5 ff
+  DefaultObjectColor 60 e0 f0 ff
+  DefaultBoneColor 0 30 80 ff
+  DefaultLightColor f0 60 f0 ff
+  DefaultCameraColor 20 e0 20 ff
+  AutoApplyToViewPorts 1
+  MultiselectSimilarTypes 1
+  LimitColorRange 1
+  ColorsAsHSV 0
+  ShowSelectionOrder 1
+  EnvelopeButtonOpensGraphEditor 1
+  ShowRenderExtents 1
+  BlockPeriod 0.033333335
+  BlockWidthMin 3
+  BlockWidthMax c8
+  ShowKeyTicks 1
+  OverrideBlockColors 0
+  BlockKeyColor 99 ae cf ff
+  BlockGroupColor 64 85 b6 ff
+  DSAllowChannelGroupSelection 1
+}
+EndPlugin
+
+LoadObjectLayer 1 Z:Dev/cubicvr/xcode_project/samples/scene_test/build/Debug/metacube.lwo
+ShowObject 7 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -0.01573764 0 0 0 0 0 0 0 0
+  Behaviors 4 4
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 4 4
+}
+Channel 2
+{ Envelope
+  1
+  Key 0.01234207 0 0 0 0 0 0 0 0
+  Behaviors 4 4
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 1.2390116 0
+  Key 1.2391838 2 0 0 0 0 1.2390116 0 0
+  Behaviors 4 4
+}
+Channel 4
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -0.63521171 0
+  Key -0.63529992 2 0 0 0 0 -0.63521171 0 0
+  Behaviors 4 4
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 2 0 0 0 0 0 0 0
+  Behaviors 4 4
+}
+Channel 6
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 2 0 0 0 0 0 0 0
+  Behaviors 4 4
+}
+Channel 7
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 2 0 0 0 0 0 0 0
+  Behaviors 4 4
+}
+Channel 8
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 2 0 0 0 0 0 0 0
+  Behaviors 4 4
+}
+
+ShadowOptions 7
+
+AmbientColor 1 1 1
+AmbientIntensity 0.05
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  6
+  Key 3.505635 0 0 0 0 0 0 -3.8842955 0
+  Key -0.37921858 1.9333333 0 0 0 0 -6.1195974 -6.6471491 0
+  Key -9.2611113 4.0333333 0 0 0 0 0.11094891 0.11975438 0
+  Key -0.14851528 6.3000002 0 0 0 0 7.9566131 8.3076401 0
+  Key 7.0031424 8.666667 0 0 0 0 2.5687592 1.0853912 0
+  Key 3.505635 9.666667 0 0 0 0 -3.496536 0 0
+  Behaviors 2 2
+}
+Channel 1
+{ Envelope
+  6
+  Key 7.0758634 0 0 0 0 0 0 0 0
+  Key 7.0758634 1.9333333 0 0 0 0 0 0 0
+  Key 7.0758634 4.0333333 0 0 0 0 0 0 0
+  Key 7.0758634 6.3000002 0 0 0 0 0 0 0
+  Key 7.0758634 8.666667 0 0 0 0 0 0 0
+  Key 7.0758634 9.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 2
+{ Envelope
+  6
+  Key 0 0 0 0 0 0 0 10.278715 0
+  Key 10.280192 1.9333333 0 0 0 0 0.055368513 0.06014166 0
+  Key 0.11551017 4.0333333 0 0 0 0 -8.7212772 -9.4134417 0
+  Key -7.854527 6.3000002 0 0 0 0 -0.056507941 -0.059000935 0
+  Key 1.296401e-006 8.666667 0 0 0 0 5.5214992 2.3330278 0
+  Key 0 9.666667 0 0 0 0 -1.296041e-006 0 0
+  Behaviors 2 2
+}
+Channel 3
+{ Envelope
+  1
+  Key -1.5672914 9.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 4
+{ Envelope
+  1
+  Key 1.1090202 9.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 9.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 9.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 9.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 9.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+
+HController 1
+PController 1
+TargetItem 10000000
+LightColor 0.203922 0.141176 1
+LightIntensity 0.94
+AffectCaustics 1
+LightType 1
+LightFalloffType 1
+LightRange 0.804
+ShadowType 1
+ShadowColor 0 0 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  8
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 1.9333333 0 0 0 0 3.0499911 3.1025772 0
+  Key 6.1525683 3.9000001 0 0 0 0 3.300014 2.8525543 0
+  Key 6.1525683 5.5999999 0 0 0 0 -6.5701404 -6.3124876 0
+  Key -6.7300596 7.2333331 0 0 0 0 -6.1887136 -6.6939144 0
+  Key -6.7300596 9 0 0 0 0 3.8368311 2.8233285 0
+  Key -0.06990017 10.3 0 0 0 0 2.2433531 4.4867063 0
+  Key 0 12.9 0 0 0 0 0.069892704 0 0
+  Behaviors 2 2
+}
+Channel 1
+{ Envelope
+  8
+  Key -0.061216928 0 0 0 0 0 0 4.0657172 0
+  Key 4.0050845 1.9333333 0 0 0 0 2.0157733 2.050528 0
+  Key 4.0050845 3.9000001 0 0 0 0 -4.8358631 -4.1801529 0
+  Key -5.010931 5.5999999 0 0 0 0 -4.5981679 -4.4178476 0
+  Key -5.010931 7.2333331 0 0 0 0 3.8926182 4.2103829 0
+  Key 3.0920703 9 0 0 0 0 4.6680336 3.434968 0
+  Key 3.0920703 10.3 0 0 0 0 -1.0510957 -2.1021914 0
+  Key -0.061216928 12.9 0 0 0 0 -3.1529505 0 0
+  Behaviors 2 2
+}
+Channel 2
+{ Envelope
+  8
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 1.9333333 0 0 0 0 0 0 0
+  Key 0 3.9000001 0 0 0 0 0 0 0
+  Key 0 5.5999999 0 0 0 0 0 0 0
+  Key 0 7.2333331 0 0 0 0 0 0 0
+  Key 0 9 0 0 0 0 3.9070356 2.8749883 0
+  Key 6.7820239 10.3 0 0 0 0 0 0 0
+  Key 0 12.9 0 0 0 0 -6.7812996 0 0
+  Behaviors 2 2
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 12.9 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 4
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 12.9 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 12.9 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 6
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 12.9 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 7
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 12.9 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 8
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 12.9 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+
+LightColor 1 1 1
+LightIntensity 1
+LightType 1
+ShadowType 1
+ShadowColor 0 0 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  7
+  Key -4.3223076 0 0 0 0 0 0 0 0
+  Key -4.3223076 1.6 0 0 0 0 5.494945 5.0370331 0
+  Key 6.2096705 3.0666666 0 0 0 0 5.2068205 5.3251576 0
+  Key 6.2096705 4.5666666 0 0 0 0 -3.7586639 -4.0927672 0
+  Key -1.6417607 6.1999998 0 0 0 0 -2.5145106 -5.3369207 0
+  Key -1.6417607 9.666667 0 0 0 0 -1.699859 -0.98068786 0
+  Key -4.3223076 11.666667 0 0 0 0 -2.6801746 0 0
+  Behaviors 2 2
+}
+Channel 1
+{ Envelope
+  7
+  Key 0 0 0 0 0 0 0 5.3630276 0
+  Key 5.3639588 1.6 0 0 0 0 2.7985873 2.5653715 0
+  Key 5.3639588 3.0666666 0 0 0 0 -4.5513935 -4.6548343 0
+  Key -3.8422692 4.5666666 0 0 0 0 -4.2069077 -4.5808554 0
+  Key -3.4238043 6.1999998 0 0 0 0 3.1920693 6.7750039 0
+  Key 6.124804 9.666667 0 0 0 0 2.1711929 1.2526113 0
+  Key 0 11.666667 0 0 0 0 -6.1239533 0 0
+  Behaviors 2 2
+}
+Channel 2
+{ Envelope
+  7
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 1.6 0 0 0 0 0 0 0
+  Key 0 3.0666666 0 0 0 0 0 0 0
+  Key 0 4.5666666 0 0 0 0 -2.0555208 -2.2382338 0
+  Key -4.2937546 6.1999998 0 0 0 0 -1.375124 -2.9186306 0
+  Key -4.2937546 9.666667 0 0 0 0 2.7228687 1.5708858 0
+  Key 0 11.666667 0 0 0 0 4.2931585 0 0
+  Behaviors 2 2
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 11.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 4
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 11.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 11.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 6
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 11.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 7
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 11.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 8
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 11.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+
+LightColor 1 0.058824 0.058824
+LightIntensity 0.8
+LightType 1
+ShadowType 1
+ShadowColor 0 0 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  6
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 1.8333334 0 0 0 0 0 0 0
+  Key 0 3.4000001 0 0 0 0 0 0 0
+  Key 0 4.9333334 0 0 0 0 0 0 0
+  Key 0 7.1999998 0 0 0 0 0 0 0
+  Key 0 8.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 1
+{ Envelope
+  6
+  Key -5.135705 0 0 0 0 0 0 0 0
+  Key -5.135705 1.8333334 0 0 0 0 5.1077332 4.3647904 0
+  Key 4.3368187 3.4000001 0 0 0 0 4.7871895 4.6853342 0
+  Key 4.3368187 4.9333334 0 0 0 0 -3.254282 -4.810678 0
+  Key -3.7281413 7.1999998 0 0 0 0 -5.7511749 -3.7213485 0
+  Key -5.135705 8.666667 0 0 0 0 -1.4072971 0 0
+  Behaviors 2 2
+}
+Channel 2
+{ Envelope
+  6
+  Key 0 0 0 0 0 0 0 8.2873697 0
+  Key 8.2886257 1.8333334 0 0 0 0 4.469357 3.8192687 0
+  Key 8.2886257 3.4000001 0 0 0 0 -8.3835268 -8.2051544 0
+  Key -8.3000555 4.9333334 0 0 0 0 -6.6936784 -9.8950024 0
+  Key -8.3000555 7.1999998 0 0 0 0 5.0393195 3.260736 0
+  Key 0 8.666667 0 0 0 0 8.2984838 0 0
+  Behaviors 2 2
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 8.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 4
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 8.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 8.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 6
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 8.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 7
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 8.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+Channel 8
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 8.666667 0 0 0 0 0 0 0
+  Behaviors 2 2
+}
+
+LightColor 0.047059 0.937255 0.019608
+LightIntensity 0.765
+LightType 1
+ShadowType 1
+ShadowColor 0 0 0
+
+AddCamera
+CameraName Camera
+ShowCamera 1 7
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  10
+  Key -7.3257508 0 0 0 0 0 0 7.3802133 0
+  Key 0.055145912 3 0 0 0 0 6.2000122 2.5488939 0
+  Key 1.4231551 4.2333331 0 0 0 0 4.4920511 6.4345598 0
+  Key 10.981757 6 0 0 0 0 5.0368748 4.561698 0
+  Key 11.021728 7.5999999 0 0 0 0 -0.97081202 -0.3640545 0
+  Key 9.6468906 8.1999998 0 0 0 0 -1.8141243 -3.829818 0
+  Key 5.3777852 9.4666662 0 0 0 0 -4.5598283 -8.1596928 0
+  Key -3.0726304 11.733334 0 0 0 0 -6.4883919 -7.5379844 0
+  Key -8.648591 14.366667 0 0 0 0 -2.2702467 -1.9828737 0
+  Key -7.3257508 16.666666 0 0 0 0 1.3226805 0 0
+  Behaviors 2 2
+}
+Channel 1
+{ Envelope
+  10
+  Key 3.6199982 0 0 0 0 0 0 5.6094809 0
+  Key 9.2299986 3 0 0 0 0 0.47557381 0.19551368 0
+  Key 4.2910857 4.2333331 0 0 0 0 -2.4543333 -3.5156667 0
+  Key 3.2599986 6 0 0 0 0 -3.5478969 -3.2131896 0
+  Key -2.4700007 7.5999999 0 0 0 0 -4.4993825 -1.6872684 0
+  Key -2.9266522 8.1999998 0 0 0 0 0 0 0
+  Key -2.4700007 9.4666662 0 0 0 0 0.16370523 0.29294622 0
+  Key -2.4700007 11.733334 0 0 0 0 -0.8372789 -0.97272104 0
+  Key -4.2800007 14.366667 0 0 0 0 3.2507427 2.8392563 0
+  Key 3.6199982 16.666666 0 0 0 0 7.899045 0 0
+  Behaviors 2 2
+}
+Channel 2
+{ Envelope
+  10
+  Key -9.3412228 0 0 0 0 0 0 0.50847208 0
+  Key -8.8327036 3 0 0 0 0 0.78661525 0.32338628 0
+  Key -8.2312212 4.2333331 0 0 0 0 1.4531633 2.0815582 0
+  Key -5.2979822 6 0 0 0 0 4.0647726 3.6813037 0
+  Key -0.48514467 7.5999999 0 0 0 0 5.6426339 2.1159878 0
+  Key 2.4606397 8.1999998 0 0 0 0 2.8107347 5.933773 0
+  Key 8.2593632 9.4666662 0 0 0 0 1.9357167 3.4639142 0
+  Key 7.8602705 11.733334 0 0 0 0 -2.252461 -2.6168299 0
+  Key 3.3900723 14.366667 0 0 0 0 -9.1818781 -8.0196152 0
+  Key -9.3412228 16.666666 0 0 0 0 -12.729757 0 0
+  Behaviors 2 2
+}
+Channel 3
+{ Envelope
+  10
+  Key 0.61784655 0 0 0 0 0 0 -0.61604416 0
+  Key 0.0017453562 3 0 0 0 0 -0.53817111 -0.22124813 0
+  Key -0.14157273 4.2333331 0 0 0 0 -0.39953822 -0.2483616 0
+  Key -0.64615446 5 0 0 0 0 -0.43693665 -0.56991738 0
+  Key -1.1484268 6 0 0 0 0 -0.33884948 -0.5421592 0
+  Key -1.5271631 7.5999999 0 0 0 0 -0.66456807 -0.77532947 0
+  Key -2.5883243 9.4666662 0 0 0 0 -0.87018782 -1.0566566 0
+  Key -3.4540076 11.733334 0 0 0 0 -0.80494118 -0.93515229 0
+  Key -4.3284178 14.366667 0 0 0 0 2.1734898 1.8983644 0
+  Key 0.61784655 16.666666 0 0 0 0 4.9456668 0 0
+  Behaviors 2 2
+}
+Channel 4
+{ Envelope
+  10
+  Key 0.30717793 0 0 0 0 0 0 0.49737269 0
+  Key 0.80459666 3 0 0 0 0 0.13272217 0.054563556 0
+  Key 0.49446365 4.2333331 0 0 0 0 -0.2418645 -0.15034822 0
+  Key 0.41238394 5 0 0 0 0 -0.099452749 -0.12972097 0
+  Key 0.26528993 6 0 0 0 0 -0.22976498 -0.36762398 0
+  Key -0.18500502 7.5999999 0 0 0 0 -0.23763329 -0.27723885 0
+  Key -0.2495822 9.4666662 0 0 0 0 -0.048869226 -0.059341203 0
+  Key -0.29321545 11.733334 0 0 0 0 -0.087195233 -0.10130034 0
+  Key -0.43807778 14.366667 0 0 0 0 0.32048026 0.27991313 0
+  Key 0.30717793 16.666666 0 0 0 0 0.74516571 0 0
+  Behaviors 2 2
+}
+Channel 5
+{ Envelope
+  10
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 3 0 0 0 0 0 0 0
+  Key 0 4.2333331 0 0 0 0 0 0 0
+  Key 0 5 0 0 0 0 0 0 0
+  Key 0 6 0 0 0 0 0 0 0
+  Key 0 7.5999999 0 0 0 0 0 0 0
+  Key 0 9.4666662 0 0 0 0 0 0 0
+  Key 0 11.733334 0 0 0 0 -0.0016147272 -0.0018759331 0
+  Key -0.0034906603 14.366667 0 0 0 0 0 0 0
+  Key 0 16.666666 0 0 0 0 0.0034902389 0 0
+  Behaviors 2 2
+}
+
+HController 1
+PController 1
+TargetItem 10000000
+ZoomFactor (envelope)
+{ Envelope
+  10
+  Key 2.6556354 0 0 0 0 0 0 1.783156 0
+  Key 4.4391074 1.5666667 0 0 0 0 0.29750162 0.24686304 0
+  Key 3.2 2.8666666 0 0 0 0 -0.34373343 -0.51119334 0
+  Key 3.5841808 4.8000002 0 0 0 0 0.63884538 0.67188907 0
+  Key 4.5107346 6.8333335 0 0 0 0 -0.23440677 -0.4649708 0
+  Key 2.8848033 10.866667 0 0 0 0 -1.4607521 -1.1106545 0
+  Key 1.9393278 13.933333 0 0 0 0 0.33714628 0.60832918 0
+  Key 3.8302786 19.466667 0 0 0 0 0.16935411 0.17445514 0
+  Key 2.2831371 25.166666 0 0 0 0 -0.778566 -0.39611259 0
+  Key 2.6556001 28.066668 0 0 0 0 0.37242725 0 0
+  Behaviors 2 2
+}
+ResolutionMultiplier 1.0
+FrameSize 480 272
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 0
+AdaptiveSampling 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+RayRecursionLimit 16
+RayTraceOptimization 1
+DataOverlayLabel  
+SaveRGB 0
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewLevel 6
+ViewAimpoint 0.77 0 0.41
+ViewZoomFactor 3.226566
+
+GridNumber 80
+GridSize 2
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 0
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor_fv 0 0 0
+
+CurrentObject 0
+CurrentLight 0
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}

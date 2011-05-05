@@ -190,11 +190,13 @@ class Material: public Resource
 				sceGuBlendFunc(GU_ADD, GU_SRC_ALPHA, GU_ONE_MINUS_SRC_ALPHA, 0, 0);
 				sceGuAlphaFunc(GU_GREATER, 0, 0xff);
 				sceGuDepthMask(true);
-#elseif !defined(ARCH_DC)
+#else
+#if !defined(ARCH_DC)
 				glEnable(GL_ALPHA_TEST);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				glAlphaFunc(GL_GEQUAL,0.15f);
 				glDepthMask(true);
+#endif
 #endif
 			}	
 			else
@@ -202,9 +204,11 @@ class Material: public Resource
 #ifdef ARCH_PSP
 				sceGuDisable(GU_ALPHA_TEST);
 				sceGuDepthMask(true);
-#elseif !defined(ARCH_DC)
+#else
+#if !defined(ARCH_DC) 
 				glDisable(GL_ALPHA_TEST);
 				glDepthMask(true);
+#endif
 #endif
 			}
 		}
