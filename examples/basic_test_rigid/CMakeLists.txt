@@ -2,9 +2,9 @@ cmake_minimum_required (VERSION 2.6)
 include (../CMakeCommon.txt)
 project (basic_test_rigid)
 
-if(WIN32)
-configure_file(${PROJECT_SOURCE_DIR}/../resources/win32/GLUT/glut32.dll ${PROJECT_BINARY_DIR}/glut32.dll COPYONLY)
-endif(WIN32)
+#if(WIN32)
+#configure_file(${PROJECT_SOURCE_DIR}/../resources/win32/GLUT/glut32.dll ${PROJECT_BINARY_DIR}/glut32.dll COPYONLY)
+#endif(WIN32)
 
 find_package (OpenGL)
 find_package (GLUT)

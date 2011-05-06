@@ -5,9 +5,9 @@ project (fps_demo)
 find_package (OpenGL)
 find_package (GLUT)
 
-if(WIN32)
-configure_file(${PROJECT_SOURCE_DIR}/../resources/win32/GLUT/glut32.dll ${PROJECT_BINARY_DIR}/glut32.dll COPYONLY)
-endif(WIN32)
+#if(WIN32)
+#configure_file(${PROJECT_SOURCE_DIR}/../resources/win32/GLUT/glut32.dll ${PROJECT_BINARY_DIR}/glut32.dll COPYONLY)
+#endif(WIN32)
 
 if(!WIN32)
 find_package (OpenAL)

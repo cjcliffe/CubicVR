@@ -123,7 +123,8 @@ typedef unsigned short wchar_t;
 #  define GLUTAPI __declspec(dllexport)
 # else
 #  ifdef _DLL
-#   define GLUTAPI __declspec(dllimport)
+#   define GLUTAPI 
+//__declspec(dllimport)
 #  else
 #   define GLUTAPI extern
 #  endif

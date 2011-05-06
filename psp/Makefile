@@ -82,6 +82,7 @@ CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o
 # not used: Bitmap.o Font.o
 
 all: bullet cubicvr
+	@mkdir build
 	@mkdir build/lib || true
 	@mkdir build/include || true
 	@mkdir build/include/CubicVR || true
