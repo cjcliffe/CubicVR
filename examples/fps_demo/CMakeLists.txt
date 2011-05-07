@@ -12,6 +12,7 @@ find_package (GLUT)
 if(NOT WIN32)
 find_package (OpenAL)
 SET(OTHER_LIB "${OPENAL_LIBRARY}")
+add_definitions (-DUSE_OPENAL)
 endif(NOT WIN32)
 
 include_directories ( "${PROJECT_SOURCE_DIR}/../../build/include" ) 
