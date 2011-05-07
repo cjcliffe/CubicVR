@@ -27,6 +27,7 @@ configure_file(${PROJECT_SOURCE_DIR}/../resources/models/skysphere.lwo ${PROJECT
 configure_file(${PROJECT_SOURCE_DIR}/../resources/images/sky.png ${PROJECT_BINARY_DIR}/sky.png COPYONLY)
 configure_file(${PROJECT_SOURCE_DIR}/../resources/images/1384-diffuse.jpg ${PROJECT_BINARY_DIR}/1384-diffuse.jpg COPYONLY)
 configure_file(${PROJECT_SOURCE_DIR}/../resources/images/grass.png ${PROJECT_BINARY_DIR}/grass.png COPYONLY)
+configure_file(${PROJECT_SOURCE_DIR}/../resources/images/panel-diff.png ${PROJECT_BINARY_DIR}/panel-diff.png COPYONLY)
 configure_files_recurse(${PROJECT_SOURCE_DIR}/../resources/car_default/models ${PROJECT_BINARY_DIR}/)
 configure_files_recurse(${PROJECT_SOURCE_DIR}/../resources/car_default/textures ${PROJECT_BINARY_DIR}/)
 configure_files_recurse(${PROJECT_SOURCE_DIR}/../resources/car_track/models ${PROJECT_BINARY_DIR}/)

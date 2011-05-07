@@ -375,14 +375,8 @@ public:
 	void copyFace(cvrIndex srcFaceNum, cvrIndex dstFaceNum);
 
 
-#ifndef ARCH_PSP
-#ifndef OPENGL_ES
-#ifndef ARCH_DC
-	/// convert any polygons (4+ points) into triangles
+	/// convert any quads into triangles, or if USE_GLUTESS enabled convert any polygons (4+ points) into triangles
 	void triangulate();
-#endif
-#endif
-#endif	
 	
 	// open the dynamic buffer for cache updates
 	void openBuffer(bool fullCopy=false);

@@ -9,10 +9,10 @@ find_package (GLUT)
 #configure_file(${PROJECT_SOURCE_DIR}/../resources/win32/GLUT/glut32.dll ${PROJECT_BINARY_DIR}/glut32.dll COPYONLY)
 #endif(WIN32)
 
-if(!WIN32)
+if(NOT WIN32)
 find_package (OpenAL)
 SET(OTHER_LIB "${OPENAL_LIBRARY}")
-endif(!WIN32)
+endif(NOT WIN32)
 
 include_directories ( "${PROJECT_SOURCE_DIR}/../../build/include" ) 
 link_directories ( "${PROJECT_SOURCE_DIR}/../../build/lib" )

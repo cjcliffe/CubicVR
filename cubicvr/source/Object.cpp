@@ -27,6 +27,8 @@
 using namespace std;
 
 
+#if USE_GLUTESS
+
 
 typedef struct _tessInfo
 {
@@ -53,7 +55,7 @@ vector<tessVertexInfo> tessBuffer;
 vector<tessVertexInfo *> tessNewVertices;
 tessInfo tess_obj_info;
 GLenum tess_type;
-
+    
 
 GLvoid tessBegin ( GLenum type );
 GLvoid tessVertex ( tessVertexInfo *vertex_info );
@@ -61,6 +63,7 @@ GLvoid tessCombine( GLdouble coords[3], tessVertexInfo *vertexData[4], GLfloat w
 GLvoid tessEnd ( void );
 GLvoid tessError ( GLenum errnum );
 
+    
 GLvoid tessBegin ( GLenum type )
 {
 	tess_type = type;
@@ -305,6 +308,7 @@ void nurbsError(GLenum errorCode)
 #endif
 #endif
 #endif
+#endif
 
 Object::Object() : cache_state(false) , buffer_state(false), open_buffer(NULL), bbMin(0,0,0), bbMax(0,0,0), tangent_binormal_state(false), hasColorMap(false), dynamic_colors(NULL), numSegments(1), activeSegment(0), segmentMask(NULL), Resource()
 {
@@ -451,19 +455,19 @@ void Object::clean()
 //#warning need to fix up triangulate for PSP
 //#endif
 
-#ifndef ARCH_PSP
-#ifndef OPENGL_ES
-#ifndef ARCH_DC
 void Object::triangulate()
 {
+	bool cache_state_temp = cache_state;
+	
+    if (cache_state) cache(false);
+
+#if USE_GLUTESS
 	cvrIndex i,faceCount;
 	unsigned int j;
-	bool cache_state_temp = cache_state;
-	unsigned int numPoints;
-	
+    unsigned int numPoints;
+    
 	vector<cvrIndex> tessFaces;
 
-	if (cache_state) cache(false);
 	
 	// create tesselation object
 	GLUtesselator* tess = gluNewTess();
@@ -472,7 +476,9 @@ void Object::triangulate()
 	{
 		return;
 	}
-		
+
+    
+
 #ifdef WIN32
 	gluTessCallback(tess, GLU_TESS_BEGIN,  (GLvoid (__stdcall *) ())  tessBegin);
 	gluTessCallback(tess, GLU_TESS_VERTEX,  (GLvoid (__stdcall *) ())  tessVertex);	
@@ -554,6 +560,54 @@ void Object::triangulate()
 	}
 	
 	tessNewVertices.clear();
+#else
+
+    // this one is just for quads but works on all platforms at least
+    for (int i = 0, iMax = faces.size(); i < iMax; i++) {
+        if (faces[i]->points.size() == 4) {
+            
+            int p = addFace();
+
+            faces[p]->mat_ref = faces[i]->mat_ref;
+
+            faces[p]->setSegment(faces[i]->getSegment());
+
+            addFacePoint(p,faces[i]->pointref[2]);
+            addFacePoint(p,faces[i]->pointref[3]);
+            addFacePoint(p,faces[i]->pointref[0]);
+            
+            faces[i]->points.pop_back();
+            faces[i]->pointref.pop_back();
+            
+            faces[p]->face_normal = faces[i]->face_normal;
+            
+            int numUVLayer = faces[i]->uv.size();
+            
+            if (numUVLayer) {
+                for (int j = 0; j < numUVLayer; j++)
+                {
+                    if (faces[i]->uv[j].size() == 4) {
+                        faces[p]->setUV(0, faces[i]->uv[j][2], j);
+                        faces[p]->setUV(1, faces[i]->uv[j][3], j);
+                        faces[p]->setUV(2, faces[i]->uv[j][0], j);
+                        
+                        faces[i]->uv[j].pop_back();
+                    }
+                }
+            }
+            
+            if (faces[i]->point_normals.size() == 4) {
+                faces[p]->point_normals[0] = faces[i]->point_normals[2];
+                faces[p]->point_normals[1] = faces[i]->point_normals[3];
+                faces[p]->point_normals[2] = faces[i]->point_normals[0];
+                
+                faces[i]->point_normals.pop_back();
+            }
+            
+        }
+    }
+
+#endif
 	
 	calcNormals();
 
@@ -561,9 +615,6 @@ void Object::triangulate()
 	
 	cache(cache_state_temp);
 }
-#endif
-#endif
-#endif
 
 
 	
