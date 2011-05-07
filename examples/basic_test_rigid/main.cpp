@@ -76,6 +76,10 @@ void makeBox(Object &boxObj, float box_size, Material *box_mat)
 
 void InitGL(void)
 {
+#ifdef _WIN32
+	glewInit();	// initialize GLEW extension manager for windows
+#endif
+
 	GLShader::loadDefaultShader("shaders/cubicvr_default.v","shaders/cubicvr_default.f");
 	GLShader::loadLightShader(LIGHT_DIRECTIONAL,"shaders/cubicvr_light_dir.v","shaders/cubicvr_light_dir.f");
 	GLShader::loadLightShader(LIGHT_POINT,"shaders/cubicvr_light_point.v","shaders/cubicvr_light_point.f");

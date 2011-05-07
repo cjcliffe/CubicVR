@@ -17,10 +17,12 @@
 class Grenade : public RigidSceneObject
 {
 protected:
+#ifdef USE_OPENAL
 	SoundSample *bounceSound;
 	SoundSample *rollSound;
 	SoundSample *explodeSound;
-	
+#endif
+
 	Timer *mBirthTime;
 	
 	ParticleSystem *particleSys;
@@ -37,7 +39,10 @@ public:
 
 	bool bExploded;
 	
-	Grenade(RigidSceneObject &rigid_template, Timer *mTimer_in, ParticleSystem *psys_in, RigidParticleEmitter *pe_in) : RigidSceneObject(), bounceSound(NULL), rollSound(NULL), explodeSound(NULL)
+	Grenade(RigidSceneObject &rigid_template, Timer *mTimer_in, ParticleSystem *psys_in, RigidParticleEmitter *pe_in) : RigidSceneObject()
+#ifdef USE_OPENAL
+		, bounceSound(NULL), rollSound(NULL), explodeSound(NULL)
+#endif
 	{
 		bExploded = false;
 		
@@ -113,9 +118,10 @@ public:
 //			printf("explode");
 			float fGain = (getExplosionStrength() / 25);
 			if(fGain > 3)		fGain = 3;
-			
+#ifdef USE_OPENAL			
 			explodeSound->setGain(fGain);
 			explodeSound->play();
+#endif
 		}
 	}
 	
@@ -128,7 +134,7 @@ public:
 			btManifoldPoint& pt = contactManifold.getContactPoint(j);
 			
 			if (pt.m_appliedImpulse > 0 && getExplodeOnImpact())		explode();
-			
+#ifdef USE_OPENAL
 			if (pt.m_appliedImpulse > 2.0) 
 			{
 				if (bounceSound) if (!bounceSound->isPlaying())
@@ -149,9 +155,10 @@ public:
 					rollSound->play();
 				}
 			}
+#endif
 		}		
 	}
-	
+#ifdef USE_OPENAL
 	void setBounceSound(SoundSample &bounceSound_in)
 	{
 		bounceSound = new SoundSample(bounceSound_in);
@@ -166,7 +173,7 @@ public:
 	{
 		explodeSound = new SoundSample(explodeSound_in);
 	}
-	
+#endif	
 	void update(int lus)
 	{
 		mBirthTime->update();

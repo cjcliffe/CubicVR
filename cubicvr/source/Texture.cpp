@@ -542,10 +542,10 @@ void Texture::clear()
 }
 
 TextureInit::TextureInit() {
-#ifdef _WIN32
-	Logger::log(LOG_DEBUG,"Initializing GLEW..\n");
-	GLenum err = glewInit();
-#endif
+//#ifdef _WIN32
+//	Logger::log(LOG_DEBUG,"Initializing GLEW..\n");
+//	GLenum err = glewInit();
+//#endif
 };
 
 TextureInit::~TextureInit()

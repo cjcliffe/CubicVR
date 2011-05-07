@@ -11,8 +11,9 @@
 #include <CubicVR/RigidParticleEmitter.h>
 #include <GLUT/glut.h>
 
-
+#ifdef USE_OPENAL
 #include "SoundKit.h"
+#endif
 #include "Weapon.h"
 #include "Grenade.h"
 
@@ -29,11 +30,13 @@ RigidCapsule playerObj;
 Timer sceneTimer;
 BSPSceneObject *bsp;
 
+#ifdef USE_OPENAL
 SoundSample jumpSound;
 SoundSample thumpSound;
 SoundSample metalSound;
 SoundSample metalRoll;
 SoundSample grenadeExplosionSound;
+#endif
 
 Weapon *weapon;
 
@@ -54,7 +57,7 @@ Particle *p;
 void initParticles()
 {
 	
-	unsigned long particleTex = Texture::create("241-alpha.png","particle_tex");
+	unsigned long particleTex = Texture::create("241-diffuse.png","particle_tex");
 	unsigned long particleTexAlpha = Texture::create("particle_alpha.png","particle_tex_a");
 
 	particleMat = new Material();
@@ -120,8 +123,8 @@ void loadGrenadeModel()
 	grenadeObj = new Object();
 	grenadeObj_cmap = new Object();
 	
-	loadLWO(*grenadeObj,"grenade.lwo");
-	loadLWO(*grenadeObj_cmap,"grenade_cmap.lwo");
+//	loadLWO(*grenadeObj,"grenade.lwo");
+//	loadLWO(*grenadeObj_cmap,"grenade_cmap.lwo");
 
 	grenadeObj->cache(true);
 	grenadeObj_cmap->cache(true);
@@ -135,9 +138,11 @@ void tossGrenade()
 	Grenade *tmpGrenade;
 	
 	tmpGrenade = new Grenade(*grenade_template,&sceneTimer,&particleSys,pe);
+#ifdef USE_OPENAL
 	tmpGrenade->setBounceSound(metalSound);
 	tmpGrenade->setRollSound(metalRoll);
 	tmpGrenade->setExplosionSound(grenadeExplosionSound);
+#endif
 	grenades.insert(tmpGrenade);
 	
 	btVector3 impulse;
@@ -168,6 +173,11 @@ void tossGrenade()
 
 void InitGL(void)
 {
+#ifdef _WIN32
+	glewInit();	// initialize GLEW extension manager for windows
+#endif
+
+
 	GLShader::loadDefaultShader("shaders/cubicvr_default.v","shaders/cubicvr_default.f");
 	GLShader::loadLightShader(LIGHT_DIRECTIONAL,"shaders/cubicvr_light_dir.v","shaders/cubicvr_light_dir.f");
 	GLShader::loadLightShader(LIGHT_POINT,"shaders/cubicvr_light_point.v","shaders/cubicvr_light_point.f");
@@ -330,12 +340,14 @@ void Update(void)
 		
 		if (gain < 0.0) gain = 0; 
 		if (gain > 0.9) gain = 0.9;
-		
+
+#ifdef USE_OPENAL
 //		alSourcef (sndSourceThump, AL_GAIN,  gain     );
 		thumpSound.setGain(gain);
 
 		if (sceneTimer.getSeconds()-lastThump > 0.2 && impulse.getY()<=0.0) thumpSound.play();
 		lastThump = sceneTimer.getSeconds();
+#endif
 	}
 	
 	onGround = isOnGround;
@@ -372,9 +384,10 @@ void Update(void)
 		
 		if (keyPress[' '] && (onGround || ( impulse.getY() < 0.4 && impulse.getY() > 0.0 )) && jumped < 2)
 		{
+#ifdef USE_OPENAL
 			jumpSound.setPitch(0.85 + (0.2*((float)rand()/(float)RAND_MAX))+(0.2*(float)jumped));
 			jumpSound.play();
-
+#endif
 			impulse = btVector3(0,0,0);
 			impulse.setY(mJumpHeight);
 			keyPress[' '] = 0;
@@ -524,7 +537,8 @@ int main(int argc, char** argv)
 	srand(1000);
 	
 	InitGL();
-	
+
+#ifdef USE_OPENAL
 	if (SoundKit::init())
 	{
 		printf("Audio Init OK.\n");
@@ -533,13 +547,14 @@ int main(int argc, char** argv)
 	{
 		printf("Audio Init Error.\n");
 	}
-	
+
 	jumpSound.loadWav("audio/Grunt01.wav");
 	thumpSound.loadWav("audio/drop.wav");
 	metalSound.loadWav("audio/Metallic_Tumble.wav");
 	metalRoll.loadWav("audio/metalriffzz__can.wav");
 	grenadeExplosionSound.loadWav("audio/EXPLODE-grenade.wav");
-	
+#endif
+
 	weapon = new Weapon();
 	
 	glutReshapeFunc(ReSizeGLScene);
@@ -557,8 +572,10 @@ int main(int argc, char** argv)
 	glutKeyboardUpFunc(releaseKey);
 	
 	glutMainLoop();
-	
+
+#ifdef USE_OPENAL
 	SoundKit::shutdown();
-	
+#endif
+
 	return 0;
 }
