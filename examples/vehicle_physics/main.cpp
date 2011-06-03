@@ -1,5 +1,4 @@
 #include <CubicVR/GLExt.h>
-#include <GLUT/glut.h>		// Header File For The GLut Library
 #include <CubicVR/Object.h>
 #include <CubicVR/Shader.h>
 #include <CubicVR/Material.h>
@@ -18,6 +17,12 @@
 #include <CubicVR/ResourceScene.h>
 #include <CubicVR/ResourceManager.h>
 #include <CubicVR/AreaLight.h>
+#ifdef __linux__
+#include <GL/glut.h>
+#else
+#include <GLUT/glut.h>
+#endif
+
 
 #define USE_PARALLEL_DISPATCHER 1
 
@@ -716,6 +721,11 @@ ResourceScene *LoadTrack(ResourceManager *rmPointer, std::string trackName="")
 
 void InitGL(void)
 {
+#if defined(_WIN32) || defined(__linux__)  
+        glewInit();     // initialize GLEW extension manager for windows
+#endif
+
+
 	GLShader::loadDefaultShader("shaders/cubicvr_default.v","shaders/cubicvr_default.f");
 	GLShader::loadLightShader(LIGHT_DIRECTIONAL,"shaders/cubicvr_light_dir.v","shaders/cubicvr_light_dir.f");
 	GLShader::loadLightShader(LIGHT_POINT,"shaders/cubicvr_light_point.v","shaders/cubicvr_light_point.f");
