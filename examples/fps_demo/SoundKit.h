@@ -9,8 +9,13 @@
 
 #pragma once
 
+#ifdef __linux__
+#include <AL/al.h>
+#include <AL/alc.h>
+#else
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
+#endif
 
 #include <iostream>
 #include <fstream>
