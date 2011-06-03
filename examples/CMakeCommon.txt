@@ -1,4 +1,4 @@
-set(CUBICVR_LIBRARIES cubicvr bulletcollision bulletdynamics bulletlinearmath bulletsoftbody)
+set(CUBICVR_LIBRARIES cubicvr bulletsoftbody bulletdynamics bulletcollision bulletlinearmath)
 
 if(WIN32)
 
