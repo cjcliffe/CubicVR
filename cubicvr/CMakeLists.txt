@@ -5,9 +5,9 @@ IF(WIN32)
 add_definitions (-DGLEW_STATIC)
 ENDIF(WIN32)
 
-IF(LINUX)
+IF(CMAKE_HOST_UNIX)
 add_definitions (-DGLEW_STATIC)
-ENDIF(LINUX)
+ENDIF(CMAKE_HOST_UNIX)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
 SET (CMAKE_CXX_FLAGS "-g -Wall -fno-inline-functions-called-once ")
@@ -222,10 +222,10 @@ IF(WIN32)
 ENDIF(WIN32)
 
 
-IF(LINUX)
+IF(CMAKE_HOST_UNIX)
 	SET(CubicVR_platform_SRCS source/glew/glew.c)
 	SET(CubicVR_platform_HDRS include/CubicVR/glew/glew.h)
-ENDIF(LINUX)
+ENDIF(CMAKE_HOST_UNIX)
 
 
 add_library(cubicvr 
@@ -266,10 +266,10 @@ FILE(GLOB cubicvr_header_files_win "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/
 INSTALL(FILES ${cubicvr_header_files_win} DESTINATION include/CubicVR/glew/)
 ENDIF(WIN32)
 
-IF(LINUX)
+IF(CMAKE_HOST_UNIX)
 FILE(GLOB cubicvr_header_files_lin "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/glew/*.h")
 INSTALL(FILES ${cubicvr_header_files_lin} DESTINATION include/CubicVR/glew/)
-ENDIF(LINUX)
+ENDIF(CMAKE_HOST_UNIX)
 
 INSTALL(TARGETS cubicvr
   ARCHIVE DESTINATION lib/

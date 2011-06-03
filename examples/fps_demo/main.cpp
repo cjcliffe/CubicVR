@@ -173,7 +173,7 @@ void tossGrenade()
 
 void InitGL(void)
 {
-#ifdef _WIN32
+#ifdef _WIN32 || __linux__
 	glewInit();	// initialize GLEW extension manager for windows
 #endif
 
