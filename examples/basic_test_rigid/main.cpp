@@ -80,7 +80,7 @@ void makeBox(Object &boxObj, float box_size, Material *box_mat)
 
 void InitGL(void)
 {
-#ifdef _WIN32 || __linux__
+#if defined(_WIN32) || defined(__linux__)
 	glewInit();	// initialize GLEW extension manager for windows
 #endif
 
