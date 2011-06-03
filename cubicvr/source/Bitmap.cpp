@@ -26,7 +26,10 @@
 /* 2D Bitmap class for Font class*/
 #include <CubicVR/Bitmap.h>
 #include <CubicVR/GLExt.h>
-
+#ifdef __linux__
+#include <cstdlib>
+#include <string.h>
+#endif
 
 /* Bitmap class */
 void Bitmap::set(int width_in, int height_in, unsigned char *bitmapdata_in)

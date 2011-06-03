@@ -106,6 +106,14 @@
 	#include <GLX/glu.h>
 #endif
 
+
+#ifdef __linux__
+	#include <CubicVR/glew/glew.h>
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+	#include <GL/glext.h>
+#endif
+
 #ifdef ARCH_DC
 #define gluLookAt dc_gluLookAt
 #define gluPerspective dc_gluPerspective

@@ -24,6 +24,11 @@
 
 #include <CubicVR/Scene.h>
 
+#ifdef __linux__
+#include <stdlib.h>
+#include <cstdlib>
+
+#endif
 
 #if !defined(ARCH_PSP) && !defined(OPENGL_ES) && !defined(ARCH_DC)
 //#include <CubicVR/scene_shaders.h>
@@ -2929,7 +2934,11 @@ void Scene::saveScreenshot(char *path, int seq)
 	FILE * file;
 
 #ifndef PATH_MAX
+#ifndef MAX_PATH
+#define PATH_MAX 1024
+#else
 #define PATH_MAX MAX_PATH
+#endif
 #endif
 	
 	//first calculate the filename to save to

@@ -5,6 +5,10 @@ IF(WIN32)
 add_definitions (-DGLEW_STATIC)
 ENDIF(WIN32)
 
+IF(LINUX)
+add_definitions (-DGLEW_STATIC)
+ENDIF(LINUX)
+
 IF(CMAKE_COMPILER_IS_GNUCXX)
 SET (CMAKE_CXX_FLAGS "-g -Wall -fno-inline-functions-called-once ")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
@@ -216,6 +220,13 @@ IF(WIN32)
 	SET(CubicVR_platform_SRCS source/glew/glew.c)
 	SET(CubicVR_platform_HDRS include/CubicVR/glew/glew.h include/CubicVR/glew/wglew.h)
 ENDIF(WIN32)
+
+
+IF(LINUX)
+	SET(CubicVR_platform_SRCS source/glew/glew.c)
+	SET(CubicVR_platform_HDRS include/CubicVR/glew/glew.h)
+ENDIF(LINUX)
+
 
 add_library(cubicvr 
   ${CubicVR_SRCS}

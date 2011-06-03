@@ -23,6 +23,7 @@
 */
 
 #include <CubicVR/Font.h>
+#include <cstring>
 
 Font::Font(int width_in, int height_in, unsigned char *font_in)
 {

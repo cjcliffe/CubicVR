@@ -132,6 +132,10 @@ void* dlGetProcAddress (const GLubyte* name)
 #  endif
 #endif
 
+#ifdef __linux__
+	#define glewGetProcAddress(name) (*glXGetProcAddressARB)(name)
+#endif
+
 /*
  * Define GLboolean const cast.
  */

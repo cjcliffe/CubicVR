@@ -1,6 +1,11 @@
 #include "CubicVR/textureTGA.h"
 #include <CubicVR/Logger.h>
 
+#ifdef __linux__
+#include <cstdlib>
+#include <stdlib.h>
+#endif
+
 /*
  *		This Code Was Created By Jeff Molofee 2001
  *		http://nehe.gamedev.net

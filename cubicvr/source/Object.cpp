@@ -24,6 +24,12 @@
 
 #include <CubicVR/Object.h>
 
+#ifdef __linux__
+#include <cstring>
+#include <stdlib.h>
+#include <cstdlib>
+#endif
+
 using namespace std;
 
 

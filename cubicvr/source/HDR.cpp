@@ -26,7 +26,9 @@
  */
 
 #include "CubicVR/HDR.h"
-
+#ifdef __linux__
+#include <stdio.h>
+#endif
 
 #define STRINGIFY(A)  #A
 
