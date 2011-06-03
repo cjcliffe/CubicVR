@@ -1,7 +1,11 @@
 #include <CubicVR/GLExt.h>
 #include <CubicVR/UVMapper.h>
 #include <CubicVR/Scene.h>
+#ifdef __linux__
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
 
 #define kWindowWidth	1280
 #define kWindowHeight	720

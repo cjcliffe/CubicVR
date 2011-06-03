@@ -9,7 +9,12 @@
 #include <CubicVR/SceneObjects/RigidBox.h>
 #include <CubicVR/SceneObjects/BSPSceneObject.h>
 #include <CubicVR/RigidParticleEmitter.h>
+#ifdef __linux__
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
+
 
 #ifdef USE_OPENAL
 #include "SoundKit.h"

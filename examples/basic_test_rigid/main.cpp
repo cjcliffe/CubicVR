@@ -3,7 +3,11 @@
 #include <CubicVR/RigidScene.h>
 #include <CubicVR/Timer.h>
 #include <CubicVR/SceneObjects/RigidBox.h>
+#ifdef __linux__
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
 
 #define kWindowWidth	1280
 #define kWindowHeight	720
