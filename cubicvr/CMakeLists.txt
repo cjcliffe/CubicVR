@@ -266,6 +266,11 @@ FILE(GLOB cubicvr_header_files_win "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/
 INSTALL(FILES ${cubicvr_header_files_win} DESTINATION include/CubicVR/glew/)
 ENDIF(WIN32)
 
+IF(LINUX)
+FILE(GLOB cubicvr_header_files_lin "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/glew/*.h")
+INSTALL(FILES ${cubicvr_header_files_lin} DESTINATION include/CubicVR/glew/)
+ENDIF(LINUX)
+
 INSTALL(TARGETS cubicvr
   ARCHIVE DESTINATION lib/
 )
