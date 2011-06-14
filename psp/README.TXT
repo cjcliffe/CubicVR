@@ -1,1 +1,19 @@
-Makefiles and samples returning soon, need to re-organize them a bit..
+Modified build to use CMake on the PSP
+
+usage:
+
+# build cubicvr lib
+mkdir cmake
+cd cmake
+cmake -DCMAKE_TOOLCHAIN_FILE=../Toolchain-psp-gcc.cmake ..
+make
+
+# build example
+cd examples/metacube_lws
+mkdir cmake
+cd cmake
+cmake -DCMAKE_TOOLCHAIN_FILE=../../../Toolchain-psp-gcc.cmake ..
+make
+
+TODO: fixes for installing cubicvr properly in the PSPSDK
+
