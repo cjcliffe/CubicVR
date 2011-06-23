@@ -17,7 +17,7 @@ CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o
 
 
 all: rm-elf bullet cubicvr
-	@mkdir build
+	@mkdir build || true
 	@mkdir build/lib || true
 	@mkdir build/include || true
 	@mkdir build/include/CubicVR || true

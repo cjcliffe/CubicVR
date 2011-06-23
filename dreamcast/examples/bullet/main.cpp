@@ -27,7 +27,7 @@ RigidBox myGroundObj;
 bool physics_paused=false;
 bool pause_pressed=false;
 
-#define NUM_LIGHTS 5
+#define NUM_LIGHTS 3
 
 Object boxObj;
 SceneObject box;
@@ -193,7 +193,8 @@ void mkLandscape()
 	
 	myLandscape = new Landscape(60.0,20,20,100,objMat);
 	myLandscape->shadowCast(false);
-//	myLandscape->function(1,10.0,25.0,100);
+
+	//	myLandscape->function(1,10.0,25.0,100);
 //	myLandscape->function(1,1.5,5.0,100);
 //	myLandscape->function(1,10.0,20.0,150);
 	
@@ -208,75 +209,34 @@ void mkLandscape()
 
 void InitScene()
 {
-//	myScene.initSectorMap(XYZ(-10000,-10000,-10000),XYZ(10000,10000,10000),10);
-//	myScene.frustum_debug=true;
-//	CreateWorld();
-//	CreateGround();
 	// Generate a box material
 	Material *boxMaterial = new Material();
 	
 	// Load textures for this material
-	Texture::create("/rd/crate.pcx","crate1");
-//	Texture::create("panel-spec.png","panel_spec");
-//	Texture::create("panel-norm.png","panel_norm");
-	
+	Texture::create("/rd/crate.pcx","crate1");	
 	// Apply the textures as layer 0, 1, 2
 	boxMaterial->bindTexture(0,Texture::getTextureId("crate1"),TEXTURE_DIFF);
-//	Material::getMaterial("boxMaterial").bindTexture(1,Texture::getTextureId("panel_spec"),TEXTURE_SPEC);
-//	Material::getMaterial("boxMaterial").bindTexture(2,Texture::getTextureId("panel_norm"),TEXTURE_NORM);
 	
 	// Create the box structure and bind our material to each face
 	makeBox(boxObj,1.0,boxMaterial);
 	
-//	// Create a UV Mapper
+	// Create a UV Mapper
 	UVMapper myUVMapper;
-//	// Set the projection type to cubic
+	// Set the projection type to cubic
 	myUVMapper.setProjection(UV_PROJECTION_CUBIC);
-//	// Match the scale of our box
+	// Match the scale of our box
 	myUVMapper.setScale(XYZ(1.0,1.0,1.0));	
-//	
-//	// Apply the UV map to the material we bound to our box object
+	
+	// Apply the UV map to the material we bound to our box object
 	myUVMapper.apply(boxObj,boxMaterial);
 	
 	// Now cache the object onto the card for best performance.
 	boxObj.cache(true);
 	CacheShader tmpShader;
 
-	/*
-	// Bind our box to a Scene Object
-	myRigidSceneObj.bind(boxObj);
-	
-	myRigidSceneObj.buildVertexLightMap();
-	// Raise the box above the ground
-	myRigidSceneObj.setMass(5);
-	myRigidSceneObj.controller().position = XYZ(0,20,0);
-	// Rotate the box slightly for more physical reaction
-	myRigidSceneObj.controller().rotation = XYZ(25,40,0);
-	
-	//myRigidSceneObj.controller().scale = XYZ(2,2,2);
-	
-	// Bind our Scene Object to the Scene
-	myScene.bind(myRigidSceneObj);
-*/
-
-	/* * /
-	// Create a ground SceneObject
-	myGroundObj.bind(boxObj);
-	// Set the ground area to 10x10
-	myGroundObj.controller().scale = XYZ(10,0.5,10);  
-	// Offset the ground surface to Y of 0 (box height 1)
-	myGroundObj.controller().position = XYZ(0,-0.25,0);  
-	// Set to be a static (massless) object
-	myGroundObj.setMass(0);
-	
-	// Bind our ground to the scene
-	myScene.bind(myGroundObj);
-	// */
 	mkLandscape();
 
-	CreateTower(2,4,2,XYZ(-1.5,5,-1.5),XYZ(1,1,1));
-
-
+	//CreateTower(2,4,2,XYZ(-1.5,5,-1.5),XYZ(1,1,1));
 	// Set up the global ambient factor
 //	Light::setGlobalAmbient(RGB(0.1,0.1,0.1));
 	
@@ -290,45 +250,6 @@ void InitScene()
 		myScene.bind(myLights[i]);
 	}
 
-	/*	// Set up our light
-	myLightG.setType(LIGHT_POINT);
-	myLightG.position = XYZ(2,10,2);
-	myLightG.diffuse = RGB(0.1,1,0.1);
-	myLightG.setCutoff(20.0);
-	myScene.bind(myLightG);
-	// Set up our light
-	myLightB.setType(LIGHT_POINT);
-	myLightB.position = XYZ(2,10,2);
-	myLightB.diffuse = RGB(0.1,0.1,1);
-	myLightB.setCutoff(20.0);
-	myScene.bind(myLightB);
-	// Set up our light
-	myLightX.setType(LIGHT_POINT);
-	myLightX.position = XYZ(2,10,2);
-	myLightX.diffuse = RGB(0.3,0.2,0.4);
-	myLightX.setCutoff(10.0);
-	myScene.bind(myLightX);
-	// Set up our light
-	myLightY.setType(LIGHT_POINT);
-	myLightY.position = XYZ(2,10,2);
-	myLightY.diffuse = RGB(0.1,1,1);
-	myLightY.setCutoff(10.0);
-	myScene.bind(myLightY);
-	// Set up our light
-	myLightZ.setType(LIGHT_POINT);
-	myLightZ.position = XYZ(2,10,2);
-	myLightZ.diffuse = RGB(1,1,0.1);
-	myLightZ.setCutoff(10.0);
-	myScene.bind(myLightZ);
-
-	myScene.bind(myLightX);
-	myScene.bind(myLightY);
-	myScene.bind(myLightZ);
-	myScene.bind(myLightR);
-	myScene.bind(myLightG);
-	myScene.bind(myLightB);
-
-*/
 	// Set up our camera (targeted, looking at 0,0,0)
 	myCamera.setType(CAMERA_TARGET);
 	myCamera.position = XYZ(-8.0,8.0,-8.0);
@@ -356,31 +277,9 @@ void UpdatePhysics()
 	myTimer.update();
 	float lus = myTimer.lastUpdateSeconds();
 
-	// float mvSpd = 5.0f;
 	float xmv = 0.0f;
-
-//	keyPressed[GLUT_KEY_LEFT]?-mvSpd:0 + keyPressed[GLUT_KEY_RIGHT]?mvSpd:0;
 	float ymv = 0.0f;
-//	keyPressed[GLUT_KEY_UP]?-mvSpd:0 + keyPressed[GLUT_KEY_DOWN]?mvSpd:0;
 
-	/*		btRigidBody *body = &myRigidSceneObj.getRigidBody();
-
-		body->setActivationState(ACTIVE_TAG);
-		btVector3 impulse(0,100,0);
-		impulse *= lus;
-
-		btVector3 relPos(-0.1,0.1,0.1);
-		body->applyImpulse(impulse,relPos);	
-*/
-
-	/*
-	myLightR.position = XYZ(cos(myTimer.getSeconds()*2.0)*8.0,	6,		sin(myTimer.getSeconds()*2.0)*8.0);
-	myLightG.position = XYZ(cos(myTimer.getSeconds()	)*4.0,	6,		sin(myTimer.getSeconds()	)*4.0);
-	myLightB.position = XYZ(cos(myTimer.getSeconds()*-1.5)*10.0,6,		sin(myTimer.getSeconds()*-1.5)*10.0);
-	myLightX.position = XYZ(cos(myTimer.getSeconds()*-1.7)*4.0,	6,		sin(myTimer.getSeconds()*-1.7)*4.0);
-	myLightY.position = XYZ(cos(myTimer.getSeconds()*-1.2	)*6.0,	6,		sin(myTimer.getSeconds()*-1.2	)*6.0);
-	myLightZ.position = XYZ(cos(myTimer.getSeconds()*-3.5)*15.0,6,		sin(myTimer.getSeconds()*-3.5)*5.0);
-*/
 	bool toggle = false;
 	for (int i = 0; i < NUM_LIGHTS; i++)
 	{
