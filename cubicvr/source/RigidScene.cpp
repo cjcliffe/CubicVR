@@ -193,7 +193,7 @@ void RigidScene::bind(RigidSceneObject &rigid_sceneObj_in)
 //	rigid_sceneObj_in.setMatrixLock(true);
 //	rigid_sceneObj_in.clearTransform();
 	
-	printf("RIGID AABB: %f,%f,%f - %f,%f,%f\n",bb1.x,bb1.y,bb1.z,bb2.x,bb2.y,bb2.z);
+//	printf("RIGID AABB: %f,%f,%f - %f,%f,%f\n",bb1.x,bb1.y,bb1.z,bb2.x,bb2.y,bb2.z);
 
 //	rigid_sceneObj_in.transformBegin(false,false,true);
 
