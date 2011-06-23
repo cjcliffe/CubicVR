@@ -5,15 +5,12 @@ usage:
 # build cubicvr lib
 mkdir cmake
 cd cmake
-cmake -DCMAKE_TOOLCHAIN_FILE=../Toolchain-psp-gcc.cmake ..
+cmake -DCMAKE_TOOLCHAIN_FILE=../psp/Toolchain-psp-gcc.cmake ..
 make
 
 # build example
-cd examples/metacube_lws
+cd psp/examples/metacube_lws
 mkdir cmake
 cd cmake
 cmake -DCMAKE_TOOLCHAIN_FILE=../../../Toolchain-psp-gcc.cmake ..
 make
-
-TODO: fixes for installing cubicvr properly in the PSPSDK
-

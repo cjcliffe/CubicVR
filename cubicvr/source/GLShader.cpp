@@ -21,7 +21,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
  */
-
+#if !defined(_PSP)
 #include "CubicVR/GLShader.h"
 
 GLShader GLShader::defaultShader;
@@ -938,3 +938,4 @@ bool GLShader::load(const char *vf, const char *ff, const char *ff2)
 	
 	return setup(vs.c_str(),fs.c_str(),ff2?fs2.c_str():NULL);
 }
+#endif

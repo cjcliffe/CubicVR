@@ -1,4 +1,8 @@
 include_directories (bullet-2.78/src) 
+if(PSP)
+include_directories (../include)
+set (CMAKE_CXX_FLAGS "-g -Wall -fno-exceptions -fno-rtti")
+endif(PSP)
 
 SET(BulletCollision_SRCS
 	bullet-2.78/src/BulletCollision/BroadphaseCollision/btAxisSweep3.cpp

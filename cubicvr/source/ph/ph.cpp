@@ -1,6 +1,6 @@
 // File:  ph.c
 // Brief: Implements "Philip's GL utility API", or "ph" for short.
-
+#if !defined(ARCH_PSP)
 #include <CubicVR/ph/ph.h>
 #include <CubicVR/Logger.h>
 
@@ -224,3 +224,4 @@ PHvec3 phSub(const PHvec3 *a, const PHvec3 *b)
     c.z = a->z - b->z;
     return c;
 }
+#endif

@@ -23,7 +23,7 @@
 		THE SOFTWARE.
  *
  */
-
+#if !defined(ARCH_PSP)
 #include <CubicVR/ProceduralObject.h>
 
 ProceduralObject::ProceduralObject(): Object(), needs_regen(true), generated(false), mat(0)
@@ -245,3 +245,4 @@ void ProceduralObject::staticRotate(const XYZ &rot)
 	
 	cache(cache_val);
 }
+#endif

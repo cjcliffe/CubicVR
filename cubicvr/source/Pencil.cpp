@@ -23,7 +23,7 @@
 		THE SOFTWARE.
  *
  */
-
+#if !defined(ARCH_PSP)
 #include <CubicVR/Pencil.h>
 #include <CubicVR/cvr_defines.h>
 
@@ -510,4 +510,4 @@ void Pencil::drawBB(const XYZ &bb1, const XYZ &bb2)
 	
 	glEnd();
 }
-
+#endif
