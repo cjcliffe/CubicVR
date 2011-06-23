@@ -10,7 +10,7 @@ add_definitions (-DGLEW_STATIC)
 ENDIF(CMAKE_HOST_UNIX)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-SET (CMAKE_CXX_FLAGS "-g -Wall -fno-inline-functions-called-once ")
+#SET (CMAKE_CXX_FLAGS "-fno-inline-functions-called-once ")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 SET(CubicVR_SRCS
@@ -39,6 +39,7 @@ SET(CubicVR_SRCS
   source/Light.cpp
   source/lodepng.cpp
   source/Logger.cpp
+  source/mat4.cpp
   source/Material.cpp
   source/math/MATRIX4X4.cpp
   source/math/PLANE.cpp
@@ -137,6 +138,7 @@ SET (CubicVR_HDRS
   include/CubicVR/lodepng.h
   include/CubicVR/Logger.h
   include/CubicVR/Material.h
+  include/CubicVR/mat4.h
   include/CubicVR/map_string.h
   include/CubicVR/math/MATRIX4X4.h
   include/CubicVR/math/PLANE.h

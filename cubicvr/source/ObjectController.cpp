@@ -23,8 +23,9 @@
 */
 
 #include <CubicVR/ObjectController.h>
+#include <CubicVR/mat4.h>
 
-
+using namespace cvr;
 
 ObjectController::ObjectController() : scale(1,1,1), rotation(0,0,0), position(0,0,0), l_init(false), w_init(false), matrix_lock(false), t_moved(false), t_bounds(true), is_targeted(false), p_trans(NULL)
 {
@@ -78,20 +79,22 @@ void ObjectController::setMatrixLock(bool matrix_lock_state)
 
 void ObjectController::transformBegin(bool no_pivot, bool no_scale, bool update_only)
 {
-	glMatrixMode(GL_MODELVIEW);
-	
+	//glMatrixMode(GL_MODELVIEW);
 
 	if ((!l_init || !w_init) && !matrix_lock)
 	{
-		glPushMatrix();
+	//	glPushMatrix();
 
 		if (!l_init)
 		{
-			glLoadIdentity();
+			//glLoadIdentity();
+			mat4::set_identity(l_trans);
+			
 
 			if (position.x || position.y || position.z)
 			{
-				glTranslatef(position.x,position.y,position.z);
+				//glTranslatef(position.x,position.y,position.z);
+				mat4::translate(l_trans,position.x,position.y,position.z);
 			}
 
 			
@@ -112,7 +115,7 @@ void ObjectController::transformBegin(bool no_pivot, bool no_scale, bool update_
 			}
 
 
-	#ifdef ARCH_PSP
+/*	#ifdef ARCH_PSP
 			if (rotation.x || rotation.y || rotation.z)
 			{
 				if (rotation.x)
@@ -128,10 +131,10 @@ void ObjectController::transformBegin(bool no_pivot, bool no_scale, bool update_
 					sceGumRotateZ(DEGTORAD(rotation.z));
 				}
 			}			
-	#else
+	#else */
 			if (rotation.x || rotation.y || rotation.z)
 			{
-				if (rotation.x)
+	/*			if (rotation.x)
 				{
 					glRotatef(rotation.x,1,0,0);
 				}
@@ -142,15 +145,17 @@ void ObjectController::transformBegin(bool no_pivot, bool no_scale, bool update_
 				if (rotation.z)
 				{
 					glRotatef(rotation.z,0,0,1);
-				}
+				}*/
+				mat4::rotate(l_trans,rotation.x,rotation.y,rotation.z);
 			}			
-		#endif
+//		#endif
 		
 			if (!no_pivot)
 			{
 				if (pivot.x||pivot.y||pivot.z) 
 				{
-					glTranslatef(-pivot.x,-pivot.y,-pivot.z);
+					//glTranslatef(-pivot.x,-pivot.y,-pivot.z);
+					mat4::translate(l_trans,-pivot.x,-pivot.y,-pivot.z);
 				}
 			}
 			
@@ -166,28 +171,34 @@ void ObjectController::transformBegin(bool no_pivot, bool no_scale, bool update_
 		
 
 
-#ifdef ARCH_PSP
-				sceGumStoreMatrix((ScePspFMatrix4 *) l_trans);
-#else			
-				glGetFloatv(GL_MODELVIEW_MATRIX, l_trans);
-#endif
+//#ifdef ARCH_PSP
+//				sceGumStoreMatrix((ScePspFMatrix4 *) l_trans);
+//#else			
+//				glGetFloatv(GL_MODELVIEW_MATRIX, l_trans);
+//#endif
 //				glPushMatrix();
 //					glMultMatrixf(l_trans);
 //				glPopMatrix();
-			if (!p_trans) memcpy(w_trans,l_trans,sizeof(float)*16);
+			if (!p_trans) {
+        mat4::copy(w_trans,l_trans);
+        w_init=true;
+			}
 		}
 
 		if (!w_init)
 		{
 			if (p_trans)
 			{
-					glLoadIdentity();
-					glMultMatrixf(p_trans->w_trans);
-					glMultMatrixf(l_trans);
+//					glLoadIdentity();
+          mat4::set_identity(w_trans);
+          mat4::multiply(w_trans,p_trans->w_trans,l_trans);
+          
+//					glMultMatrixf(p_trans->w_trans);
+//					glMultMatrixf(l_trans);
 #ifdef ARCH_PSP
-				sceGumStoreMatrix((ScePspFMatrix4 *) l_trans);
+//				sceGumStoreMatrix((ScePspFMatrix4 *) l_trans);
 #else			
-				glGetFloatv(GL_MODELVIEW_MATRIX, w_trans);
+//				glGetFloatv(GL_MODELVIEW_MATRIX, w_trans);
 #endif
 			}
 			else
@@ -196,7 +207,7 @@ void ObjectController::transformBegin(bool no_pivot, bool no_scale, bool update_
 			}
 		}
 
-		glPopMatrix();
+		//glPopMatrix();
 		
 		
 		if (!update_only)
