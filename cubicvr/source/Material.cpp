@@ -128,7 +128,7 @@ void Material::setReflective(float ref)
 
 #ifndef ARCH_PSP
 
-//void Material::use(cvrIndex matNum)
+//void Material::(cvrIndex matNum)
 //{
 //	materials[matNum].use();
 //};
@@ -161,8 +161,7 @@ void Material::texSetup(unsigned int layerType)
 				int tex_num;
 				//tex_num = Texture::nextTexture();
 
-#ifndef OPENGL_ES
-#ifndef ARCH_DC
+#if !defined(OPENGL_ES) && !defined(ARCH_DC) && !defined(ARCH_PSP)
 //				glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FAIL_VALUE_ARB,0.5);
 //#define TEXTURE_DIFF 1	// color
 //#define TEXTURE_SPEC 2	// specular strength
@@ -250,11 +249,10 @@ void Material::texSetup(unsigned int layerType)
 				Texture::use(layer[i].texture_ref);
 
 #endif
-#else
-#ifndef ARCH_PSP			
+
+#ifdef ARCH_DC			
 //				Texture::setTexture(tex_bindref[layer[i].tex_type]);
 				if (layer.size()) Texture::use(layer[0].texture_ref);
-#endif
 #endif
 				
 				
