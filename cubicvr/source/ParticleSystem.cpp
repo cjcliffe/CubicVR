@@ -125,9 +125,9 @@ void ParticleSystem::draw(ParticleEmitter &pe, float timeIndex)
 			pe.govern(*p,pTemp,timeIndex);
 			
 //			drawParticle(pTemp);
-			
+#if !defined(ARCH_PSP)
 			glColor4f(pTemp.color.r,pTemp.color.g,pTemp.color.b,pTemp.color.a);
-			
+#endif
 			float rpux,rmux,rpuy,rmuy,rpuz,rmuz;
 			
 			if (pTemp.size != 1)

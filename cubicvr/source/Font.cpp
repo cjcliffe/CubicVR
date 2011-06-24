@@ -21,7 +21,7 @@
 		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 		THE SOFTWARE.
 */
-
+#if !defined(_PSP)
 #include <CubicVR/Font.h>
 #include <cstring>
 
@@ -118,3 +118,4 @@ int Font::wPixelToChar(int pixelw)
 {
 	return pixelw/width;
 }
+#endif

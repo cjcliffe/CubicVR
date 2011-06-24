@@ -5,12 +5,22 @@ IF(WIN32)
 add_definitions (-DGLEW_STATIC)
 ENDIF(WIN32)
 
+IF(PSP)
+add_definitions(-DARCH_PSP)
+include_directories (${PSPSDK_PATH}/include)
+set (CMAKE_CXX_FLAGS "-g -Wall -fno-rtti")
+ENDIF(PSP)
+
 IF(CMAKE_HOST_UNIX)
+IF(NOT PSP)
 add_definitions (-DGLEW_STATIC)
+ENDIF(NOT PSP)
 ENDIF(CMAKE_HOST_UNIX)
 
 IF(CMAKE_COMPILER_IS_GNUCXX)
-#SET (CMAKE_CXX_FLAGS "-fno-inline-functions-called-once ")
+IF(NOT PSP)
+#SET (CMAKE_CXX_FLAGS "-g -Wall -fno-inline-functions-called-once ")
+ENDIF(NOT PSP)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 SET(CubicVR_SRCS
@@ -66,8 +76,6 @@ SET(CubicVR_SRCS
   source/ph/ph.cpp
   source/ProceduralObject.cpp
   source/ProceduralTexture.cpp
-  # source/psp
-  # source/psp/TGALoader.cpp
   source/Resource.cpp
   source/ResourceManager.cpp
   source/ResourcePool.cpp
@@ -96,7 +104,6 @@ SET(CubicVR_SRCS
   source/StringUtil.cpp
   source/systemfont.cpp
   source/Texture.cpp
-  source/textureTGA.cpp
   source/Timer.cpp
   source/tinyxml/tinystr.cpp
   source/tinyxml/tinyxml.cpp
@@ -165,8 +172,6 @@ SET (CubicVR_HDRS
   include/CubicVR/ph/ph.h
   include/CubicVR/ProceduralObject.h
   include/CubicVR/ProceduralTexture.h
-  # include/CubicVR/psp
-  # include/CubicVR/psp/TGALoader.h
   include/CubicVR/Resource.h
   include/CubicVR/ResourceManager.h
   include/CubicVR/ResourcePool.h
@@ -195,7 +200,6 @@ SET (CubicVR_HDRS
   include/CubicVR/StringUtil.h
   include/CubicVR/systemfont.h
   include/CubicVR/Texture.h
-  include/CubicVR/textureTGA.h
   include/CubicVR/Timer.h
   include/CubicVR/tinyxml/tinystr.h
   include/CubicVR/tinyxml/tinyxml.h
@@ -219,15 +223,22 @@ SET (TinyJPEG_HDRS
 )
 
 IF(WIN32)
-	SET(CubicVR_platform_SRCS source/glew/glew.c)
+	SET(CubicVR_platform_SRCS source/textureTGA.cpp source/glew/glew.c)
 	SET(CubicVR_platform_HDRS include/CubicVR/glew/glew.h include/CubicVR/glew/wglew.h)
 ENDIF(WIN32)
 
 
 IF(CMAKE_HOST_UNIX)
-	SET(CubicVR_platform_SRCS source/glew/glew.c)
+IF(NOT PSP)
+	SET(CubicVR_platform_SRCS source/textureTGA.cpp source/glew/glew.c)
 	SET(CubicVR_platform_HDRS include/CubicVR/glew/glew.h)
+ENDIF(NOT PSP)
 ENDIF(CMAKE_HOST_UNIX)
+
+IF(PSP)
+	SET(CubicVR_platform_SRCS source/psp/TGALoader.cpp)
+	SET(CubicVR_platform_HDRS include/CubicVR/psp/TGALoader.h include/memory.h)
+ENDIF(PSP)
 
 
 add_library(cubicvr 
@@ -269,9 +280,19 @@ INSTALL(FILES ${cubicvr_header_files_win} DESTINATION include/CubicVR/glew/)
 ENDIF(WIN32)
 
 IF(CMAKE_HOST_UNIX)
+IF(NOT PSP)
 FILE(GLOB cubicvr_header_files_lin "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/glew/*.h")
 INSTALL(FILES ${cubicvr_header_files_lin} DESTINATION include/CubicVR/glew/)
+ENDIF(NOT PSP)
 ENDIF(CMAKE_HOST_UNIX)
+
+IF(PSP)
+FILE(GLOB cubicvr_header_files_psp "${CMAKE_CURRENT_SOURCE_DIR}/include/CubicVR/psp/*.h")
+INSTALL(FILES ${cubicvr_header_files_psp} DESTINATION include/CubicVR/psp/)
+
+FILE(GLOB cubicvr_header_missing_psp "${CMAKE_CURRENT_SOURCE_DIR}/include/memory.h")
+INSTALL(FILES ${cubicvr_header_missing_psp} DESTINATION include/)
+ENDIF(PSP)
 
 INSTALL(TARGETS cubicvr
   ARCHIVE DESTINATION lib/

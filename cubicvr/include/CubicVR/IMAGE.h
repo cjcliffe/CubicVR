@@ -88,8 +88,9 @@ public:
 	unsigned int	width;				//Image width
 	unsigned int	height;			//Image height
 	std::vector<unsigned char> image;
-	
+#ifndef ARCH_PSP
 	unsigned int	 format;				//Data format, eg GL_RGBA
+#endif
 };
 
 //Universal bitmap identifier

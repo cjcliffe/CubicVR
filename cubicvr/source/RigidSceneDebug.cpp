@@ -21,7 +21,7 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
 */
-
+#if !defined(ARCH_PSP)
 #include "CubicVR/RigidSceneDebug.h"
 #include <CubicVR/Logger.h>
 
@@ -85,4 +85,4 @@ void RigidSceneDebug::setDebugMode(int debugMode)
 	m_debugMode = debugMode;
 
 }
-
+#endif

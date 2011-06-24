@@ -1,3 +1,4 @@
+#if !defined(_PSP)
 //////////////////////////////////////////////////////////////////////////////////////////
 //	BSP.cpp
 //	Functions for bsp file
@@ -1496,3 +1497,4 @@ bool BSP_BIQUADRATIC_PATCH::Tesselate(int newTesselation)
 //	}							
 //}
 //#endif
+#endif

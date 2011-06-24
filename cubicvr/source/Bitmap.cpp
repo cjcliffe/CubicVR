@@ -26,7 +26,7 @@
 /* 2D Bitmap class for Font class*/
 #include <CubicVR/Bitmap.h>
 #include <CubicVR/GLExt.h>
-#ifdef __linux__
+#if defined(__linux__) || defined(_PSP)
 #include <cstdlib>
 #include <string.h>
 #endif

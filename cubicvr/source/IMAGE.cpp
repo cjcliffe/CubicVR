@@ -44,8 +44,9 @@ bool IMAGE::Load(char * filename)
 	bpp=0;
 	width=0;
 	height=0;
+#ifndef ARCH_PSP
 	format=0;
-	
+#endif	
 	Logger::log("Loading Texture: [%s]:\n", filename);
 
 
@@ -119,8 +120,9 @@ bool IMAGE::LoadPNG(char * filename)
 	
 	std::vector<unsigned char>::iterator iStart, iEnd, iTarget;
 	
-	
+#ifndef ARCH_PSP	
 	format = pngDecoder.isAlphaType()?GL_RGBA:GL_RGB;
+#endif
 	bpp = pngDecoder.isAlphaType()?32:24;
 	
 	Logger::log("Alpha? %s\n",pngDecoder.isAlphaType()?"Yes":"No");
@@ -205,8 +207,9 @@ bool IMAGE::Load24BitBMP(char * filename)
 	
 	//set bpp and format
 	bpp=24;
+#ifndef ARCH_PSP
 	format=GL_RGB;
-
+#endif
 	FILE * file;												//the texture file
 	BITMAPFILEHEADER fileHeader;								//bitmap file header
 	BITMAPINFOHEADER infoHeader;								//bitmap info header
@@ -287,8 +290,9 @@ bool IMAGE::Load8BitBMP(char * filename)
 	
 	//set bpp and format
 	bpp=24; //after conversion
+#ifndef ARCH_PSP
 	format=GL_RGB;
-
+#endif
 	FILE * file;												//the texture file
 	BITMAPFILEHEADER fileHeader;								//bitmap file header
 	BITMAPINFOHEADER infoHeader;								//bitmap info header
@@ -389,8 +393,9 @@ bool IMAGE::LoadPCX(char * filename)
 
 	//set bpp and format
 	bpp=24;
+#ifndef ARCH_PSP
 	format=GL_RGB;
-
+#endif
 	FILE * file;
 
 	file=fopen(filename, "rb");
@@ -597,9 +602,11 @@ bool IMAGE::LoadUncompressed8BitTGA(char * filename)
 		return false;
 	}
 
+#ifndef ARCH_PSP
 	//set format
 	format=GL_RGB;
-
+#endif
+	
 	//make space for palette
 	unsigned char * palette=new unsigned char[256*3];
 	if(!palette)
@@ -695,12 +702,14 @@ bool IMAGE::LoadUncompressedTrueColorTGA(char * filename)
 		return false;
 	}
 
+#ifndef ARCH_PSP
 	//set format
 	if(bpp == 24)
 		format=GL_RGB;
 	else
 		format=GL_RGBA;
-
+#endif
+	
 	bytesPerPixel=bpp/8;										//calc bytes per pixel
 	imageSize=width*height*bytesPerPixel;						//calc memory required
 
@@ -784,12 +793,13 @@ bool IMAGE::LoadCompressedTrueColorTGA(char * filename)
 		return false;
 	}
 
+#ifndef ARCH_PSP
 	//set format
 	if(bpp == 24)
 		format=GL_RGB;
 	else
 		format=GL_RGBA;
-
+#endif
 	bytesPerPixel=bpp/8;										//calc bytes per pixel
 	imageSize=width*height*bytesPerPixel;						//calc memory required
 
@@ -946,13 +956,13 @@ bool IMAGE::LoadAlphaTGA(char * filename)
 	unsigned char	header[6];							//First 6 useful bytes of the header
 		
 	Logger::log("Loading %s in LoadAlphaTGA()\n", filename);
-
+#ifndef ARCH_PSP
 	if(!(format==GL_RGB || format==GL_RGBA))
 	{
 		Logger::log(LOG_ERROR,"Can only load an alpha channel to RGB / RGBA format images. %s caused error\n", filename);
 		return false;
 	}
-
+#endif
 	FILE * file = fopen(filename, "rb");				//Open the TGA file
 	
 	if(file == NULL)								//Does the file exist?
@@ -1021,6 +1031,7 @@ bool IMAGE::LoadAlphaTGA(char * filename)
 	fclose(file);
 
 	//now put in the alpha data
+#ifndef ARCH_PSP
 	if(format==GL_RGBA)
 	{
 		for(unsigned int i=0; i<width*height; i++)
@@ -1061,7 +1072,7 @@ bool IMAGE::LoadAlphaTGA(char * filename)
 		}
 			//data=tempData;
 	}
-
+#endif
 	Logger::log("Loaded %s correctly.\n", filename);
 	return true;
 }

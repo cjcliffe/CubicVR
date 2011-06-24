@@ -21,7 +21,7 @@
 		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 		THE SOFTWARE.
 */
-
+#if !defined(ARCH_PSP)
 #include <CubicVR/ProceduralTexture.h>
 #include <CubicVR/lodepng.h>
 #include <CubicVR/Logger.h>
@@ -517,4 +517,4 @@ void ProceduralTexture::clouds(double zoom, double p, int r, int g, int b)
 		}
 	}
 }
-
+#endif
