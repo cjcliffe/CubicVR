@@ -160,6 +160,9 @@ GLvoid DrawGLScene(void)
 	// Flush output and swap buffers
     glFlush();	
 	glutSwapBuffers();
+#ifdef __linux__
+	usleep(6500);
+#endif
 }
 
 

@@ -263,6 +263,9 @@ void DrawGLScene(void)
 	// Flush output and swap buffers
     glFlush();	
 	glutSwapBuffers();
+#if __linux__
+	usleep(6500);
+#endif
 }
 
 

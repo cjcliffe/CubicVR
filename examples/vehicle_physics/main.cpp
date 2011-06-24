@@ -1086,6 +1086,9 @@ void DrawGLScene(void)
 	
 	if (record_mode) testScene->saveScreenshot("/video_project/rec_02/",frame_counter++);
 
+#ifdef __linux__
+	usleep(3000);
+#endif
 //	if (mouseActive) glutWarpPointer(kWindowWidth/2,kWindowHeight/2);
 }
 
