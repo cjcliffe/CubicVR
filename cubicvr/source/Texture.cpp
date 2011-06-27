@@ -64,6 +64,164 @@ void loadtxr(const char *fn, GLuint *txr) {
 	
 	glKosTex2D(GL_RGB565_TWID, img.w, img.h, txaddr);
 }
+
+#include <kos.h>
+/* Sega Dreamcast PVR Textures Loading Function (c) Josh 'PH3NOM' Pearson 2011 */
+/* Thanks to SmokesGrass for the PVR file header information. */
+
+/* Various PVR texture assets */
+struct pvr_tex {
+       int texWidth;
+       int texHeight;
+       int txrFmt;
+       int txrColor;
+       pvr_ptr_t txrAddr;
+};
+
+/* Open the pvr texture and send it to VRAM, then bind it to the glKosTex2D context */
+void loadpvr( const char * file_name, GLuint *txr ) {
+
+  /* set up the files and buffers */
+  FILE * pvr_file;
+  char * pvr_header, * pvr_buffer;
+  int header_len;
+  struct pvr_tex pvr;
+  
+  /* open the pvr file */
+  pvr_file = fopen( file_name ,"rb");
+  if (pvr_file==NULL) printf ("File error",stderr);	
+
+  /* Read the possible 0x00100000 byte header */  
+  pvr_header = (char*)malloc( 32 );
+  fread( pvr_header, 16, 2, pvr_file);
+
+  /* obtain the PVR file size using fseek */
+  fseek (pvr_file , 0 , SEEK_END);
+  int pvrSize = ftell (pvr_file);
+
+  /* Move to the begining of the PVR file */
+  fseek (pvr_file , 0, SEEK_SET);
+    
+  /* Allocate RAM to contain the PVR file */
+  if( pvr_buffer ) free( pvr_buffer );
+  pvr_buffer = (char*)memalign( 32, pvrSize );
+  //pvr_buffer = (char*)malloc( pvrSize );
+  if ( pvr_buffer == NULL ) printf ("Memory error\n");
+
+  /* GBIX = 0x00100000 byte header */
+  if( (char)pvr_header[0] == 'G' && (char)pvr_header[1] == 'B'
+      && (char)pvr_header[2] == 'I' && (char)pvr_header[3] == 'X' ) 
+    header_len = 32;
+  /* PVRT = 0x00010000 byte header */
+  else if ( (char)pvr_header[0] == 'P' && (char)pvr_header[1] == 'V' 
+            && (char)pvr_header[2] == 'R' )  
+    header_len = 16;  
+           
+  /* Move past the header */
+  fseek (pvr_file , header_len, SEEK_SET);
+
+  /* Read the pvr texture data into RAM and close the file */
+  fread (pvr_buffer,16,(pvrSize-header_len)/16,pvr_file);
+  fclose( pvr_file );
+
+  /* Get PVR Colorspace */
+  unsigned int pvr_color = (unsigned int)pvr_header[header_len-8];
+  switch( pvr_color ) {
+          case 0x00: pvr.txrColor = PVR_TXRFMT_ARGB1555; break; //(bilevel translucent alpha 0,255)
+          case 0x01: pvr.txrColor = PVR_TXRFMT_RGB565;   break; //(non translucent RGB565 )
+          case 0x02: pvr.txrColor = PVR_TXRFMT_ARGB4444; break; //(translucent alpha 0-255)
+          case 0x03: pvr.txrColor = PVR_TXRFMT_YUV422;   break; //(non translucent UYVY )
+          case 0x04: pvr.txrColor = PVR_TXRFMT_BUMP;     break; //(special bump-mapping format)
+          case 0x05: pvr.txrColor = PVR_TXRFMT_PAL4BPP;  break; //(4-bit palleted texture)
+          case 0x06: pvr.txrColor = PVR_TXRFMT_PAL8BPP;  break; //(8-bit palleted texture)
+          default:   break;            
+  }
+
+  /* Get PVR Format. Mip-Maps and Palleted Textures not Currently handled */
+  unsigned int pvr_fmt = (unsigned int)pvr_header[header_len-7];
+  switch( pvr_fmt ) {
+          case 0x01: pvr.txrFmt = PVR_TXRFMT_TWIDDLED;                           break;//SQUARE TWIDDLED
+          //case 0x02: pvr.txrFmt = SQUARE TWIDDLED & MIPMAP
+          case 0x03: pvr.txrFmt = PVR_TXRFMT_VQ_ENABLE | PVR_TXRFMT_TWIDDLED;    break;//VQ TWIDDLED
+          //case 0x04: pvr.txrFmt = VQ & MIPMAP
+          //case 0X05: pvr.txrFmt = 8-BIT CLUT TWIDDLED
+          //case 0X06: pvr.txrFmt = 4-BIT CLUT TWIDDLED
+          //case 0x07: pvr.txrFmt = 8-BIT DIRECT TWIDDLED
+          //case 0X08: pvr.txrFmt = 4-BIT DIRECT TWIDDLED
+          case 0x09: pvr.txrFmt = PVR_TXRFMT_NONTWIDDLED;                        break;//RECTANGLE    
+          case 0x0B: pvr.txrFmt = PVR_TXRFMT_STRIDE | PVR_TXRFMT_NONTWIDDLED;    break;//RECTANGULAR STRIDE
+          case 0x0D: pvr.txrFmt = PVR_TXRFMT_TWIDDLED;                           break;//RECTANGULAR TWIDDLED
+          case 0x10: pvr.txrFmt = PVR_TXRFMT_VQ_ENABLE | PVR_TXRFMT_NONTWIDDLED; break;//SMALL VQ
+          //case 0x11: pvr.txrFmt = SMALL VQ & MIPMAP
+          //case 0x12: pvr.txrFmt = SQUARE TWIDDLED & MIPMAP
+          default:   pvr.txrFmt = PVR_TXRFMT_NONE; break;
+  }
+  
+  /* Get PVR Texture Width */
+  if( (unsigned int)pvr_header[header_len-4] == 0x08 && (unsigned int)pvr_header[header_len-3] == 0x00 )
+        pvr.texWidth = 8; 
+  else if( (unsigned int)pvr_header[header_len-4] == 0x10 && (unsigned int)pvr_header[header_len-3] == 0x00 )
+        pvr.texWidth = 16; 
+  else if( (unsigned int)pvr_header[header_len-4] == 0x20 && (unsigned int)pvr_header[header_len-3] == 0x00 )
+        pvr.texWidth = 32; 
+  else if( (unsigned int)pvr_header[header_len-4] == 0x40 && (unsigned int)pvr_header[header_len-3] == 0x00 )
+        pvr.texWidth = 64;   
+  else if( (unsigned int)pvr_header[header_len-4] == -0x80 && (unsigned int)pvr_header[header_len-3] == 0x00 )
+        pvr.texWidth = 128;       
+  else if( (unsigned int)pvr_header[header_len-4] == 0x00 && (unsigned int)pvr_header[header_len-3] == 0x01 )
+        pvr.texWidth = 256;
+  else if( (unsigned int)pvr_header[header_len-4] == 0x00 && (unsigned int)pvr_header[header_len-3] == 0x02 )
+        pvr.texWidth = 512;
+  else if( (unsigned int)pvr_header[header_len-4] == 0x00 && (unsigned int)pvr_header[header_len-3] == 0x04 )
+        pvr.texWidth = 1024;
+   /* Get PVR Texture  Height */
+  if( (unsigned int)pvr_header[header_len-2] == 0x08 && (unsigned int)pvr_header[header_len-1] == 0x00 )
+        pvr.texHeight = 8;
+  else if( (unsigned int)pvr_header[header_len-2] == 0x10 && (unsigned int)pvr_header[header_len-1] == 0x00 )
+        pvr.texHeight = 16;
+  else if( (unsigned int)pvr_header[header_len-2] == 0x20 && (unsigned int)pvr_header[header_len-1] == 0x00 )
+        pvr.texHeight = 32;
+  else if( (unsigned int)pvr_header[header_len-2] == 0x40 && (unsigned int)pvr_header[header_len-1] == 0x00 )
+        pvr.texHeight = 64;
+  else if( (unsigned int)pvr_header[header_len-2] == -0x80 && (unsigned int)pvr_header[header_len-1] == 0x00 )
+        pvr.texHeight = 128;
+  else if( (unsigned int)pvr_header[header_len-2] == 0x00 && (unsigned int)pvr_header[header_len-1] == 0x01 )
+        pvr.texHeight = 256; 
+  else if( (unsigned int)pvr_header[header_len-2] == 0x00 && (unsigned int)pvr_header[header_len-1] == 0x02 )
+        pvr.texHeight = 512; 
+  else if( (unsigned int)pvr_header[header_len-2] == 0x00 && (unsigned int)pvr_header[header_len-1] == 0x04 )
+        pvr.texHeight = 1024; 
+                  
+  printf("PVR TXR Size: %i bytes, %ix%i pixels\n", pvrSize, pvr.texWidth, pvr.texHeight );
+  
+  /* Allocate VRAM */
+  if(pvr.txrAddr) pvr_mem_free(pvr.txrAddr);
+  pvr.txrAddr = pvr_mem_malloc(pvrSize);
+  
+  /* Transfer the texture from RAM to VRAM */
+  /* SH4->PVR DMA Transfer */
+  if( header_len != 16 ) {
+     if( pvrSize > 16384)
+        dcache_flush_range((uint32)pvr_buffer, 16384);
+     else
+        dcache_flush_range((uint32)pvr_buffer, pvrSize);
+     while (!pvr_dma_ready());
+     pvr_dma_transfer( (void*)pvr_buffer, (uint32)pvr.txrAddr, pvrSize,
+                       PVR_DMA_VRAM64, PVR_TXRLOAD_NONBLOCK, NULL, 0);
+  }
+  /* SH4->PVR SQ Transfer */
+  else {
+     pvr_txr_load( pvr_buffer, pvr.txrAddr, pvrSize);
+  }
+
+  /* Free the RAM */
+  if( pvr_header ) free( pvr_header );  
+  if( pvr_buffer ) free( pvr_buffer );
+  
+  /* Bind the texture data to the glTex2D context */
+  glKosTex2D( pvr.txrColor | pvr.txrFmt, pvr.texWidth, pvr.texHeight, pvr.txrAddr);  
+
+}
 #endif
 
 
@@ -232,6 +390,18 @@ bool Texture::load(std::string strFn)
 			loadtxr(filename, &glTexId);
 			return true;
 		}
+	else if(	strncmp((filename+filenameLength-3), "PVR", 3)==0 ||
+	   strncmp((filename+filenameLength-3), "pvr", 3)==0)
+		{
+			Logger::log("Loading PVR using dreamcast loader\n");
+			generate();
+			
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_FILTER, GL_FILTER_BILINEAR);
+			loadpvr(filename, &glTexId);
+			return true;
+		}	
 #endif
 	
 	imgLoaded = img.Load((char *)strFn.c_str());
