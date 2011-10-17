@@ -41,7 +41,7 @@
 #define SHADER_STAGE_NOTEXTURE 4
 #define SHADER_STAGE_SHADOW 5
 
-class IMPEXP Shader
+class IMPEXP Renderer
 {
 	public:
 		std::set<Light *> *lights;
@@ -50,8 +50,8 @@ class IMPEXP Shader
 		XYZ lod_src;
 		bool lod;
 		
-		Shader();
-		virtual ~Shader() {};
+		Renderer();
+		virtual ~Renderer() {};
 		virtual void render(Mesh &obj, int stage = SHADER_STAGE_NULL) = 0;
 
 //		void bind(Light &lightObj);
@@ -68,7 +68,7 @@ class IMPEXP Shader
 #include <pspdebug.h>
 #define printf pspDebugScreenPrintf 
 
-//class IMPEXP PSPShader : public Shader	/* todo: commenting */
+//class IMPEXP PSPShader : public Renderer	/* todo: commenting */
 //{
 //	public:
 //		void render(Object &obj, int stage = SHADER_STAGE_NULL);
@@ -79,25 +79,25 @@ class IMPEXP Shader
 
 #if !defined(OPENGL_ES) && !defined(ARCH_PSP)
 
-class IMPEXP LineShader : public Shader
+class IMPEXP LineRenderer : public Renderer
 {
 	public:
 		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
-class IMPEXP VertexColorShader : public Shader
+class IMPEXP VertexColorRenderer : public Renderer
 {
 	public:
 		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
-class IMPEXP ShadowShader : public Shader
+class IMPEXP ShadowRenderer : public Renderer
 {
 public:
 	void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
-class IMPEXP RegularShader : public Shader
+class IMPEXP ImmediateRenderer : public Renderer
 {
 public:
 	void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
@@ -105,7 +105,7 @@ public:
 
 #endif
 
-class IMPEXP CacheShader : public Shader	/* todo: commenting */
+class IMPEXP VertexBufferRenderer : public Renderer	/* todo: commenting */
 {
 	public:
 	
@@ -121,18 +121,13 @@ class IMPEXP CacheShader : public Shader	/* todo: commenting */
 
 
 
-class IMPEXP ObjectShader : public Shader	// determines whehter the object is cached or not
+class IMPEXP MeshRenderer : public Renderer	// determines whehter the object is cached or not
 {
 	private:
-//#ifdef ARCH_PSP
-//		PSPShader pspShader;
-//#else
-		CacheShader cShader;
+		VertexBufferRenderer cShader;
 #if !defined(OPENGL_ES) && !defined(ARCH_PSP)
-		RegularShader rShader;
+		ImmediateRenderer rShader;
 #endif
-//#endif
-	
 	
 	public:
 		void bind(std::set<Light *> *lights_in);

@@ -37,7 +37,7 @@
 // #include "Action!.h"
 #include <CubicVR/SceneObject.h>
 #include <CubicVR/map_string.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 #include <CubicVR/SectorMap.h>
 #include <CubicVR/FRUSTUM.h>
 #include <CubicVR/ProceduralObject.h>
@@ -146,12 +146,12 @@ public:
 
 	set<Light *>::iterator active_light_i;
 
-	ObjectShader oShader;
+	MeshRenderer oShader;
 #if !defined(ARCH_PSP) && !defined(OPENGL_ES)
 #if !defined(ARCH_DC)
-	ShadowShader sShader;
+	ShadowRenderer sShader;
 #endif
-	LineShader lShader;
+	LineRenderer lShader;
 #endif
 
 //	bool frustum_debug;
@@ -207,7 +207,7 @@ public:
 	void render();
 	virtual void firstInit() { };
 	virtual void process();
-	virtual void renderStage(Shader &renderer, int stage);
+	virtual void renderStage(Renderer &renderer, int stage);
 
 	/* managed objects return by name */
 	virtual SceneObject &sceneObject(const std::string name_in);

@@ -372,7 +372,7 @@ void Vehicle::updateSuspension()
 	}
 }
 
-void Vehicle::render(Shader &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
+void Vehicle::render(Renderer &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
 {	
 	SceneObject::render(renderer,stage,initShadowMatrix,no_pivot,no_scale);
 

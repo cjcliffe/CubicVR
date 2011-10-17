@@ -381,7 +381,7 @@ void SoftSceneObject::setSoftBody(btSoftBody &mSoftBody_in)
 
 
 
-void SoftSceneObject::render(Shader &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
+void SoftSceneObject::render(Renderer &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
 {	
 //	int i,j,numFaces;
 //	glColor3f(0,0,1);

@@ -7,9 +7,8 @@
 #include <KGLX/glu.h>
 
 #include <CubicVR/Timer.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/UVMapper.h>
-#include <CubicVR/Shader.h>
 #include <CubicVR/Camera.h>
 #include <CubicVR/SceneObject.h>
 #include <CubicVR/RigidScene.h>

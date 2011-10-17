@@ -554,7 +554,7 @@ void SceneObject::unbindChild(SceneObject &sceneobj_in)
 	}
 };
 
-void SceneObject::render(Shader &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
+void SceneObject::render(Renderer &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
 {	
 //	float obj_trans[16];
 	
@@ -1172,7 +1172,7 @@ void SceneObject::calcVisibility(const XYZ & camPosition, FRUSTUM &frustum)
 	}
 
 
-	void SceneObject::calcVertexLightMap(Shader &renderer)
+	void SceneObject::calcVertexLightMap(Renderer &renderer)
 	{
 		// todo: patch this up to work on non-SH4 again
 #ifdef ARCH_DC

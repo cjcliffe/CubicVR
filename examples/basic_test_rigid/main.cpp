@@ -13,7 +13,7 @@
 #define kWindowHeight	720
 Camera myCamera(kWindowWidth,kWindowHeight, 60, 1, 300);
 
-ObjectShader myShader;
+MeshRenderer myShader;
 RigidScene myScene(kWindowWidth,kWindowHeight);
 Light myLight;
 Mesh myBoxObj;

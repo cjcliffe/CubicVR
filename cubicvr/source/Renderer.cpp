@@ -22,13 +22,13 @@
 		THE SOFTWARE.
 */
 
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 
 #ifndef ARCH_PSP
-Mesh *CacheShader::lockObj = NULL;
+Mesh *VertexBufferRenderer::lockObj = NULL;
 #endif
 
-//void Shader::bind(Light &lightObj)
+//void Renderer::bind(Light &lightObj)
 //{
 //	lights.push_back(&lightObj);
 //};
@@ -36,13 +36,13 @@ Mesh *CacheShader::lockObj = NULL;
 #ifndef ARCH_PSP
 #ifndef OPENGL_ES
 
-//void Shader::setShadowModelMatrix(float m[16])
+//void Renderer::setShadowModelMatrix(float m[16])
 //{
 //	memcpy(shadowModelMatrix, m, sizeof(float)*16);
 //}
 										  
 
-void VertexColorShader::render(Mesh &obj, int stage)
+void VertexColorRenderer::render(Mesh &obj, int stage)
 {
 	glDisable(GL_LIGHTING);
 
@@ -62,274 +62,8 @@ void VertexColorShader::render(Mesh &obj, int stage)
 };
 
 
-/*
-void LineShader::render(Object &obj, int stage)
-{
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
-	
-	// mat_reflist_i -- used to iterate through the material mat_reflist of the object
-	std::map<cvrIndex, map< unsigned int, std::map<cvrIndex, va_ref, ltindex>, ltuint >, ltindex>::iterator obj_matref_i;
-	// segment iterator
-	map< unsigned int, std::map<cvrIndex, va_ref, ltindex>, ltuint >::iterator mat_segment_type_i;
-	// mat_facetypelist_i -- used to iterate through the set of face types which belong to the mat_reflist_i map
-	std::map<cvrIndex, va_ref, ltindex>::iterator matref_type_i;
-	// mat_facetypelist_i -- used to iterate through the set of face types which belong to the mat_reflist_i map
-	std::map<cvrIndex, va_ref, ltindex>::reverse_iterator matref_last_i;
-	
-	unsigned int element_index = 0;
-	//	bool skip_segment = false;
-	if (!obj.buffer_state) element_index = (unsigned int)obj.cache_data.cache_element;
-		
-	// Reset mutitexture state
-	Texture::clearAllTextures();
-	
-	// special lights which have been bound that contribute to texturing 
-	unsigned int tex_offset = Texture::tex_use+1;
-	
-#if !defined(OPENGL_ES) && !defined(ARCH_DC)
-	// store attribs
-	glPushAttrib(GL_ENABLE_BIT);
-#endif
-	
-	
-#if !defined(OPENGL_ES) && !defined(ARCH_DC)	
-	if (obj.buffer_state && CacheShader::lockObj != &obj)
-	{
-		// Bind the vertex buffers from the cache data 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER_ARB, obj.cache_data.elementBufferNum);
-		glBindBuffer(GL_ARRAY_BUFFER_ARB, obj.cache_data.dataBufferNum);
-		
-		// set the vertex pointer 
-		glVertexPointer(3,GL_FLOAT,0,BUFFER_OFFSET(0));
-		glEnableClientState(GL_VERTEX_ARRAY);
-		
-		// set the normal pointer 
-		glNormalPointer(GL_FLOAT,0,BUFFER_OFFSET(obj.normalCacheOffset));
-		glEnableClientState(GL_NORMAL_ARRAY);
-		
-		// activate uv map pointers for multitexture layers 
-		if (stage != SHADER_STAGE_NOMATERIAL && stage != SHADER_STAGE_NOTEXTURE) 
-		{
-			for (unsigned int m = 0; m < obj.cache_data.max_uvs; m++)
-			{
-				Texture::setTexture(tex_offset+m);
-				glTexCoordPointer(2, GL_FLOAT, 0, BUFFER_OFFSET(obj.uvCacheOffset+(sizeof(va_uv)*obj.cache_data.vertex_count*m)));
-			}
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		}
-	}
-	else 
-#endif
-		if (CacheShader::lockObj != &obj)
-		{
-#if !defined(OPENGL_ES) && !defined(ARCH_DC)
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
-			glBindBuffer(GL_ARRAY_BUFFER_ARB, 0);
-			
-			glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER_ARB);
-			glUnmapBuffer(GL_ARRAY_BUFFER_ARB);
-#endif
-			
-			if (obj.hasColorMap)
-			{
-				glColorPointer(3, GL_FLOAT, 0, (const GLvoid *)(obj.cache_data.data+(obj.colorMapOffset)));
-			}
-			
-			glVertexPointer(3, GL_FLOAT, 0,  (const GLvoid *)obj.cache_data.data);
-			glEnableClientState(GL_VERTEX_ARRAY);
-			
-#ifndef ARCH_DC	// DC doesn't process normals
-			glNormalPointer(GL_FLOAT, 0,  (const GLvoid *)(obj.cache_data.data+(obj.normalCacheOffset)));
-			glEnableClientState(GL_NORMAL_ARRAY);
-#endif		
-			
-			if (stage != SHADER_STAGE_NOMATERIAL && stage != SHADER_STAGE_NOTEXTURE) 
-			{
-				if (stage != SHADER_STAGE_NOMATERIAL && stage != SHADER_STAGE_NOTEXTURE) for (unsigned int m = 0; m < obj.cache_data.max_uvs; m++)
-				{
-					Texture::setTexture(tex_offset+m);
-					glTexCoordPointer(2, GL_FLOAT, 0,  (const GLvoid *)(obj.cache_data.data+obj.uvCacheOffset+(sizeof(va_uv)*obj.cache_data.vertex_count*m)));
-				}
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			}
-			
-		}
-	
-	if (obj.hasColorMap && obj.dynamic_colors)	// Mostly just for Dreamcast lighting at the moment
-	{
-		glColorPointer(3, GL_FLOAT, 0, (const GLvoid *)obj.dynamic_colors);				
-		glEnableClientState(GL_COLOR_ARRAY);	
-	}
-	
-	
-	CacheShader::lockObj = &obj;
-	
-	// iterate through the list of materials with face reference sets 
-	for (obj_matref_i = obj.mat_cache_data.begin(); obj_matref_i != obj.mat_cache_data.end(); obj_matref_i++)
-	{
-		// (*obj_matref_i).first // material reference id
-		
-		unsigned int segLimit = (*obj_matref_i).second.size();
-		unsigned int segIndex = 0;
-		unsigned int segRun = 0;
-		unsigned int segRangeIndex = 0;
-		unsigned int segRangeType = 0;
-		unsigned long segElementIndex = 0;
-		
-		bool fault = false;
-		bool usefault = (obj.numSegments != 1);			// assume objects with one segment don't need segment fault tests
-		
-		//true; //((*mat_segment_type_i).second.size()==1 && (*obj_matref_i).second.size()!=1);
-		
-		va_ref segRange;
-		
-		segRange.range_min = obj.cache_data.vertex_count;
-		segRange.range_max = 0;
-		segRange.element_count = 0;	
-		segRangeIndex = element_index;		
-		
-		for (mat_segment_type_i = (*obj_matref_i).second.begin(); mat_segment_type_i != (*obj_matref_i).second.end(); mat_segment_type_i++)
-		{
-			segIndex++;
-						
-			if (obj.numSegments >= 1 && obj.segmentMask)
-			{
-				if (obj.segmentMask->IsSet((*mat_segment_type_i).first) == false)
-				{
-					fault = true;
-				}
-			}
-			
-			segRangeType = (*(*mat_segment_type_i).second.begin()).first;
-			
-			if (fault) 
-			{
-				element_index += (*(*mat_segment_type_i).second.begin()).second.group_size*sizeof(cvrElement);				
-				
-				if (!usefault) 
-				{
-					fault=false;
-					continue;
-				}
-			}
-			else
-			{				
-				segRun++;
-				
-				segRange.element_count += (*(*mat_segment_type_i).second.begin()).second.group_size;
-				
-				if ((*(*mat_segment_type_i).second.begin()).second.range_min < segRange.range_min)
-				{
-					segRange.range_min = (*(*mat_segment_type_i).second.begin()).second.range_min;
-				}
-				
-				if ((*(*mat_segment_type_i).second.begin()).second.range_max > segRange.range_max)
-				{
-					segRange.range_max = (*(*mat_segment_type_i).second.begin()).second.range_max;
-				}				
-				
-				
-				if (usefault) if (segIndex < segLimit) 
-				{
-					element_index += (*(*mat_segment_type_i).second.begin()).second.group_size*sizeof(cvrElement);
-					continue;
-				}
-				
-			}
-						
-			glDepthMask(true);
-			
-			if (stage == SHADER_STAGE_TRANSPARENT) 
-			{
-				glEnable(GL_BLEND);
-				glEnable(GL_ALPHA_TEST);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glAlphaFunc(GL_GEQUAL, 0.2f);
-			}
-				
-				
-				if (!usefault)	// no fault segments needed, just render all primitives
-				{				
-					segElementIndex = element_index;
-					
-					for (matref_type_i = (*mat_segment_type_i).second.begin(); matref_type_i != (*mat_segment_type_i).second.end(); matref_type_i++)
-					{				
-						if (!(*matref_type_i).second.element_count) continue;
-						
-						switch((*matref_type_i).first)
-						{
-							case 1: glDrawRangeElements(GL_POINTS,(*matref_type_i).second.range_min,(*matref_type_i).second.range_max,(*matref_type_i).second.element_count,GL_UNSIGNED_INT,BUFFER_OFFSET(segElementIndex));
-								break;
-							case 2:	glDrawRangeElements(GL_LINES,(*matref_type_i).second.range_min,(*matref_type_i).second.range_max,(*matref_type_i).second.element_count,GL_UNSIGNED_INT,BUFFER_OFFSET(segElementIndex));
-								break;
-							case 3:	
-								for (unsigned long i = 0; i < (*matref_type_i).second.element_count-3; i+=3)
-									glDrawRangeElements(GL_LINES,(*matref_type_i).second.range_min,(*matref_type_i).second.range_max,3,GL_UNSIGNED_INT,BUFFER_OFFSET(segElementIndex+i));
-								break;
-#ifndef OPENGL_ES
-							case 4:	
-								for (unsigned long i = 0; i < (*matref_type_i).second.element_count-4; i+=4)
-									glDrawRangeElements(GL_POINTS,(*matref_type_i).second.range_min,(*matref_type_i).second.range_max,4,GL_UNSIGNED_INT,BUFFER_OFFSET(segElementIndex+i));
-								break;
-#endif
-						}
-						segElementIndex += (*matref_type_i).second.element_count*sizeof(cvrElement);
-					}
-				}
-				else	// use accumulated cache fault runs
-				{
-					switch (segRangeType)
-					{
-						case 1:
-								glDrawRangeElements(GL_POINTS,segRange.range_min,segRange.range_max,segRange.element_count,GL_UNSIGNED_INT,BUFFER_OFFSET(segRangeIndex));
-							break;
-						case 2:
-								glDrawRangeElements(GL_LINES,segRange.range_min,segRange.range_max,segRange.element_count,GL_UNSIGNED_INT,BUFFER_OFFSET(segRangeIndex));
-							break;
-						case 3:
-							for (unsigned int i = 0; i <= segRange.element_count-3; i+=3)
-								glDrawRangeElements(GL_LINE_STRIP,segRange.range_min,segRange.range_max,3,GL_UNSIGNED_INT,BUFFER_OFFSET(segRangeIndex+i));
-							break;
-#ifndef OPENGL_ES
-						case 4:
-							for (unsigned int i = 0; i <= segRange.element_count-4; i+=4)
-								glDrawRangeElements(GL_LINE_STRIP,segRange.range_min,segRange.range_max,4,GL_UNSIGNED_INT,BUFFER_OFFSET(segRangeIndex+i));
-							break;
-#endif					
-					}
-					
-				}	
 
-			if (!usefault) element_index += (*(*mat_segment_type_i).second.begin()).second.group_size*sizeof(cvrElement);
-			
-			if (usefault)	// reset fault line
-			{
-				segRange.range_min = obj.cache_data.vertex_count;
-				segRange.range_max = 0;
-				segRange.element_count = 0;	
-				
-				segRun = 0;
-				if (!fault) element_index += (*(*mat_segment_type_i).second.begin()).second.group_size*sizeof(cvrElement);
-				fault = false;
-				segRangeIndex = element_index;
-				
-			}
-			
-		}
-		
-		
-	}
-	
-	
-#if !defined(ARCH_DC) && !defined(OPENGL_ES)	
-	// reset attribs
-	glPopAttrib();
-#endif
-};
-*/
-
-
-void LineShader::render(Mesh &obj, int stage)
+void LineRenderer::render(Mesh &obj, int stage)
 {
 	glDisable(GL_LIGHTING);
 
@@ -355,101 +89,7 @@ void LineShader::render(Mesh &obj, int stage)
 
 #endif
 #endif
-/*
-#ifdef ARCH_PSP
 
-void PSPShader::render(Object &obj, int stage)
-{
-	// mat_reflist_i -- used to iterate through the material mat_reflist of the object 
-	map<Material *, map< unsigned int, map<unsigned short, set<cvrIndex>, ltushort>, ltuint > >::iterator obj_matref_i;
-	// mat_facetypelist_i -- used to iterate through the set of face types which belong to the mat_reflist_i map 
-	map<unsigned short, std::set<cvrIndex>, ltushort>::iterator matref_type_i;
-	// may_facelist_i -- used to iterate through the set of faces which belong to the mat_facetypelist_i map 
-	set<cvrIndex>::iterator type_face_i;
-	// faces_point_i -- used to step through the points of the face which is referenced by mat_facelist_i 
-	vector<cvrIndex>::iterator face_point_i;
-	
-	bool has_trans = false;
-
-
-	// iterate through the list of materials with face reference sets 
-	for (obj_matref_i = obj.mat_reflist.begin(); obj_matref_i != obj.mat_reflist.end(); obj_matref_i++)
-	{
-		// (*obj_matref_i).first // material reference
-		// if it has a transparency mask, textures will be needed for depth calc on shadow
-//		bool has_mask = Material::materials[(*obj_matref_i).first].hasMask();	
-		Material *mat = (*obj_matref_i).first;
-			
-		int matLayerCount = mat->getLayerSize();
-		
-		if (matLayerCount == 0) matLayerCount = 1;
-
-		for (unsigned int matLayer = 0; matLayer < matLayerCount; matLayer++)
-		{
-			 // if we're in the opaque shader stage then we need to discard the transparent materials and vice versa 
-			if (stage == SHADER_STAGE_NULL || stage == SHADER_STAGE_OPAQUE || stage == SHADER_STAGE_NOTEXTURE)
-			{
-				 // alpha = 1.0, opaque 
-				if (!mat->hasMask()) 
-				{
-					mat->use(matLayer);
-				}
-				else  // we're in the transparency stage and opaque isn't needed, we have to skip the element count though 
-				{
-					has_trans = true;
-					continue;
-				}
-			}
-		
-			 // transparent shader stage 
-			if (stage == SHADER_STAGE_TRANSPARENT)
-			{
-				 // Alpha != 1.0, transparent 
-				if (mat->hasMask()) 
-				{
-					mat->use(matLayer);
-				}
-				else  // opaque, need transparent, skip it 
-				{
-					continue;	
-				}
-			}
-
-			for (matref_type_i = (*(*obj_matref_i).second.begin()).second.begin(); matref_type_i != (*(*obj_matref_i).second.begin()).second.end(); matref_type_i++)
-			{
-				// (*matref_type_i).first // primitive type
-				unsigned int count = (*matref_type_i).first * obj.psp_elemcount[(*obj_matref_i).first][(*matref_type_i).first];
-				unsigned int vtype = GU_TEXTURE_32BITF|GU_COLOR_8888|GU_NORMAL_32BITF|GU_VERTEX_32BITF|GU_TRANSFORM_3D;
-				char *vertexData = obj.psp_reflist[(*obj_matref_i).first][(*matref_type_i).first];
-				unsigned int ptype = 0;
-			
-				switch ((*matref_type_i).first)
-				{
-					case 1: ptype = GU_POINTS; break;
-					case 2: ptype = GU_LINES; break;
-					case 3: ptype = GU_TRIANGLES; break;
-	//				case 4: ptype = GU_QUADS; break;
-				}
-			
-				sceGumDrawArray( ptype, vtype, count, 0, vertexData);
-			}							
-		
-#ifndef ARCH_PSP
-			 // clear the textures used in this material 
-			if (stage != SHADER_STAGE_NOMATERIAL && stage != SHADER_STAGE_NOTEXTURE)
-			{
-				GLExt::clearActiveTextures();
-			}
-#endif
-		}
-	}
-		
-	 // call the transparency stage if necessary 
-	if (stage == SHADER_STAGE_NULL && has_trans) render(obj,SHADER_STAGE_TRANSPARENT);
-};
-
-//#else
-*/
 
 #ifdef OPENGL_ES
 #define GL_UNSIGNED_INT GL_UNSIGNED_SHORT
@@ -460,7 +100,7 @@ void PSPShader::render(Object &obj, int stage)
 #define glDrawRangeElements(a,b,c,d,e,f) glDrawElements(a,d,e,f)
 #endif
 
-void CacheShader::render(Mesh &obj, int stage)
+void VertexBufferRenderer::render(Mesh &obj, int stage)
 {
 	#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 	
@@ -493,7 +133,7 @@ void CacheShader::render(Mesh &obj, int stage)
 //	glPushAttrib(GL_ENABLE_BIT);
 //#endif
 #ifndef ARCH_PSP	
-	CacheShader::setup(obj,stage != SHADER_STAGE_NOMATERIAL && stage != SHADER_STAGE_NOTEXTURE);
+	VertexBufferRenderer::setup(obj,stage != SHADER_STAGE_NOMATERIAL && stage != SHADER_STAGE_NOTEXTURE);
 #else
 	sceGuSignal(GU_BEHAVIOR_SUSPEND, 1);
 #endif
@@ -990,7 +630,7 @@ void CacheShader::render(Mesh &obj, int stage)
 
 #ifndef ARCH_PSP
 
-void CacheShader::setup(Mesh &obj, bool init_texcoord)
+void VertexBufferRenderer::setup(Mesh &obj, bool init_texcoord)
 {
 	// special lights which have been bound that contribute to texturing 
 //	unsigned int tex_offset = Texture::tex_use+1;
@@ -1074,7 +714,7 @@ void CacheShader::setup(Mesh &obj, bool init_texcoord)
 
 
 #if  !defined(OPENGL_ES) && !defined(ARCH_PSP)
-void ShadowShader::render(Mesh &obj, int stage)
+void ShadowRenderer::render(Mesh &obj, int stage)
 {
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 	
@@ -1105,7 +745,7 @@ void ShadowShader::render(Mesh &obj, int stage)
 	//glPushAttrib(GL_ENABLE_BIT);
 //#endif
 	
-	CacheShader::setup(obj,true);
+	VertexBufferRenderer::setup(obj,true);
 		
 	bool maskState = false;
 	
@@ -1314,7 +954,7 @@ void ShadowShader::render(Mesh &obj, int stage)
 
 #if !defined(OPENGL_ES) && !defined(ARCH_PSP)
 
-void RegularShader::render(Mesh &obj, int stage)
+void ImmediateRenderer::render(Mesh &obj, int stage)
 {
 	//	map<cvrIndex, map< unsigned int, map<unsigned short, set<cvrIndex>, ltushort>, ltuint >, ltindex> mat_reflist;
 
@@ -1465,7 +1105,7 @@ void RegularShader::render(Mesh &obj, int stage)
 
 
 
-void ObjectShader::bind(std::set<Light *> *lights_in)
+void MeshRenderer::bind(std::set<Light *> *lights_in)
 {
 	lights = lights_in;
 
@@ -1475,7 +1115,7 @@ void ObjectShader::bind(std::set<Light *> *lights_in)
 #endif
 };
 
-void ObjectShader::render(Mesh &obj, int stage)
+void MeshRenderer::render(Mesh &obj, int stage)
 {
 	if (obj.cache_state)
 	{
@@ -1492,18 +1132,18 @@ void ObjectShader::render(Mesh &obj, int stage)
 };
 
 
-Shader::Shader() : shadow_alpha(0.6f), lights(NULL), shadowModelMatrix(NULL)
+Renderer::Renderer() : shadow_alpha(0.6f), lights(NULL), shadowModelMatrix(NULL)
 {
 	
 };
 
 
-void Shader::shadowAlpha(float shadow_alpha_in)
+void Renderer::shadowAlpha(float shadow_alpha_in)
 {
 	shadow_alpha = shadow_alpha_in;
 };
 
-float Shader::shadowAlpha()
+float Renderer::shadowAlpha()
 {
 	return shadow_alpha;
 };

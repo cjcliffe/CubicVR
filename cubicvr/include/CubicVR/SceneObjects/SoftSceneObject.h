@@ -32,7 +32,7 @@
 
 #include <CubicVR/cvr_defines.h>
 #include <CubicVR/XYZ.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 #include <CubicVR/SceneObjects/RigidSceneObject.h>
 
 class SoftSceneObject : public RigidSceneObject
@@ -54,7 +54,7 @@ public:
 	void initialize(btSoftRigidDynamicsWorld &dynamicsWorld_in, btSoftBodyWorldInfo &softBodyWorldInfo_in);
 	virtual void evaluate();
 	
-	virtual void render(Shader &renderer, int stage, bool initShadowMatrix = false, bool no_pivot = false, bool no_scale = false);
+	virtual void render(Renderer &renderer, int stage, bool initShadowMatrix = false, bool no_pivot = false, bool no_scale = false);
 	
 	btSoftBody &createSoftBody();
 	inline btSoftBody &createSoftBody(btCollisionShape &colShape_in) { bindCollisionShape(colShape_in); return createSoftBody(); };

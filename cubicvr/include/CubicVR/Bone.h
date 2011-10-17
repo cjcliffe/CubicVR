@@ -27,7 +27,7 @@
 #include <CubicVR/cvr_defines.h>
 
 #include <CubicVR/Motion.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 #include <CubicVR/ObjectController.h>
 #include <CubicVR/map_string.h>
 #include <vector>

@@ -29,7 +29,7 @@
 #include <CubicVR/Mesh.h>
 #include <CubicVR/Vector.h>
 #include <CubicVR/UVMapper.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 #include <CubicVR/Curve.h>
 
 #define PROCEDURAL_LATHE 10

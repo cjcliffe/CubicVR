@@ -6,11 +6,11 @@
 
 BULLET_PREFIX=build/include/
 
-CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matrix.o Motion.o RGB.o RGBA.o Timer.o Transform.o Vector.o XYZ.o XYZRGB.o SectorMap.o BITSET.o BSP.o MATRIX4X4.o PLANE.o VECTOR3D.o systemfont.o tinyxml.o tinystr.o tinyxmlerror.o tinyxmlparser.o Resource.o ResourceManager.o ResourcePool.o Logger.o StringUtil.o
+CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matrix.o Motion.o RGB.o RGBA.o Timer.o Transform.o Vector.o XYZ.o SectorMap.o BITSET.o BSP.o MATRIX4X4.o PLANE.o VECTOR3D.o systemfont.o tinyxml.o tinystr.o tinyxmlerror.o tinyxmlparser.o Resource.o ResourceManager.o ResourcePool.o Logger.o StringUtil.o
 
 # TGALoader.o Font.o Bitmap.o VECTOR2D.o VECTOR4D.o  RigidSceneDebug.o BSPSceneObject.o 
 
-CUBICVR_GL_OBJS = Camera.o  GLExt.o  Object.o objectLWO.o UV.o UVMapper.o SceneObject.o ObjectController.o Scene.o sceneLWS.o Shader.o CollisionMap.o Texture.o Light.o Material.o \
+CUBICVR_GL_OBJS = Camera.o  GLExt.o  Mesh.o objectLWO.o UV.o UVMapper.o SceneObject.o ObjectController.o Scene.o sceneLWS.o Renderer.o CollisionMap.o Texture.o Light.o Material.o \
  Bone.o DataTree.o FRUSTUM.o IMAGE.o sceneLWS.o SceneObject.o textureTGA.o Pencil.o
 
 CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o Vehicle.o RigidBox.o RigidSphere.o SoftScene.o SoftSceneObject.o Particle.o ParticleEmitter.o ParticleSystem.o RigidCapsule.o
@@ -71,8 +71,8 @@ Matrix.o: ../cubicvr/source/Matrix.cpp
 	$(BUILDCMD) Matrix.o $^
 Motion.o: ../cubicvr/source/Motion.cpp
 	$(BUILDCMD) Motion.o $^
-Object.o: ../cubicvr/source/Object.cpp
-	$(BUILDCMD) Object.o $^
+Mesh.o: ../cubicvr/source/Mesh.cpp
+	$(BUILDCMD) Mesh.o $^
 ObjectController.o: ../cubicvr/source/ObjectController.cpp
 	$(BUILDCMD) ObjectController.o $^
 objectLWO.o: ../cubicvr/source/objectLWO.cpp
@@ -101,8 +101,8 @@ sceneLWS.o: ../cubicvr/source/sceneLWS.cpp
 	$(BUILDCMD) sceneLWS.o $^
 SceneObject.o: ../cubicvr/source/SceneObject.cpp
 	$(BUILDCMD) SceneObject.o $^
-Shader.o: ../cubicvr/source/Shader.cpp
-	$(BUILDCMD) Shader.o $^
+Renderer.o: ../cubicvr/source/Renderer.cpp
+	$(BUILDCMD) Renderer.o $^
 StringUtil.o: ../cubicvr/source/StringUtil.cpp
 	$(BUILDCMD) StringUtil.o $^
 systemfont.o: ../cubicvr/source/systemfont.cpp
@@ -121,8 +121,6 @@ Vector.o: ../cubicvr/source/Vector.cpp
 	$(BUILDCMD) Vector.o $^
 XYZ.o: ../cubicvr/source/XYZ.cpp
 	$(BUILDCMD) XYZ.o $^
-XYZRGB.o: ../cubicvr/source/XYZRGB.cpp
-	$(BUILDCMD) XYZRGB.o $^
 #TGALoader.o: ../cubicvr/source/psp/TGALoader.cpp
 #	$(BUILDCMD) TGALoader.o $^
 SectorMap.o: ../cubicvr/source/SectorMap.cpp

@@ -29,7 +29,7 @@
 
 #include <CubicVR/cvr_defines.h>
 #include <CubicVR/XYZ.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 #include <CubicVR/SceneObject.h>
 
 #define CONSTRAINT_NULL 0
@@ -84,7 +84,7 @@ public:
 	virtual void initialize(btDiscreteDynamicsWorld &dynamicsWorld_in);
 	virtual void evaluate();
 	
-	virtual void render(Shader &renderer, int stage, bool initShadowMatrix = false, bool no_pivot = false, bool no_scale = false);
+	virtual void render(Renderer &renderer, int stage, bool initShadowMatrix = false, bool no_pivot = false, bool no_scale = false);
 
 	
 	inline void copyCollision(RigidSceneObject &rigid_obj_in)

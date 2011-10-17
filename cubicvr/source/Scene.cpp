@@ -1404,13 +1404,13 @@ void Scene::process()
 
 }
 
-void Scene::renderStage(Shader &renderer, int stage)
+void Scene::renderStage(Renderer &renderer, int stage)
 {
 	std::vector<Light *> tmp;
 	std::set<SceneObject *>::iterator obj_i;
 //	Logger::log("%d\n",active_sceneobjs.size());
 #ifndef ARCH_PSP
-	CacheShader::lockObj = NULL;
+	VertexBufferRenderer::lockObj = NULL;
 #endif
 	
 	switch (stage)
@@ -1550,7 +1550,7 @@ bool Scene::renderShadowVolumes()
 			
 			//	Logger::log("%d\n",active_sceneobjs.size());
 			
-			CacheShader::lockObj = NULL;
+			VertexBufferRenderer::lockObj = NULL;
 			
 			glColorMask(false,false,false,false);
 			for (obj_i = shadow_sceneobjs.begin(); obj_i != shadow_sceneobjs.end(); obj_i++)
@@ -1616,7 +1616,7 @@ bool Scene::renderShadowVolumes()
 				
 				//	Logger::log("%d\n",active_sceneobjs.size());
 				
-				CacheShader::lockObj = NULL;
+				VertexBufferRenderer::lockObj = NULL;
 				
 				glColorMask(false,false,false,false);
 				for (obj_i = shadow_sceneobjs.begin(); obj_i != shadow_sceneobjs.end(); obj_i++)

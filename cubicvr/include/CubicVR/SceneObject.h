@@ -29,7 +29,7 @@
 #include <CubicVR/cvr_defines.h>
 
 #include <CubicVR/Motion.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 #include <CubicVR/ObjectController.h>
 #include <CubicVR/CollisionMap.h>
 #ifndef ARCH_DC
@@ -157,7 +157,7 @@ public:
 
 	bool hasParent();
 	
-	virtual void render(Shader &renderer, int stage, bool initShadowMatrix = false, bool no_pivot = false, bool no_scale = false);
+	virtual void render(Renderer &renderer, int stage, bool initShadowMatrix = false, bool no_pivot = false, bool no_scale = false);
 	
 	virtual void calcVisibility(const XYZ & camPosition, FRUSTUM &frustum);
 	
@@ -187,7 +187,7 @@ public:
 	va_rgb *dynamic_colors;
 
 	void buildVertexLightMap();
-	void calcVertexLightMap(Shader &renderer);
+	void calcVertexLightMap(Renderer &renderer);
 #endif
 
 	bool aabbIntersect(XYZ &aabbMin1_in, XYZ &aabbMax1_in, XYZ &aabbMin2_in, XYZ &aabbMax2_in, XYZ &aabbMinI_out, XYZ &aabbMaxI_out);

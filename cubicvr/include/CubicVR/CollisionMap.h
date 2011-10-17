@@ -27,7 +27,7 @@
 
 #include <CubicVR/Mesh.h>
 #include <CubicVR/Transform.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 //#include <CubicVR/SceneObject.h>
 #include <vector>
 #include <btBulletDynamicsCommon.h>
@@ -65,7 +65,7 @@ public:
 	Transform *trans;
 #ifndef ARCH_PSP
 #ifndef OPENGL_ES
-	LineShader cmapShader;
+	LineRenderer cmapShader;
 #endif
 #endif
 	unsigned int activeSphereSet;

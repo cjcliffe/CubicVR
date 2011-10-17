@@ -1368,7 +1368,7 @@ void BSP::buildSingleCluster()
 
 //DRAWING FUNCTIONS
 //Draw all faces marked as visible
-void BSP::DrawGLSL(ObjectShader &shader)
+void BSP::DrawGLSL(MeshRenderer &shader)
 {
 	if (single_cluster)
 	{

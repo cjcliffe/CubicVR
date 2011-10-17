@@ -1,6 +1,5 @@
 #include <CubicVR/GLExt.h>
 #include <CubicVR/Mesh.h>
-#include <CubicVR/Shader.h>
 #include <CubicVR/Material.h>
 #include <CubicVR/UVMapper.h>
 #include <CubicVR/Timer.h>

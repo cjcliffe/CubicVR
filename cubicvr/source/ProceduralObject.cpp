@@ -72,7 +72,7 @@ void ProceduralObject::generateLathe(std::vector<XYZ> &pointList, unsigned int l
 	
 	
 	//		if (needs_regen) regenerate();
-	if (CacheShader::lockObj == this) CacheShader::lockObj = NULL;
+	if (VertexBufferRenderer::lockObj == this) VertexBufferRenderer::lockObj = NULL;
 	bool bUpdate = false;
 	
 	if (lastDivisions == lathe_divisions && lastPoints.size() == pointList.size() && dynamicUpdate)

@@ -26,7 +26,7 @@
 #include <CubicVR/BITSET.h>
 #include <CubicVR/FRUSTUM.h>
 #include <CubicVR/Material.h>
-#include <CubicVR/Shader.h>
+#include <CubicVR/Renderer.h>
 
 //Directory entry in header
 class BSP_DIRECTORY_ENTRY
@@ -308,7 +308,7 @@ public:
 //	void buildClusterObjects();
 	void buildSingleCluster();
 
-	void DrawGLSL(ObjectShader &shader);
+	void DrawGLSL(MeshRenderer &shader);
 
 	inline void setLightMapGamma(float gamma_val) { gamma=gamma_val; };
 

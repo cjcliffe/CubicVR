@@ -98,7 +98,7 @@ SET(CubicVR_SRCS
   source/SceneObjects/Vehicle.cpp
   # source/Script.cpp
   source/SectorMap.cpp
-  source/Shader.cpp
+  source/Renderer.cpp
   source/SoftScene.cpp
   source/StringTokenizer.cpp
   source/StringUtil.cpp
@@ -193,7 +193,7 @@ SET (CubicVR_HDRS
   include/CubicVR/SceneObjects/Vehicle.h
   # include/CubicVR/Script.h
   include/CubicVR/SectorMap.h
-  include/CubicVR/Shader.h
+  include/CubicVR/Renderer.h
   include/CubicVR/SoftScene.h
   include/CubicVR/StringTokenizer.h
   include/CubicVR/StringUtil.h

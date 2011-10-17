@@ -326,7 +326,7 @@ public:
 	Vehicle ();
 	Vehicle (Mesh &carObj_in, Mesh &carCollisionObj_in);
 	virtual void initialize(btDiscreteDynamicsWorld &dynamicsWorld_in);
-	virtual void render(Shader &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale);
+	virtual void render(Renderer &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale);
 	virtual void evaluate();
 	void setEngineForce(float engineForce);
 	void setSteering(float steering);

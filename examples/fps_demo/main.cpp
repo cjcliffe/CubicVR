@@ -27,7 +27,7 @@ bool bFullscreen = false;
 #define kWindowHeight	720
 Camera myCamera(kWindowWidth,kWindowHeight, 65, 0.01, 1000);
 
-ObjectShader myShader;
+MeshRenderer myShader;
 RigidScene myScene(kWindowWidth,kWindowHeight);
 Light myLight;
 Mesh myBoxObj;

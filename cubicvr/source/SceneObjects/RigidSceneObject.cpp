@@ -356,7 +356,7 @@ bool RigidSceneObject::hasParent()
 	return (rigid_parent != NULL || parent != NULL);
 };
 
-void RigidSceneObject::render(Shader &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
+void RigidSceneObject::render(Renderer &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale)
 {	
 	std::set<RigidSceneObject *>::iterator children_i;
 

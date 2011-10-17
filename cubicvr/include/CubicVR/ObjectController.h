@@ -31,7 +31,7 @@
 
 #include <CubicVR/XYZ.h>
 #include <CubicVR/Mesh.h>
-//#include <CubicVR/Shader.h>
+//#include <CubicVR/Renderer.h>
 //#include <CubicVR/Envelope.h>
 
 #ifdef ARCH_PSP
