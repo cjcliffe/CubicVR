@@ -33,7 +33,6 @@
 
 #include <vector>
 
-#include <CubicVR/XYZRGB.h>
 #include <CubicVR/Vector.h>
 #include <CubicVR/Material.h>
 #include <CubicVR/UV.h>

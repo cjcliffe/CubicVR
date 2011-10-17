@@ -1794,7 +1794,7 @@ static int find_next_rst_marker(struct jdec_private *priv)
      else if (marker == EOI)
        return 0;
    }
-  trace("RST Marker %d found at offset %d\n", priv->last_rst_marker_seen, stream - priv->stream_begin);
+  trace("RST Marker %d found at offset %li\n", priv->last_rst_marker_seen, stream - priv->stream_begin);
 
   priv->stream = stream;
   priv->last_rst_marker_seen++;
@@ -2121,7 +2121,7 @@ int tinyjpeg_decode(struct jdec_private *priv, int pixfmt)
    }
 
   trace("Input file size: %d\n", priv->stream_length+2);
-  trace("Input bytes actually read: %d\n", priv->stream - priv->stream_begin + 2);
+  trace("Input bytes actually read: %li\n", priv->stream - priv->stream_begin + 2);
 
   return 0;
 }

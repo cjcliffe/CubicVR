@@ -114,7 +114,6 @@ SET(CubicVR_SRCS
   source/UVMapper.cpp
   source/Vector.cpp
   source/XYZ.cpp
-  source/XYZRGB.cpp
 )
 
 SET (CubicVR_HDRS
@@ -208,7 +207,6 @@ SET (CubicVR_HDRS
   include/CubicVR/UVMapper.h
   include/CubicVR/Vector.h
   include/CubicVR/XYZ.h
-  include/CubicVR/XYZRGB.h
 )
 
 

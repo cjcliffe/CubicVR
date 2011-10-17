@@ -30,7 +30,6 @@
 #include <CubicVR/GLExt.h>
 
 #include <CubicVR/Vector.h>
-#include <CubicVR/XYZRGB.h>
 #include <CubicVR/Face.h>
 #include <CubicVR/Material.h>
 #include <CubicVR/BITSET.h>

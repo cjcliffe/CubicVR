@@ -40,7 +40,6 @@
 #include <CubicVR/Light.h>
 
 #include <CubicVR/GLExt.h>
-#include <CubicVR/XYZRGB.h>
 #include <CubicVR/Timer.h>
 #include <CubicVR/Material.h>
 #include <CubicVR/UVMapper.h>
