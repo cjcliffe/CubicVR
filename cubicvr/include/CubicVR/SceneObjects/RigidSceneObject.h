@@ -49,7 +49,7 @@ protected:
 	btTransform objTrans;
 	float rigidMargin;
 		
-	Object *cmap_obj;
+	Mesh *cmap_obj;
 
 	bool constraints_setup;
 	std::set<RigidSceneObject *> rigid_children;
@@ -67,15 +67,15 @@ public:
 
 	static void QuaternionToEulerXYZ(const btQuaternion &quat,XYZ &euler);
 	RigidSceneObject();
-	RigidSceneObject(Object &obj_in);
-	RigidSceneObject(Object &obj_in,Object &collision_obj);
+	RigidSceneObject(Mesh &obj_in);
+	RigidSceneObject(Mesh &obj_in,Mesh &collision_obj);
 	
 	void setMass(float mass_in);
 	void setRestitution(float restitution_in);
 	void setFriction(float friction_in);
 	void setMargin(float rigidMargin_in);
 	
-	void bindCollisionMap(Object &cmap_in);
+	void bindCollisionMap(Mesh &cmap_in);
 	void bindCollisionMap(CollisionMap &cmap_in);
 	void bindCollisionShape(btCollisionShape &colShape_in);
 	

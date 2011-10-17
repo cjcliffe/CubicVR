@@ -41,7 +41,7 @@ class RigidSphere : public RigidSceneObject
 	
 public:
 	RigidSphere();
-	RigidSphere(Object &obj);
+	RigidSphere(Mesh &obj);
 
 	virtual void initialize(btDiscreteDynamicsWorld &dynamicsWorld_in);
 };

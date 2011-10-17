@@ -245,7 +245,7 @@ void CollisionMap::render()
 
 
 
-typedef enum SceneObjectArrayParamShadow
+enum SceneObjectArrayParamShadow
 {
 	OBJ_ARRAY_RIGHT = 0,
 	OBJ_ARRAY_UP,
@@ -293,7 +293,7 @@ btCollisionShape *CollisionMap::makeCollisionShape(float mass, const XYZ &scale,
 	
 	if (mTriMeshShape) return mTriMeshShape;
 	
-	Object *obj = meshes[0];
+	Mesh *obj = meshes[0];
 
 	btTriangleMesh *mTriMesh = new btTriangleMesh();
 	
@@ -406,11 +406,11 @@ btCollisionShape *CollisionMap::makeCollisionShape(float mass, const XYZ &scale,
 }
 
 
-void CollisionMap::addMesh(Object &mesh_obj)
+void CollisionMap::addMesh(Mesh &mesh_obj)
 {
-	Object *obj_temp;
+	Mesh *obj_temp;
 	
-	obj_temp = new Object();
+	obj_temp = new Mesh();
 	
 	obj_temp->cloneStructure(mesh_obj);
 #ifndef ARCH_PSP
@@ -428,7 +428,7 @@ void CollisionMap::addMesh(Object &mesh_obj)
 
 void CollisionMap::compileSphereMap(float nominal_rad)
 {
-	vector < Object * >::iterator meshes_i;
+	vector < Mesh * >::iterator meshes_i;
 	vector < Face * >::iterator faces_i;
 	vector < XYZ * >::iterator points_i;
 	

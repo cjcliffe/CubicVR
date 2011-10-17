@@ -35,13 +35,13 @@ UVMapper::~UVMapper()
 
 }
 
-void UVMapper::apply(Object &obj, Material *materialRef)
+void UVMapper::apply(Mesh &obj, Material *materialRef)
 {
 	apply(obj, materialRef, 0);
 }
 
 
-void UVMapper::apply(Object &obj, Material *materialRef, unsigned short layerRef)
+void UVMapper::apply(Mesh &obj, Material *materialRef, unsigned short layerRef)
 {
 	float u,v,s,t;
 	Vector normal;

@@ -2096,7 +2096,7 @@ void Scene::renderDeferredLighting()
 			
 			if ((*active_light_i)->has_shadow)
 			{				
-				char *mapNames[8] = { "shadowMap0", "shadowMap1", "shadowMap2", "shadowMap3", "shadowMap4", "shadowMap5", "shadowMap6", "shadowMap7" }; 
+				const char *mapNames[8] = { "shadowMap0", "shadowMap1", "shadowMap2", "shadowMap3", "shadowMap4", "shadowMap5", "shadowMap6", "shadowMap7" };
 				
 //				printf("[%d]",(*active_light_i)->type);
 				

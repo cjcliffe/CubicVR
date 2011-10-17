@@ -33,7 +33,7 @@ RigidBox::RigidBox() : RigidSceneObject()
 {
 }
 
-RigidBox::RigidBox(Object &obj) : RigidSceneObject(obj)
+RigidBox::RigidBox(Mesh &obj) : RigidSceneObject(obj)
 {
 	
 }

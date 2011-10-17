@@ -42,14 +42,14 @@ RigidSceneObject::RigidSceneObject():mass(1.0f),restitution(0.0f),friction(0.5f)
 }
 
 
-RigidSceneObject::RigidSceneObject(Object &obj_in):mass(1.0f),restitution(0.0f),friction(0.5f),colShape(NULL),mRigidBody(NULL),constraints_setup(false),rigid_parent(false),rigidMargin(0)
+RigidSceneObject::RigidSceneObject(Mesh &obj_in):mass(1.0f),restitution(0.0f),friction(0.5f),colShape(NULL),mRigidBody(NULL),constraints_setup(false),rigid_parent(false),rigidMargin(0)
 {
 	obj = &obj_in;
 	cmap_obj = &obj_in;
 }
 
 
-RigidSceneObject::RigidSceneObject(Object &obj_in,Object &collision_obj):mass(1.0f),restitution(0.0f),friction(0.5f),colShape(NULL),mRigidBody(NULL),constraints_setup(false),rigid_parent(false),rigidMargin(0)
+RigidSceneObject::RigidSceneObject(Mesh &obj_in,Mesh &collision_obj):mass(1.0f),restitution(0.0f),friction(0.5f),colShape(NULL),mRigidBody(NULL),constraints_setup(false),rigid_parent(false),rigidMargin(0)
 {
 	obj = &obj_in;
 	cmap_obj = &collision_obj;
@@ -74,7 +74,7 @@ void RigidSceneObject::setFriction(float friction_in)
 
 
 
-void RigidSceneObject::bindCollisionMap(Object &cmap_in)
+void RigidSceneObject::bindCollisionMap(Mesh &cmap_in)
 {
 	cmap_obj = &cmap_in;
 }

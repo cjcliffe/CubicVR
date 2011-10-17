@@ -35,7 +35,7 @@ IMPEXP void loadLWS(Scene &scene, const std::string fn, MapString *mapStr)
 {
 	int motionType = NO_MOTION;
 	//int newObj = -1, newCam = -1, newLight = -1, newBone = -1;
-	Object *newObj;
+	Mesh *newObj;
 	Camera *newCam;
 	Light *newLight;
 	
@@ -52,7 +52,7 @@ IMPEXP void loadLWS(Scene &scene, const std::string fn, MapString *mapStr)
 	map<string, SceneObject *, string_less> sceneObj_ref;	// scene target # => instance target # maps
 	map<string, Light *, string_less> light_ref;	
 	map<string, unsigned int, string_less> bone_ref;	
-	map<string, Object *, string_less> obj_ref;
+	map<string, Mesh *, string_less> obj_ref;
 	
 	vector<string> parentRef;
 	vector<SceneObject *> childRef;
@@ -537,7 +537,7 @@ IMPEXP void loadLWS(Scene &scene, const std::string fn, MapString *mapStr)
 			
 			if ((obj_ref.find(objFnTrimmed) == obj_ref.end()) && objFnTrimmed.length()) // see if we've already loaded this one
 			{
-				newObj = new Object();
+				newObj = new Mesh();
 				obj_ref[objFnTrimmed] = newObj;
 
 				loadLWO(*newObj,objFnTrimmed,mapStr);

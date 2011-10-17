@@ -33,12 +33,12 @@ SoftSceneObject::SoftSceneObject(): bind_obj(NULL)
 }
 
 
-SoftSceneObject::SoftSceneObject(Object &obj_in): bind_obj(NULL)
+SoftSceneObject::SoftSceneObject(Mesh &obj_in): bind_obj(NULL)
 {
 	bind(obj_in);
 }
 
-void SoftSceneObject::bind(Object &obj_in)
+void SoftSceneObject::bind(Mesh &obj_in)
 {
 	obj = &soft_obj;
 	cmap_obj = &soft_obj;

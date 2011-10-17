@@ -25,7 +25,7 @@
 #include <CubicVR/Shader.h>
 
 #ifndef ARCH_PSP
-Object *CacheShader::lockObj = NULL;
+Mesh *CacheShader::lockObj = NULL;
 #endif
 
 //void Shader::bind(Light &lightObj)
@@ -42,7 +42,7 @@ Object *CacheShader::lockObj = NULL;
 //}
 										  
 
-void VertexColorShader::render(Object &obj, int stage)
+void VertexColorShader::render(Mesh &obj, int stage)
 {
 	glDisable(GL_LIGHTING);
 
@@ -329,7 +329,7 @@ void LineShader::render(Object &obj, int stage)
 */
 
 
-void LineShader::render(Object &obj, int stage)
+void LineShader::render(Mesh &obj, int stage)
 {
 	glDisable(GL_LIGHTING);
 
@@ -460,7 +460,7 @@ void PSPShader::render(Object &obj, int stage)
 #define glDrawRangeElements(a,b,c,d,e,f) glDrawElements(a,d,e,f)
 #endif
 
-void CacheShader::render(Object &obj, int stage)
+void CacheShader::render(Mesh &obj, int stage)
 {
 	#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 	
@@ -990,7 +990,7 @@ void CacheShader::render(Object &obj, int stage)
 
 #ifndef ARCH_PSP
 
-void CacheShader::setup(Object &obj, bool init_texcoord)
+void CacheShader::setup(Mesh &obj, bool init_texcoord)
 {
 	// special lights which have been bound that contribute to texturing 
 //	unsigned int tex_offset = Texture::tex_use+1;
@@ -1074,7 +1074,7 @@ void CacheShader::setup(Object &obj, bool init_texcoord)
 
 
 #if  !defined(OPENGL_ES) && !defined(ARCH_PSP)
-void ShadowShader::render(Object &obj, int stage)
+void ShadowShader::render(Mesh &obj, int stage)
 {
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 	
@@ -1314,7 +1314,7 @@ void ShadowShader::render(Object &obj, int stage)
 
 #if !defined(OPENGL_ES) && !defined(ARCH_PSP)
 
-void RegularShader::render(Object &obj, int stage)
+void RegularShader::render(Mesh &obj, int stage)
 {
 	//	map<cvrIndex, map< unsigned int, map<unsigned short, set<cvrIndex>, ltushort>, ltuint >, ltindex> mat_reflist;
 
@@ -1475,7 +1475,7 @@ void ObjectShader::bind(std::set<Light *> *lights_in)
 #endif
 };
 
-void ObjectShader::render(Object &obj, int stage)
+void ObjectShader::render(Mesh &obj, int stage)
 {
 	if (obj.cache_state)
 	{

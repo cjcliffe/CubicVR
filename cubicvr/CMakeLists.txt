@@ -65,7 +65,7 @@ SET(CubicVR_SRCS
   # source/networklib/Socket.cpp
   # source/networklib/Socket.h
   # source/networklib/test.cpp
-  source/Object.cpp
+  source/Mesh.cpp
   source/ObjectController.cpp
   source/objectLWO.cpp
   source/Particle.cpp
@@ -161,7 +161,7 @@ SET (CubicVR_HDRS
   # include/CubicVR/networklib/Socket.h
   # include/CubicVR/networklib/Socket.h
   # include/CubicVR/networklib/test.h
-  include/CubicVR/Object.h
+  include/CubicVR/Mesh.h
   include/CubicVR/ObjectController.h
   include/CubicVR/objectLWO.h
   include/CubicVR/Particle.h

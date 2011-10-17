@@ -138,7 +138,7 @@ extern "C" {
 
 #endif
 	
-typedef struct profiler_ent
+struct profiler_ent
 {
 	int shaderval_count;
 	int object_count;

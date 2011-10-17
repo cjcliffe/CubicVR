@@ -42,7 +42,7 @@
 #include <vector>
 
 
-typedef enum SceneObjectArrayParam
+enum SceneObjectArrayParam
 {
 	OBJ_ARRAY_RIGHT = 0,
 	OBJ_ARRAY_UP,
@@ -74,7 +74,7 @@ public:
 	
 	SceneObject *parent;
 	CollisionMap *cmap;
-	Object *obj;
+	Mesh *obj;
 	BoneSet *bones;
 	BITSET *segmentMask;
 	
@@ -102,7 +102,7 @@ public:
 #endif
 	
 	SceneObject();
-	SceneObject(Object &obj_in);	
+	SceneObject(Mesh &obj_in);	
 	~SceneObject();
 
 	// Resource Management
@@ -150,7 +150,7 @@ public:
 	
 	std::vector<SectorLoc> &getSectorRef();
 
-	void bind(Object &obj_in);
+	void bind(Mesh &obj_in);
 	void bindChild(SceneObject &sceneobj_in);
 	void unbindChild(SceneObject &sceneobj_in);
 	void bindParent(SceneObject &sceneObj_in);
@@ -180,7 +180,7 @@ public:
 	void visible(bool state) { isvisible = state; };
 	bool visible() { return isvisible; };
 	
-	void setCollisionMap(Object *objMap = NULL);
+	void setCollisionMap(Mesh *objMap = NULL);
 	void compileSphereMap(float nominal_rad);
 
 #ifndef ARCH_PSP

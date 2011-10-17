@@ -14,7 +14,7 @@ Camera myCamera(kWindowWidth,kWindowHeight, 60, 1, 300);
 ObjectShader myShader;
 Scene myScene(kWindowWidth,kWindowHeight);
 Light myLight;
-Object myBoxObj;
+Mesh myBoxObj;
 SceneObject mySceneObj;
 
 
@@ -23,7 +23,7 @@ GLvoid DrawGLScene(void);
 GLvoid ReSizeGLScene(int Width, int Height);
 
 
-void makeBox(Object &boxObj, float box_size, Material *box_mat)
+void makeBox(Mesh &boxObj, float box_size, Material *box_mat)
 {
 	float half_box = box_size/2.0;
 	

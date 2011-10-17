@@ -86,7 +86,7 @@ IMPEXP void getResourcesLWO(vector<string> &fnList, const string &fn)
 
 
 
-IMPEXP void loadLWO(Object &obj, const string &fn, MapString *mapStr, map<Material *,UVMapper *> *mappers_out)
+IMPEXP void loadLWO(Mesh &obj, const string &fn, MapString *mapStr, map<Material *,UVMapper *> *mappers_out)
 {
 	unsigned int i;
 	IFFReader lwo_data;

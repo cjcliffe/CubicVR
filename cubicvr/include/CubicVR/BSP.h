@@ -21,7 +21,7 @@
 #ifndef BSP_H
 #define BSP_H
 
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/GLExt.h>
 #include <CubicVR/BITSET.h>
 #include <CubicVR/FRUSTUM.h>
@@ -328,7 +328,7 @@ public:
 	int numVertices;
 	BSP_VERTEX * vertices;
 //	std::vector<Object *> clusterObjects;
-	Object clusterObject;
+	Mesh clusterObject;
 	
 	bool LoadVertices(FILE * file);
 

@@ -41,7 +41,7 @@ class RigidBox : public RigidSceneObject
 	
 public:
 	RigidBox();
-	RigidBox(Object &obj);
+	RigidBox(Mesh &obj);
 	
 	virtual void initialize(btDiscreteDynamicsWorld &dynamicsWorld_in);
 

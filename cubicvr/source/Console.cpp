@@ -31,7 +31,7 @@ Console::Console(unsigned int consoleWidth_in, unsigned int consoleHeight_in, Ma
 	
 	if (uiMaterial != 0)
 	{
-		obj = new Object();
+		obj = new Mesh();
 		
 		obj->addFace();
 		obj->bindFaceMaterial(uiMaterial);
@@ -58,7 +58,7 @@ Console::Console(unsigned int consoleWidth_in, unsigned int consoleHeight_in, Ma
 	
 	for (i = 0; i < 256; i++)
 	{
-		uiFontLetterObjs[i] = new Object();
+		uiFontLetterObjs[i] = new Mesh();
 		makeLetter(*uiFontLetterObjs[i],i,fontMaterial);
 	}
 
@@ -165,7 +165,7 @@ void Console::refreshConsole()
 
 }
 
-void Console::makeLetter(Object &obj, unsigned short charnum, Material *fontMaterial)
+void Console::makeLetter(Mesh &obj, unsigned short charnum, Material *fontMaterial)
 {
 	cvrFloat u_step = 1.0f/16.0f;	// 16 x 16 font grid
 	cvrFloat v_step = 1.0f/16.0f;

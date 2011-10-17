@@ -31,7 +31,7 @@ RigidSphere::RigidSphere() : RigidSceneObject()
 	
 }
 
-RigidSphere::RigidSphere(Object &obj) : RigidSceneObject(obj)
+RigidSphere::RigidSphere(Mesh &obj) : RigidSceneObject(obj)
 {
 	
 }

@@ -32,7 +32,7 @@
 #include <CubicVR/Light.h>
 #include <CubicVR/AreaLight.h>
 
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 
 #define SHADER_STAGE_NULL	0
 #define SHADER_STAGE_OPAQUE	1
@@ -52,7 +52,7 @@ class IMPEXP Shader
 		
 		Shader();
 		virtual ~Shader() {};
-		virtual void render(Object &obj, int stage = SHADER_STAGE_NULL) = 0;
+		virtual void render(Mesh &obj, int stage = SHADER_STAGE_NULL) = 0;
 
 //		void bind(Light &lightObj);
 		inline void bind(std::set<Light *> *lights_in) { lights = lights_in; };
@@ -82,25 +82,25 @@ class IMPEXP Shader
 class IMPEXP LineShader : public Shader
 {
 	public:
-		void render(Object &obj, int stage = SHADER_STAGE_NULL);
+		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
 class IMPEXP VertexColorShader : public Shader
 {
 	public:
-		void render(Object &obj, int stage = SHADER_STAGE_NULL);
+		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
 class IMPEXP ShadowShader : public Shader
 {
 public:
-	void render(Object &obj, int stage = SHADER_STAGE_NULL);
+	void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
 class IMPEXP RegularShader : public Shader
 {
 public:
-	void render(Object &obj, int stage = SHADER_STAGE_NULL);
+	void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
 #endif
@@ -110,11 +110,11 @@ class IMPEXP CacheShader : public Shader	/* todo: commenting */
 	public:
 	
 #ifndef ARCH_PSP
-		static Object *lockObj;	// if we draw the same object more than once consecutively this will avoid some context switching
-		static void setup(Object &obj, bool init_texcoord);
+		static Mesh *lockObj;	// if we draw the same object more than once consecutively this will avoid some context switching
+		static void setup(Mesh &obj, bool init_texcoord);
 #endif
 
-		void render(Object &obj, int stage = SHADER_STAGE_NULL);
+		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
 //#endif
@@ -136,7 +136,7 @@ class IMPEXP ObjectShader : public Shader	// determines whehter the object is ca
 	
 	public:
 		void bind(std::set<Light *> *lights_in);
-		void render(Object &obj, int stage = SHADER_STAGE_NULL);
+		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
 

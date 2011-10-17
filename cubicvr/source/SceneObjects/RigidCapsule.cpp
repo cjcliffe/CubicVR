@@ -33,7 +33,7 @@ RigidCapsule::RigidCapsule() : RigidSceneObject()
 {
 }
 
-RigidCapsule::RigidCapsule(Object &obj) : RigidSceneObject(obj)
+RigidCapsule::RigidCapsule(Mesh &obj) : RigidSceneObject(obj)
 {
 	
 }

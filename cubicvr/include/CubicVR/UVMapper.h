@@ -29,7 +29,7 @@
 
 #include <CubicVR/XYZ.h>
 #include <CubicVR/Vector.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 
 
 /* Projection enums */
@@ -71,14 +71,13 @@ public:
 	~UVMapper();
 	
 	/// Apply this UVMapper to object obj on material materialRef to texture layer layerRef
-	void apply(Object &obj, Material *materialRef, unsigned short layerRef);
+	void apply(Mesh &obj, Material *materialRef, unsigned short layerRef);
 	/// Apply this UVMapper to object obj on material materialRef to texture layer 0
-	void apply(Object &obj, Material *materialRef);
+	void apply(Mesh &obj, Material *materialRef);
 	
 	/// Get a U & V value for a point (all except cubic which requires surface normals 
 	void getUV(XYZ &point_in, UV &uv_out);
 	
-	/* these all work identically to lightwave's surface dialog */
 	void setProjection(unsigned short proj_in);
 	void setAxis(unsigned short axis_in);
 	void setWrap(float w_in, float h_in);

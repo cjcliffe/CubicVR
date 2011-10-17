@@ -47,7 +47,7 @@ SceneObject::SceneObject() : obj(NULL), parent(NULL), shadow_self(true), shadow_
 };
 
 
-SceneObject::SceneObject(Object &obj_in) : parent(NULL), shadow_self(true), shadow_cast(true), shadow_receive(true), isvisible(true), cmap(NULL),  active(true), bones(NULL), segmentMask(NULL), hasVisibility(false), aabbMin(0,0,0), aabbMax(0,0,0)
+SceneObject::SceneObject(Mesh &obj_in) : parent(NULL), shadow_self(true), shadow_cast(true), shadow_receive(true), isvisible(true), cmap(NULL),  active(true), bones(NULL), segmentMask(NULL), hasVisibility(false), aabbMin(0,0,0), aabbMax(0,0,0)
 #ifndef ARCH_PSP
 	,dynamic_colors(NULL)
 #endif
@@ -93,7 +93,7 @@ Resource *SceneObject::upcast(ResourceManager *rm_in, Resource *res_in)
 	{
 		if (rm_in->hasResource(new_obj->getModelType(),new_obj->getModelId()))
 		{
-			Object *bindModel = (Object *)rm_in->upcast(&rm_in->getResource(new_obj->getModelType(),new_obj->getModelId()));
+			Mesh *bindModel = (Mesh *)rm_in->upcast(&rm_in->getResource(new_obj->getModelType(),new_obj->getModelId()));
 			if (!bindModel->isInitialized()) bindModel->init();
 			new_obj->bind(*bindModel);
 		}	
@@ -245,13 +245,13 @@ void SceneObject::setModelType(const string &m_type)
 };
 
 
-void SceneObject::setCollisionMap(Object *objMap)
+void SceneObject::setCollisionMap(Mesh *objMap)
 {
 	if (objMap == NULL)
 	{
 		if (obj == NULL) return;
 		
-		objMap = new Object();
+		objMap = new Mesh();
 		objMap->cloneStructure(*obj);
 #if !defined(ARCH_PSP) && !defined(ARCH_DC) && !defined(OPENGL_ES)
 		objMap->triangulate();
@@ -481,7 +481,7 @@ float SceneObject::read_control(int controllerId, int motionId)
 };
 
 
-void SceneObject::bind(Object &obj_in)
+void SceneObject::bind(Mesh &obj_in)
 {
 	obj = &obj_in;
 	if (obj)

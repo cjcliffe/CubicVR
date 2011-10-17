@@ -25,7 +25,7 @@
 #ifndef CUBICVR_COLLISIONMAP
 #define CUBICVR_COLLISIONMAP
 
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/Transform.h>
 #include <CubicVR/Shader.h>
 //#include <CubicVR/SceneObject.h>
@@ -58,7 +58,7 @@ class CollisionMap
 public:
 	btCollisionShape *mTriMeshShape;
 	
-	std::vector<Object *> meshes;
+	std::vector<Mesh *> meshes;
 	std::vector<std::vector<collision_sphere *>* > spheres;
 	std::vector<collision_box *> bboxes;
 	std::map< cvrIndex, std::map< cvrIndex, cvrIndex, ltindex >, ltindex > sphere_map;
@@ -79,7 +79,7 @@ public:
 	void render();
 #endif
 
-	void addMesh(Object &mesh_obj);
+	void addMesh(Mesh &mesh_obj);
 	void addBoundingBox(cvrFloat xmin, cvrFloat xmax, cvrFloat ymin, cvrFloat ymax, cvrFloat zmin, cvrFloat zmax);
 	void addSphere(XYZ &center, cvrFloat radius, cvrIndex faceNum = -1);
 	void processSpheres(float nominal_rad = CMAP_SPHERE_NOMINAL);

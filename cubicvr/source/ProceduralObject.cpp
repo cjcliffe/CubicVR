@@ -26,7 +26,7 @@
 #if !defined(ARCH_PSP)
 #include <CubicVR/ProceduralObject.h>
 
-ProceduralObject::ProceduralObject(): Object(), needs_regen(true), generated(false), mat(0)
+ProceduralObject::ProceduralObject(): Mesh(), needs_regen(true), generated(false), mat(0)
 {
 };
 

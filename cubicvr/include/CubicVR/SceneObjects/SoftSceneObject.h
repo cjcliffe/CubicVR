@@ -42,14 +42,14 @@ protected:
 	btSoftBodyWorldInfo	*softBodyWorldInfo;
 	int *indicies;
 	btScalar *verticies;
-	Object soft_obj;
-	Object *bind_obj;
+	Mesh soft_obj;
+	Mesh *bind_obj;
 
 public:
 	SoftSceneObject();
-	SoftSceneObject(Object &obj_in);
+	SoftSceneObject(Mesh &obj_in);
 
-	virtual void bind(Object &obj_in);
+	virtual void bind(Mesh &obj_in);
 	
 	void initialize(btSoftRigidDynamicsWorld &dynamicsWorld_in, btSoftBodyWorldInfo &softBodyWorldInfo_in);
 	virtual void evaluate();

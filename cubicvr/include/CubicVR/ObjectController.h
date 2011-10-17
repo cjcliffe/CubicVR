@@ -30,7 +30,7 @@
 #include <CubicVR/GLExt.h>
 
 #include <CubicVR/XYZ.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 //#include <CubicVR/Shader.h>
 //#include <CubicVR/Envelope.h>
 

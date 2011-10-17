@@ -29,7 +29,7 @@
 #include <CubicVR/Texture.h>
 #include <vector>
 
-typedef enum ProceduralTextureBlendMode
+enum ProceduralTextureBlendMode
 {
 	BLEND_NORMAL,
 	BLEND_ADD,
@@ -39,7 +39,7 @@ typedef enum ProceduralTextureBlendMode
 	//	LIGHT
 };
 
-typedef enum ProceduralTextureFormat
+enum ProceduralTextureFormat
 {
 	FORMAT_RGB,
 	FORMAT_RGBA,

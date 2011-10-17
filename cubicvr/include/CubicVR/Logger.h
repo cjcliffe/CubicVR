@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-typedef enum logLevel
+enum logLevel
 {
 		LOG_DEBUG  = 0,
 		LOG_WARNING = 1,

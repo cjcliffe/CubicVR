@@ -24,7 +24,7 @@
 
 #include <CubicVR/ResourceManager.h>
 #include <CubicVR/Resource.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/SceneObject.h>
 #include <CubicVR/SceneObjects/Vehicle.h>
 
@@ -36,7 +36,7 @@ ResourceManagerInit ResourceManager::function_initializer = ResourceManagerInit(
 ResourceManagerInit::ResourceManagerInit()
 {
 	// Initialize known casting functions
-	ResourceManager::addCastFunc("model",Object::upcast);
+	ResourceManager::addCastFunc("model",Mesh::upcast);
 	ResourceManager::addCastFunc("sceneobject",SceneObject::upcast);
 	ResourceManager::addCastFunc("sceneobject.vehicle",Vehicle::upcast);
 }

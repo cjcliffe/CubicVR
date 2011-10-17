@@ -2,7 +2,7 @@
 #include <CubicVR/UVMapper.h>
 #include <CubicVR/RigidScene.h>
 #include <CubicVR/Timer.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/objectLWO.h>
 #include <CubicVR/SceneObjects/RigidSceneObject.h>
 #include <CubicVR/SceneObjects/RigidCapsule.h>
@@ -30,7 +30,7 @@ Camera myCamera(kWindowWidth,kWindowHeight, 65, 0.01, 1000);
 ObjectShader myShader;
 RigidScene myScene(kWindowWidth,kWindowHeight);
 Light myLight;
-Object myBoxObj;
+Mesh myBoxObj;
 RigidCapsule playerObj;
 Timer sceneTimer;
 BSPSceneObject *bsp;
@@ -51,7 +51,7 @@ bool specialKey[256];
 void InitGL(void);
 void DrawGLScene(void);
 void ReSizeGLScene(int Width, int Height);
-void makeBox(Object &boxObj, float box_size, unsigned int box_mat);
+void makeBox(Mesh &boxObj, float box_size, unsigned int box_mat);
 
 
 Material *particleMat;
@@ -118,15 +118,15 @@ protected:
 GroundTest *rayCallback;
 
 
-Object *grenadeObj;
-Object *grenadeObj_cmap;
+Mesh *grenadeObj;
+Mesh *grenadeObj_cmap;
 RigidSceneObject *grenade_template;
 std::set<Grenade *> grenades;
 
 void loadGrenadeModel()
 {	
-	grenadeObj = new Object();
-	grenadeObj_cmap = new Object();
+	grenadeObj = new Mesh();
+	grenadeObj_cmap = new Mesh();
 	
 //	loadLWO(*grenadeObj,"grenade.lwo");
 //	loadLWO(*grenadeObj_cmap,"grenade_cmap.lwo");

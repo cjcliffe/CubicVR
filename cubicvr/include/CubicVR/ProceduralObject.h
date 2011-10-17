@@ -26,7 +26,7 @@
  */
 
 
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/Vector.h>
 #include <CubicVR/UVMapper.h>
 #include <CubicVR/Shader.h>
@@ -35,7 +35,7 @@
 #define PROCEDURAL_LATHE 10
 #define PROCEDURAL_EXTRUDE 10
 
-class ProceduralObject : public Object
+class ProceduralObject : public Mesh
 {
 private:
 	bool generated;

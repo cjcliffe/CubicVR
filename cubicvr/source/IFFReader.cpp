@@ -234,7 +234,7 @@ short IFFBlock::shortbuf2short(char *in_buf)
 }
 
 
-IFFBlock *IFFReader::getBlock(char *header_name)
+IFFBlock *IFFReader::getBlock(const char *header_name)
 {
 	for (unsigned int x = 0; x < iffData.size(); x++)
 	{
@@ -248,7 +248,7 @@ IFFBlock *IFFReader::getBlock(char *header_name)
 }
 
 
-IFFBlock *IFFReader::getBlock(char *header_name, int blockCount)
+IFFBlock *IFFReader::getBlock(const char *header_name, int blockCount)
 {
 	int blockCounter = 0;
 

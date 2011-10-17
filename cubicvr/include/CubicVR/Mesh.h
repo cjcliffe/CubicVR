@@ -143,7 +143,7 @@ struct smoothingPair
  */
  
  
-class IMPEXP Object : public Resource
+class IMPEXP Mesh : public Resource
 {
 private:
 	/// used internally to make sure we have enough points for a given request
@@ -234,8 +234,8 @@ public:
 	
 	
 	
-	Object();
-	~Object();
+	Mesh();
+	~Mesh();
 		
 
 	
@@ -339,10 +339,10 @@ public:
 	void reCalcNormals();	
 	
 	/// create this object's point/face structure from that of another
-	void cloneStructure(Object &obj);
+	void cloneStructure(Mesh &obj);
 
 	/// fully clone / add an object into this object (surface params & materials included)
-	void cloneObject(Object &obj);
+	void cloneObject(Mesh &obj);
 	
 	
 	/// build mat_reflist

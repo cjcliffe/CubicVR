@@ -23,7 +23,7 @@
  */
 
 #include <CubicVR/RigidScene.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 
 
 RigidScene::RigidScene(int scr_width_in, int scr_height_in, XYZ aabbMin, XYZ aabbMax) : Scene(scr_width_in,scr_height_in), maxProxies(16384) , worldAabbMin(-10000,-10000,-10000) , worldAabbMax(10000,10000,10000), dynamicsWorld(NULL), constraints_setup(false), rigidUpdate(true), collisionEvents(false)
@@ -98,7 +98,7 @@ void RigidScene::solidifyScene()
 {
 	std::set<SceneObject *> staticObjs = sceneobjs_bound;
 	std::set<SceneObject *>::iterator i;
-	std::map<Object *,std::set<RigidSceneObject *> > sceneMap;
+	std::map<Mesh *,std::set<RigidSceneObject *> > sceneMap;
 	std::set<RigidSceneObject *>::iterator j;
 	
 	RigidSceneObject *tmp;

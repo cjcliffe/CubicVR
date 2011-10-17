@@ -29,7 +29,7 @@
 
 #include <CubicVR/GLExt.h>
 
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/ObjectController.h>
 #include <CubicVR/Light.h>
 #include <CubicVR/AreaLight.h>
@@ -117,7 +117,7 @@ protected:
 
 #define HALFBUFFER_DIV 6
 	
-#ifndef STRINGIFY(A)	
+#ifndef STRINGIFY
 #define STRINGIFY(A)  #A
 #endif
 	

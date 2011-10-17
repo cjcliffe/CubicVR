@@ -41,11 +41,11 @@ class IMPEXP Console: public SceneObject
 	
 	vector<string> consoleData;
 	vector<SceneObject *> uiFontLetters;
-	vector<Object *> uiFontLetterObjs;
+	vector<Mesh *> uiFontLetterObjs;
 	
 	Console(unsigned int consoleWidth_in, unsigned int consoleHeight_in, Material * fontMaterial_in, Material * uiMaterial_in = 0);
 
-	void makeLetter(Object &obj, unsigned short charnum, Material *fontMaterial);
+	void makeLetter(Mesh &obj, unsigned short charnum, Material *fontMaterial);
 
 	void writeLn(string console_str = "");
 	void write(string console_str = "");

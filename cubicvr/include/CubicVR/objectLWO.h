@@ -28,7 +28,7 @@
 #include <CubicVR/cvr_defines.h>
 
 #include <CubicVR/IFFReader.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 
 
 #ifdef ARCH_PSP
@@ -39,7 +39,7 @@
 class UVMapper;
 
 
-IMPEXP void loadLWO(Object &obj, const string &fn, MapString *mapStr=NULL, map<Material *, UVMapper *> *mappers_out=NULL);
+IMPEXP void loadLWO(Mesh &obj, const string &fn, MapString *mapStr=NULL, map<Material *, UVMapper *> *mappers_out=NULL);
 IMPEXP void getResourcesLWO(vector<string> &fnList, const string &fn);
 
 #endif

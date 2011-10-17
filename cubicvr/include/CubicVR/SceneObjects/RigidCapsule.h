@@ -40,7 +40,7 @@ class RigidCapsule : public RigidSceneObject
 		
 	public:
 		RigidCapsule();
-		RigidCapsule(Object &obj);
+		RigidCapsule(Mesh &obj);
 		
 		virtual void initialize(btDiscreteDynamicsWorld &dynamicsWorld_in);
 		

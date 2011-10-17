@@ -1,5 +1,5 @@
 #include <CubicVR/GLExt.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/Shader.h>
 #include <CubicVR/Material.h>
 #include <CubicVR/UVMapper.h>
@@ -66,8 +66,8 @@ Light myLight;
 Camera myCamera(kWindowWidth,kWindowHeight, 60, 1, 1500);
 Camera dummyCam(kWindowWidth,kWindowHeight, 60, 1, 1500);
 Landscape *myLandscape;
-Object myObj;
-Object skySphere;
+Mesh myObj;
+Mesh skySphere;
 SceneObject skyObj;
 SceneObject *targetObj;
 AreaLight *aLight;
@@ -82,17 +82,17 @@ PointParticleEmitter pe;
 Particle *p;
 
 
-Object boxObj;
+Mesh boxObj;
 
-Object *meshObj;
-Object *meshCollisionObj;
-Object *wheelObj;
+Mesh *meshObj;
+Mesh *meshCollisionObj;
+Mesh *wheelObj;
 
 Vehicle *car;
 
 SceneObject box;
 
-Object sphereObj;
+Mesh sphereObj;
 
 Scene sky(kWindowWidth,kWindowHeight);
 
@@ -590,9 +590,9 @@ Vehicle *MakeDefaultVehicle(ResourceManager *rmPointer, std::string xmlFile = "s
 {
 	Vehicle *pCar = new Vehicle();
 
-	meshObj = new Object();
-	wheelObj = new Object();
-	meshCollisionObj = new Object();
+	meshObj = new Mesh();
+	wheelObj = new Mesh();
+	meshCollisionObj = new Mesh();
 	
 	loadLWO(*meshObj,"car_default.lwo");
 	meshObj->setId("car_default");

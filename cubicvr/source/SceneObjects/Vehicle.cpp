@@ -76,7 +76,7 @@ forwardIndex(2)
 }
 
 
-Vehicle::Vehicle (Object &carObj_in, Object &carCollisionObj_in) : 
+Vehicle::Vehicle (Mesh &carObj_in, Mesh &carCollisionObj_in) : 
 gEngineForce(0.0f), 
 gBreakingForce(0.0f), 
 maxEngineForce(2000.0f), 
@@ -138,11 +138,11 @@ Resource *Vehicle::upcast(ResourceManager *rm_in, Resource *res_in)
 		return NULL;
 	}
 	
-	Object *meshObj, *wheelObj, *meshCollisionObj;
+	Mesh *meshObj, *wheelObj, *meshCollisionObj;
 	
-	meshObj = (Object *)rm_in->upcast(&rm_in->getResource("model",meshModelId));
+	meshObj = (Mesh *)rm_in->upcast(&rm_in->getResource("model",meshModelId));
 //	wheelObj = (Object *)rm_in->upcast(&rm_in->getResource("model",wheelModelId));
-	meshCollisionObj = (Object *)rm_in->upcast(&rm_in->getResource("model",collisionModelId));
+	meshCollisionObj = (Mesh *)rm_in->upcast(&rm_in->getResource("model",collisionModelId));
 	
 	meshObj->init();
 //	wheelObj->init();
@@ -154,7 +154,7 @@ Resource *Vehicle::upcast(ResourceManager *rm_in, Resource *res_in)
 	
 	for (unsigned int i = 0; i < new_vehicle->wheels.size(); i++)
 	{
-		wheelObj = (Object *)rm_in->upcast(&rm_in->getResource("model",new_vehicle->wheels[i]->getWheelModelId()));
+		wheelObj = (Mesh *)rm_in->upcast(&rm_in->getResource("model",new_vehicle->wheels[i]->getWheelModelId()));
 		wheelObj->init();
 		new_vehicle->wheels[i]->setWheelModel(wheelObj);
 	}
@@ -229,7 +229,7 @@ void Vehicle::initialize(btDiscreteDynamicsWorld &dynamicsWorld_in)
 //	SceneObject *nullObj;
 	if (!cmap_obj)
 	{
-		cmap_obj = new Object;
+		cmap_obj = new Mesh;
 		cmap_obj->cloneStructure(*obj);
 	}
 

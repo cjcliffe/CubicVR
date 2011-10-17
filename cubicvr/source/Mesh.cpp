@@ -22,7 +22,7 @@
 		THE SOFTWARE.
 */
 
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 
 #ifdef __linux__
 #include <cstring>
@@ -38,7 +38,7 @@ using namespace std;
 
 typedef struct _tessInfo
 {
-	Object *obj;
+	Mesh *obj;
 	cvrIndex face;
 } tessInfo;
 
@@ -146,7 +146,7 @@ GLvoid tessCombine(GLdouble coords[3], tessVertexInfo *vertexData[4], GLfloat we
 GLvoid tessEnd ( void )
 {
 	unsigned int i,j;
-	Object *tessObj = tess_obj_info.obj;
+	Mesh *tessObj = tess_obj_info.obj;
 	cvrIndex faceNum;
 	cvrIndex ptNum[3];
 	cvrIndex newFaceCount;
@@ -316,7 +316,7 @@ void nurbsError(GLenum errorCode)
 #endif
 #endif
 
-Object::Object() : cache_state(false) , buffer_state(false), open_buffer(NULL), bbMin(0,0,0), bbMax(0,0,0), tangent_binormal_state(false), hasColorMap(false), dynamic_colors(NULL), numSegments(1), activeSegment(0), segmentMask(NULL), Resource()
+Mesh::Mesh() : cache_state(false) , buffer_state(false), open_buffer(NULL), bbMin(0,0,0), bbMax(0,0,0), tangent_binormal_state(false), hasColorMap(false), dynamic_colors(NULL), numSegments(1), activeSegment(0), segmentMask(NULL), Resource()
 {
 	pointCacheOffset = 0;
 	normalCacheOffset = 0;
@@ -327,16 +327,16 @@ Object::Object() : cache_state(false) , buffer_state(false), open_buffer(NULL), 
 };
 
 
-Object::~Object()
+Mesh::~Mesh()
 {
 	clean();
 };
 
 
 
-Resource *Object::upcast(ResourceManager *rm_in, Resource *res_in)
+Resource *Mesh::upcast(ResourceManager *rm_in, Resource *res_in)
 {
-	Object *res_out = new Object();
+	Mesh *res_out = new Mesh();
 	res_out->Import(*res_in);
 	res_out->onLoad();
 	
@@ -346,7 +346,7 @@ Resource *Object::upcast(ResourceManager *rm_in, Resource *res_in)
 };
 
 
-bool Object::init()
+bool Mesh::init()
 {
 	if (initialized) return true;
 	
@@ -364,7 +364,7 @@ bool Object::init()
 	return true;
 }
 
-bool Object::destroy()
+bool Mesh::destroy()
 {
 	if (!initialized) return true;
 	
@@ -375,7 +375,7 @@ bool Object::destroy()
 	return true;
 }
 
-bool Object::reload()
+bool Mesh::reload()
 {
 	if (!initialized) return true;
 
@@ -386,7 +386,7 @@ bool Object::reload()
 
 
 
-bool Object::onLoad() 
+bool Mesh::onLoad() 
 {
 	if (properties)
 	{
@@ -397,7 +397,7 @@ bool Object::onLoad()
 	return true;
 };
 
-bool Object::onSave() 
+bool Mesh::onSave() 
 {
 	if (properties) delete properties;
 	
@@ -408,27 +408,27 @@ bool Object::onSave()
 	return true;
 };
 
-string Object::getModelFile() 
+string Mesh::getModelFile() 
 { 
 	return modelFile; 
 }
 
-void Object::setModelFile(string modelFile_in) 
+void Mesh::setModelFile(string modelFile_in) 
 { 
 	modelFile = modelFile_in; 
 }	
 
-string Object::getOriginalFile() 
+string Mesh::getOriginalFile() 
 { 
 	return originalFile; 
 }
 
-void Object::setOriginalFile(string originalFile_in) 
+void Mesh::setOriginalFile(string originalFile_in) 
 { 
 	originalFile = originalFile_in; 
 }
 
-void Object::clean()
+void Mesh::clean()
 {
 	if (cache_state) cache(false);	// clean up any cache data
 	
@@ -461,7 +461,7 @@ void Object::clean()
 //#warning need to fix up triangulate for PSP
 //#endif
 
-void Object::triangulate()
+void Mesh::triangulate()
 {
 	bool cache_state_temp = cache_state;
 	
@@ -625,12 +625,12 @@ void Object::triangulate()
 
 	
 
-void Object::calcBB()
+void Mesh::calcBB()
 {
 	if (bbMin==bbMax) getBoundingBox(bbMin,bbMax);
 }
 
-void Object::getBoundingBox(XYZ &bbMin_out, XYZ &bbMax_out)
+void Mesh::getBoundingBox(XYZ &bbMin_out, XYZ &bbMax_out)
 {
 	if (!points.size()) 
 	{
@@ -658,7 +658,7 @@ void Object::getBoundingBox(XYZ &bbMin_out, XYZ &bbMax_out)
 
 
 
-bool Object::ensurePoints(cvrIndex pointNum)
+bool Mesh::ensurePoints(cvrIndex pointNum)
 {
 	if (!(points.size() > pointNum))	/* ensure we have enough capacity to handle this point reference */
 	{
@@ -672,7 +672,7 @@ bool Object::ensurePoints(cvrIndex pointNum)
 };
 
 
-bool Object::ensureFaces(cvrIndex faceNum)
+bool Mesh::ensureFaces(cvrIndex faceNum)
 {
 	cvrIndex numFaces;
 	
@@ -706,13 +706,13 @@ bool Object::ensureFaces(cvrIndex faceNum)
 //}
 
 
-void Object::reflistAdd(cvrIndex faceNum)
+void Mesh::reflistAdd(cvrIndex faceNum)
 {	
 	mat_reflist[faces[faceNum]->mat_ref][faces[faceNum]->getSegment()][faces[faceNum]->pointref.size()].insert(faceNum);	/* add to new */
 }
 
 
-void Object::setSegment(int segment_id, char *seg_name)
+void Mesh::setSegment(int segment_id, char *seg_name)
 {
 	if (segment_id >= numSegments) numSegments = segment_id+1;
 	activeSegment = segment_id;
@@ -721,7 +721,7 @@ void Object::setSegment(int segment_id, char *seg_name)
 }
 
 
-void Object::calcSegmentBounds()
+void Mesh::calcSegmentBounds()
 {
 	int currentSegment; 
 	XYZ pts[2];
@@ -769,7 +769,7 @@ void Object::calcSegmentBounds()
 }
 
 
-void Object::getSegmentBounds(int segment_id, XYZ &bb1, XYZ &bb2)
+void Mesh::getSegmentBounds(int segment_id, XYZ &bb1, XYZ &bb2)
 {
 	if (!seg_bounds.size())
 	{
@@ -792,7 +792,7 @@ void Object::getSegmentBounds(int segment_id, XYZ &bb1, XYZ &bb2)
 }
 
 
-int Object::getSegmentId(char *seg_name)
+int Mesh::getSegmentId(char *seg_name)
 {
 	if (seg_ref.find(seg_name) != seg_ref.end())
 	{
@@ -805,7 +805,7 @@ int Object::getSegmentId(char *seg_name)
 }
 
 
-cvrIndex Object::addPoint(const XYZ &xyz_in)
+cvrIndex Mesh::addPoint(const XYZ &xyz_in)
 {
 	points.push_back(new XYZ());	/* add a new point at the end of points and set its xyz values */
 	(*points.back()) = xyz_in;
@@ -815,7 +815,7 @@ cvrIndex Object::addPoint(const XYZ &xyz_in)
 
 
 
-void Object::addPoint(cvrIndex pointNum, const XYZ &xyz_in)
+void Mesh::addPoint(cvrIndex pointNum, const XYZ &xyz_in)
 {
 	ensurePoints(pointNum);
 	points[pointNum] = new XYZ();
@@ -823,7 +823,7 @@ void Object::addPoint(cvrIndex pointNum, const XYZ &xyz_in)
 };
 
 
-cvrIndex Object::addFace()
+cvrIndex Mesh::addFace()
 {
 	ensureFaces(faces.size());  /* create a new face */
 
@@ -835,7 +835,7 @@ cvrIndex Object::addFace()
 };
 
 
-int Object::hasPoint(const XYZ &point_compare)
+int Mesh::hasPoint(const XYZ &point_compare)
 {
 	for (cvrIndex i=0; i < points.size(); i++)
 	{
@@ -846,7 +846,7 @@ int Object::hasPoint(const XYZ &point_compare)
 }
 
 
-void Object::buildRefList()
+void Mesh::buildRefList()
 {
 	mat_reflist.clear();
 	
@@ -857,7 +857,7 @@ void Object::buildRefList()
 }
 
 
-void Object::calcGroupSizes()
+void Mesh::calcGroupSizes()
 {
 	unsigned int segSize;
 
@@ -886,7 +886,7 @@ void Object::calcGroupSizes()
 	}	
 }
 
-void Object::addFace(cvrIndex faceNum)
+void Mesh::addFace(cvrIndex faceNum)
 {
 	ensureFaces(faceNum);
 
@@ -896,14 +896,14 @@ void Object::addFace(cvrIndex faceNum)
 };
 
 
-int Object::addFacePoint(cvrIndex pointNum)
+int Mesh::addFacePoint(cvrIndex pointNum)
 {
 	addFacePoint(faces.size()-1,pointNum);
 	return faces[faces.size()-1]->points.size()-1;
 };
 
 
-void Object::addFacePoint(cvrIndex faceNum, cvrIndex pointNum)
+void Mesh::addFacePoint(cvrIndex faceNum, cvrIndex pointNum)
 {
 	ensurePoints(pointNum);
 	ensureFaces(faceNum);
@@ -916,14 +916,14 @@ void Object::addFacePoint(cvrIndex faceNum, cvrIndex pointNum)
 //	reflistAdd(faceNum);
 };
 
-int Object::addFacePoint(cvrIndex pointNum, RGB &rgb_val)
+int Mesh::addFacePoint(cvrIndex pointNum, RGB &rgb_val)
 {
 	addFacePoint(faces.size()-1,pointNum,rgb_val);
 	return faces[faces.size()-1]->points.size()-1;
 };
 
 
-void Object::addFacePoint(cvrIndex faceNum, cvrIndex pointNum, RGB &rgb_val)
+void Mesh::addFacePoint(cvrIndex faceNum, cvrIndex pointNum, RGB &rgb_val)
 {
 	ensurePoints(pointNum);
 	ensureFaces(faceNum);
@@ -939,7 +939,7 @@ void Object::addFacePoint(cvrIndex faceNum, cvrIndex pointNum, RGB &rgb_val)
 };
 
 
-void Object::clearFace(cvrIndex faceNum)
+void Mesh::clearFace(cvrIndex faceNum)
 {
 //	reflistRemove(faceNum);	
 	faces[faceNum]->points.clear();
@@ -951,7 +951,7 @@ void Object::clearFace(cvrIndex faceNum)
 };
 
 
-void Object::copyFace(cvrIndex srcFaceNum, cvrIndex dstFaceNum)
+void Mesh::copyFace(cvrIndex srcFaceNum, cvrIndex dstFaceNum)
 {
 	unsigned int i;
 	
@@ -971,7 +971,7 @@ void Object::copyFace(cvrIndex srcFaceNum, cvrIndex dstFaceNum)
 
 
 #ifndef ARCH_PSP
-void Object::reCalcNormals()
+void Mesh::reCalcNormals()
 {
 	cvrIndex i,j,k;
 
@@ -1001,7 +1001,7 @@ void Object::reCalcNormals()
 }
 
 
-void Object::updateColorCache()
+void Mesh::updateColorCache()
 {
 	if (!dynamic_colors) return;
 
@@ -1022,7 +1022,7 @@ void Object::updateColorCache()
 
 
 
-void Object::calcNormals()
+void Mesh::calcNormals()
 {
 	cvrIndex i,j,k;
 
@@ -1111,7 +1111,7 @@ void Object::calcNormals()
 };
 
 
-void Object::cloneStructure(Object &obj)
+void Mesh::cloneStructure(Mesh &obj)
 {
 	cvrIndex i,j;
 	
@@ -1136,7 +1136,7 @@ void Object::cloneStructure(Object &obj)
 };
 
 
-void Object::cloneObject(Object &obj)
+void Mesh::cloneObject(Mesh &obj)
 {
 	cvrIndex i,j;
 	
@@ -1167,7 +1167,7 @@ void Object::cloneObject(Object &obj)
 };
 
 
-void Object::setFaceSegment(cvrIndex faceNum, int segment_id)
+void Mesh::setFaceSegment(cvrIndex faceNum, int segment_id)
 {
 	faces[faceNum]->setSegment(segment_id);
 };
@@ -1178,13 +1178,13 @@ void Object::setFaceSegment(cvrIndex faceNum, int segment_id)
 //};
 //
 
-void Object::bindFaceMaterial(Material *mat)
+void Mesh::bindFaceMaterial(Material *mat)
 {
 	bindFaceMaterial(faces.size()-1,mat);
 };
 
 
-void Object::bindFaceMaterial(cvrIndex faceNum, Material *mat)
+void Mesh::bindFaceMaterial(cvrIndex faceNum, Material *mat)
 {
 	ensureFaces(faceNum);
 
@@ -1408,7 +1408,7 @@ void Object::updatePointCache(cvrIndex pointNum)
 
 */
 
-void Object::updatePointCache(cvrIndex pointNum)
+void Mesh::updatePointCache(cvrIndex pointNum)
 {
 	std::set<cvrIndex>::iterator pointref_i;
 	
@@ -1443,7 +1443,7 @@ void Object::updatePointCache(cvrIndex pointNum)
 							
 }
 
-void Object::updatePointNormalCache(cvrIndex pointNum, XYZ &normal_val)
+void Mesh::updatePointNormalCache(cvrIndex pointNum, XYZ &normal_val)
 {
 	std::set<cvrIndex>::iterator pointref_i;
 
@@ -1480,7 +1480,7 @@ void Object::updatePointNormalCache(cvrIndex pointNum, XYZ &normal_val)
 }
 
 
-void Object::updatePointNormalCache(cvrIndex pointNum, int subPoint, XYZ &normal_val)
+void Mesh::updatePointNormalCache(cvrIndex pointNum, int subPoint, XYZ &normal_val)
 {
 	std::set<cvrIndex>::iterator pointref_i;
 	
@@ -1519,7 +1519,7 @@ void Object::updatePointNormalCache(cvrIndex pointNum, int subPoint, XYZ &normal
 
 
 
-void Object::fullCopyCache(bool doPoints, bool doNormals)
+void Mesh::fullCopyCache(bool doPoints, bool doNormals)
 {
 #ifndef ARCH_PSP
 	if (open_buffer)
@@ -1531,7 +1531,7 @@ void Object::fullCopyCache(bool doPoints, bool doNormals)
 }
 
 
-void Object::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) //, bool tangent_binormal_calc
+void Mesh::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) //, bool tangent_binormal_calc
 {
 	unsigned int m;
 	map<Material *, map< unsigned int, map<unsigned short, set<cvrIndex>, ltushort>, ltuint > >::iterator obj_matref_i;
@@ -2098,7 +2098,7 @@ void Object::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) 
 			
 				cache_data.dataBufferNum = newbuffer[0];
 				
-				printf("Created object buffer: %d, %d bytes\n",cache_data.dataBufferNum,dataSize);
+				printf("Created object buffer: %u, %lu bytes\n",cache_data.dataBufferNum,dataSize);
 				
 				// create a new buffer on the card
 				glBindBuffer(GL_ARRAY_BUFFER_ARB, cache_data.dataBufferNum);
@@ -2197,7 +2197,7 @@ void Object::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) 
 
 
 
-void Object::openBuffer(bool fullCopy) 
+void Mesh::openBuffer(bool fullCopy) 
 { 
 #ifndef ARCH_PSP
 #ifndef OPENGL_ES
@@ -2214,7 +2214,7 @@ void Object::openBuffer(bool fullCopy)
 #endif
 };
 
-void Object::closeBuffer(bool fullCopy) 
+void Mesh::closeBuffer(bool fullCopy) 
 {
 #ifndef ARCH_PSP
 #ifndef OPENGL_ES
@@ -2237,7 +2237,7 @@ void Object::closeBuffer(bool fullCopy)
 };
 
 
-void Object::setPatch(cvrIndex faceNum, bool isPatchState)
+void Mesh::setPatch(cvrIndex faceNum, bool isPatchState)
 {
 	if (isPatch.size()<faces.size()) isPatch.resize(faces.size(),false);
 	isPatch[faceNum] = isPatchState;
@@ -2245,14 +2245,14 @@ void Object::setPatch(cvrIndex faceNum, bool isPatchState)
 }
 
 
-void Object::setWeight(cvrIndex pointNum, float weightVal)
+void Mesh::setWeight(cvrIndex pointNum, float weightVal)
 {
 	if (weights.size() < points.size()) weights.resize(points.size());
 	weights[pointNum] = weightVal;
 }
 
 
-void Object::generatePatches()
+void Mesh::generatePatches()
 {
 	std::map<cvrIndex, std::map<cvrIndex, cvrIndex, ltindex>, ltindex> edgeMap;
 	

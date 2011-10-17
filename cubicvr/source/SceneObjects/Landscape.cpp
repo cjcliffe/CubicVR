@@ -46,7 +46,7 @@ Landscape::Landscape(cvrFloat size_in, unsigned int divisions_in_w, unsigned int
 	max_height=max_height_in;
 	hasVisibility=true;
 	
-	obj = new Object();
+	obj = new Mesh();
 	
 	Logger::log("build points\n");
 

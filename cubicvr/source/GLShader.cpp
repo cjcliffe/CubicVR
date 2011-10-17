@@ -25,7 +25,7 @@
 #include "CubicVR/GLShader.h"
 
 GLShader GLShader::defaultShader;
-GLhandleARB GLShader::activeProgram = NULL;
+GLhandleARB GLShader::activeProgram = 0;
 GLint GLShader::binding_inc = 0;
 
 //int GLShader::last_active_lights[MAX_LIGHTS];
@@ -694,7 +694,7 @@ bool GLShader::activateLight(int lightType, int lightNum, unsigned long lightVar
 
 
 
-GLShader::GLShader() : loaded(false),program(NULL)
+GLShader::GLShader() : loaded(false),program(0)
 {
 }
 
@@ -873,7 +873,7 @@ Logger::log(LOG_DEBUG,"FRAGMENT: \n\n%s\n\n",fp);
 void GLShader::clear()
 {
 	glUseProgramObjectARB(0);
-	activeProgram = NULL;
+	activeProgram = 0;
 }
 
 

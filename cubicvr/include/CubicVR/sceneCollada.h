@@ -36,7 +36,7 @@
 #include <CubicVR/Scene.h>
 #include <CubicVR/SceneObject.h>
 #include <CubicVR/Camera.h>
-#include <CubicVR/Object.h>
+#include <CubicVR/Mesh.h>
 #include <CubicVR/Light.h>
 
 #include <CubicVR/GLExt.h>

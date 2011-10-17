@@ -90,7 +90,7 @@
 class VehicleWheel
 {
 public:
-	Object *wheelModel;
+	Mesh *wheelModel;
 	SceneObject wheelRef;
 	SceneObject wheelObj;
 //	btWheelInfo *wheelInfo;
@@ -143,7 +143,7 @@ public:
 	}
 		
 
-	void setWheelModel(Object *wheelModel_in, float wheelRadius_in = 0.0f, float wheelWidth_in = 0.0f)
+	void setWheelModel(Mesh *wheelModel_in, float wheelRadius_in = 0.0f, float wheelWidth_in = 0.0f)
 	{
 		wheelModel = wheelModel_in;
 		
@@ -324,7 +324,7 @@ public:
 	static Resource *upcast(ResourceManager *rm_in, Resource *res_in);
 
 	Vehicle ();
-	Vehicle (Object &carObj_in, Object &carCollisionObj_in);
+	Vehicle (Mesh &carObj_in, Mesh &carCollisionObj_in);
 	virtual void initialize(btDiscreteDynamicsWorld &dynamicsWorld_in);
 	virtual void render(Shader &renderer, int stage, bool initShadowMatrix, bool no_pivot, bool no_scale);
 	virtual void evaluate();

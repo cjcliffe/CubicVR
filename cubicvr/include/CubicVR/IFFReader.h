@@ -150,8 +150,8 @@ public:
 	void processIFFBlockWithHeader(char *in_data, long data_size, int ptr_size);
 	void processIFFBlockWithHeader(char *in_data, long data_size);
 
-	IFFBlock *getBlock(char *header_name);
-	IFFBlock *getBlock(char *header_name, int blockCount);
+	IFFBlock *getBlock(const char *header_name);
+	IFFBlock *getBlock(const char *header_name, int blockCount);
 	void getBlockNames(std::vector<string> &blockList);
 };
 
