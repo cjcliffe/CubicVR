@@ -20,6 +20,7 @@
 #include <CubicVR/math/Maths.h>
 #include <CubicVR/Texture.h>
 #include <CubicVR/UV.h>
+#include <CubicVR/Face.h>
 //#include <CubicVR/SectorMap.h>
 
 ////////////////////BSP::Load///////////////

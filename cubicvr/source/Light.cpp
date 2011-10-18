@@ -26,7 +26,6 @@
 #include <CubicVR/SceneObject.h>
 #include <CubicVR/math/Maths.h>
 
-
 #ifdef ARCH_PSP
 GLint Light::gl_lights[MAX_LIGHTS] = {GU_LIGHT0,GU_LIGHT1,GU_LIGHT2,GU_LIGHT3};
 #else
