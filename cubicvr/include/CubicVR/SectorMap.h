@@ -29,6 +29,8 @@
 #include <CubicVR/SceneObject.h>
 #include <CubicVR/Camera.h>
 #include <CubicVR/SectorRef.h>
+#include <CubicVR/SceneObject.h>
+#include <CubicVR/Light.h>
 
 #include <map>
 #include <set>

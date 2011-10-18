@@ -13,7 +13,7 @@
 #include <CubicVR/FRUSTUM.h>
 
 
-void FRUSTUM::Update()
+void FRUSTUM::update()
 {
 	MATRIX4X4 projection, view;
 	MATRIX4X4 clip;
@@ -65,7 +65,7 @@ void FRUSTUM::Update()
 }
 
 
-void FRUSTUM::Update(MATRIX4X4 projMatrix, MATRIX4X4 viewMatrix)
+void FRUSTUM::update(MATRIX4X4 projMatrix, MATRIX4X4 viewMatrix)
 {
 	MATRIX4X4 clip;
 	
@@ -110,7 +110,7 @@ void FRUSTUM::Update(MATRIX4X4 projMatrix, MATRIX4X4 viewMatrix)
 
 
 //is a point in the frustum?
-bool FRUSTUM::IsPointInside(const VECTOR3D & point)
+bool FRUSTUM::isPointInside(const VECTOR3D & point)
 {
 	for(int i=0; i<6; ++i)
 	{
@@ -122,7 +122,7 @@ bool FRUSTUM::IsPointInside(const VECTOR3D & point)
 }
 
 //is a bounding box in the frustum?
-bool FRUSTUM::IsBoundingBoxInside(const VECTOR3D * vertices)
+bool FRUSTUM::isBoundingBoxInside(const VECTOR3D * vertices)
 {
 	//loop through planes
 	for(int i=0; i<6; ++i)
@@ -154,7 +154,7 @@ bool FRUSTUM::IsBoundingBoxInside(const VECTOR3D * vertices)
 
 
 //is a point in the frustum?
-bool FRUSTUM::IsPointInside(const XYZ & point)
+bool FRUSTUM::isPointInside(const XYZ & point)
 {
 	for(int i=0; i<6; ++i)
 	{
@@ -166,7 +166,7 @@ bool FRUSTUM::IsPointInside(const XYZ & point)
 }
 
 //is a bounding box in the frustum?
-bool FRUSTUM::IsBoundingBoxInside(const XYZ &bb1, const XYZ &bb2)
+bool FRUSTUM::isBoundingBoxInside(const XYZ &bb1, const XYZ &bb2)
 {
 	//loop through planes
 	for(int i=0; i<6; ++i)

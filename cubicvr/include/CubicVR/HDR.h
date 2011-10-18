@@ -27,7 +27,7 @@
 
 #pragma once
 
-#include "CubicVR/ph/ph.h"
+#include <CubicVR/ph/ph.h>
 
 #define HDR_FILTER_COUNT  filter_levels
 #define HDR_FILTER_MAX	6

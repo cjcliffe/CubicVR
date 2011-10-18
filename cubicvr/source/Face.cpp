@@ -24,6 +24,7 @@
 
 #include <CubicVR/Face.h>
 
+#include <CubicVR/cvr_defines.h>
 
 Face::Face() : mat_ref(&Material::nullMaterial), segment_id(0)
 { 
@@ -342,7 +343,7 @@ void Face::setSegment(unsigned int segment)
 //		float fScale1 = 1.0f / fDenominator;
 //		
 //		/* Time to calculate the tangent, binormal, and normal.
-//		 Look at S¿renÕs article for more information. */
+//		 Look at Sï¿½renï¿½s article for more information. */
 //		Vector T, B, N;
 //		T = XYZ((c3c1_B * v2v1.x - c2c1_B * v3v1.x) * fScale1,
 //					 (c3c1_B * v2v1.y - c2c1_B * v3v1.y) * fScale1,

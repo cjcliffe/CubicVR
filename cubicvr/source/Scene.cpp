@@ -1538,7 +1538,7 @@ bool Scene::renderShadowVolumes()
 				for (vis_obj_i = sceneobjs_visibility.begin(); vis_obj_i != sceneobjs_visibility.end(); vis_obj_i++)
 				{
 					if (!(*vis_obj_i)->shadowCast()) continue;
-					spot_frustum.Update();
+					spot_frustum.update();
 					
 					(*vis_obj_i)->calcVisibility((*active_light_i)->position, spot_frustum);
 					shadow_sceneobjs.insert((*vis_obj_i));
@@ -1604,7 +1604,7 @@ bool Scene::renderShadowVolumes()
 					for (vis_obj_i = sceneobjs_visibility.begin(); vis_obj_i != sceneobjs_visibility.end(); vis_obj_i++)
 					{
 						if (!(*vis_obj_i)->shadowCast()) continue;
-						spot_frustum.Update();
+						spot_frustum.update();
 						
 						(*vis_obj_i)->calcVisibility(aLight->position, spot_frustum);
 						shadow_sceneobjs.insert((*vis_obj_i));
@@ -2578,7 +2578,7 @@ void Scene::render()
 	{
 		std::set<SceneObject *>::iterator vis_obj_i;
 		
-		frustum.Update();
+		frustum.update();
 		
 		for (vis_obj_i = sceneobjs_visibility.begin(); vis_obj_i != sceneobjs_visibility.end(); vis_obj_i++)
 		{

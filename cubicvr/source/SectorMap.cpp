@@ -25,7 +25,6 @@
 #include <CubicVR/SectorMap.h>
 
 
-
 SectorMap::SectorMap(const XYZ &bb_pt1, const XYZ &bb_pt2, double sector_size_in) 
 {
 	map.empty();
@@ -379,7 +378,7 @@ void SectorMap::renderFrustum(MATRIX4X4 projMatrix, MATRIX4X4 modelMatrix, float
 {
 	FRUSTUM frust;
 	
-	frust.Update(projMatrix,modelMatrix);
+	frust.update(projMatrix,modelMatrix);
 	
 	XYZ aabb1, aabb2;
 	XYZ f_bounds[8];
@@ -477,7 +476,7 @@ void SectorMap::renderFrustum(MATRIX4X4 projMatrix, MATRIX4X4 modelMatrix, float
 
 void SectorMap::queryFrustum(std::set<SceneObject*> &objList, MATRIX4X4 projMatrix, MATRIX4X4 modelMatrix, float nearClip, float farClip, const int viewport[4], std::set<Light *> *lightList)
 {
-	frust.Update(projMatrix,modelMatrix);
+	frust.update(projMatrix,modelMatrix);
 	
 	/*
 	 viewport[0]=x
@@ -542,7 +541,7 @@ void SectorMap::queryFrustum(std::set<SceneObject*> &objList, MATRIX4X4 projMatr
 				XYZ bbTestMin = bb1+(XYZ((float)a*bbsec.x,(float)b*bbsec.y,(float)c*bbsec.z));		
 				XYZ bbTestMax = bbTestMin + bbsec;
 				
-				if (frust.IsBoundingBoxInside(bbTestMin, bbTestMax))
+				if (frust.isBoundingBoxInside(bbTestMin, bbTestMax))
 				{
 					tmpNode = map[a][b][c];
 					
@@ -700,7 +699,7 @@ void SectorMap::queryOrthoFrustum(std::set<SceneObject*> &objList, XYZ position,
 				XYZ bbTestMin = bb1+(XYZ((float)a*bbsec.x,(float)b*bbsec.y,(float)c*bbsec.z));		
 				XYZ bbTestMax = bbTestMin + bbsec;
 				
-				if (frust.IsBoundingBoxInside(bbTestMin, bbTestMax))
+				if (frust.isBoundingBoxInside(bbTestMin, bbTestMax))
 				{
 					tmpNode = map[a][b][c];
 					

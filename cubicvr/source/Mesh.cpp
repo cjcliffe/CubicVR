@@ -23,6 +23,9 @@
 */
 
 #include <CubicVR/Mesh.h>
+#include <CubicVR/Material.h>
+#include <CubicVR/Face.h>
+#include <CubicVR/RGB.h>
 
 #ifdef __linux__
 #include <cstring>
@@ -1560,8 +1563,8 @@ void Mesh::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) //
 //	if (numSegments)
 //	{
 //		segmentMask = new BITSET;
-//		segmentMask->Init(numSegments);
-//		segmentMask->SetAll();
+//		segmentMask->init(numSegments);
+//		segmentMask->setAll();
 //	}
 		
 

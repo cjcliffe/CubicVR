@@ -25,16 +25,11 @@
 #ifndef CUBICVR_LIGHT_H
 #define CUBICVR_LIGHT_H
 
-#include <CubicVR/cvr_defines.h>
-
-#include <CubicVR/GLExt.h>
-#include <CubicVR/Motion.h>
-#include <CubicVR/Transform.h>
-#include <CubicVR/XYZ.h>
+#include <CubicVR/SceneObject.h>
 #include <CubicVR/RGB.h>
-#include <CubicVR/Vector.h>
-#include <CubicVR/Texture.h>
+#include <CubicVR/Motion.h>
 #include <CubicVR/Resource.h>
+#include <CubicVR/Transform.h>
 
 //#include <CubicVR/ObjectController.h>
 
@@ -73,7 +68,7 @@ class SceneObject;
 #endif
 
 
-class IMPEXP Light : public Resource, public Controllable
+class Light : public Resource, public Controllable
 {
 protected:
 	Transform directionTransform;

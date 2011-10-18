@@ -24,6 +24,7 @@
 
 #include <CubicVR/SceneObject.h>
 #include <CubicVR/Transform.h>
+#include <CubicVR/CollisionMap.h>
 
 #ifdef ARCH_DC
 static matrix_t ml __attribute__((aligned(32)));
@@ -489,7 +490,7 @@ void SceneObject::bind(Mesh &obj_in)
 //		if (obj->numSegments > 1)
 //		{
 //			segmentMask = new BITSET;
-//			segmentMask->Init(obj->numSegments);
+//			segmentMask->init(obj->numSegments);
 //		}
 		setMatrixLock(false);
 		clearTransform();

@@ -25,6 +25,8 @@
 #include <CubicVR/Envelope.h>
 
 
+#include <CubicVR/cvr_defines.h>
+
 /*
 	Portions adapted from the work of Ernie Wright from the lightwave SDK
 */

@@ -35,12 +35,12 @@ enum FRUSTUM_CLASSIFICATION
 class FRUSTUM
 {
 public:
-	void Update();
-	void Update(MATRIX4X4 projMatrix,MATRIX4X4 viewMatrix);
-	bool IsPointInside(const VECTOR3D & point);
-	bool IsBoundingBoxInside(const VECTOR3D * vertices);
-	bool IsPointInside(const XYZ & point);
-	bool IsBoundingBoxInside(const XYZ &bb1, const XYZ &bb2);
+	void update();
+	void update(MATRIX4X4 projMatrix,MATRIX4X4 viewMatrix);
+	bool isPointInside(const VECTOR3D & point);
+	bool isBoundingBoxInside(const VECTOR3D * vertices);
+	bool isPointInside(const XYZ & point);
+	bool isBoundingBoxInside(const XYZ &bb1, const XYZ &bb2);
 	
 	XYZ unProject(XYZ view_pos,
 						   MATRIX4X4 projMatrix, 

@@ -24,15 +24,10 @@
 
 #pragma once
 
-#include <CubicVR/cvr_defines.h>
-
-#include <CubicVR/Motion.h>
-#include <CubicVR/Renderer.h>
 #include <CubicVR/ObjectController.h>
-#include <CubicVR/map_string.h>
-#include <vector>
+#include <CubicVR/Motion.h>
 
-class IMPEXP Bone : public Controllable, public ObjectController
+class Bone : public Controllable, public ObjectController
 {
 public:
 //	ObjectController objController;

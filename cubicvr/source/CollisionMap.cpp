@@ -24,7 +24,7 @@
 
 #include "CubicVR/cvr_defines.h"
 #include "CubicVR/CollisionMap.h"
-
+#include <CubicVR/Face.h>
 
 CollisionMap::CollisionMap(): mTriMeshShape(NULL), margin(0.0f)
 {
@@ -244,7 +244,7 @@ void CollisionMap::render()
 #endif
 
 
-
+/*
 enum SceneObjectArrayParamShadow
 {
 	OBJ_ARRAY_RIGHT = 0,
@@ -254,7 +254,7 @@ enum SceneObjectArrayParamShadow
 	OBJ_ARRAY_DOWN,
 	OBJ_ARRAY_FRONT
 };
-
+*/
 
 //btCollisionShape *CollisionMap::makeCollisionShape(const XYZ &scale, vector<int> *arrayParam, XYZ *spacing)
 //{

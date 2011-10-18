@@ -25,14 +25,7 @@
 #ifndef CUBICVR_OBJECTCONTROLLER_H
 #define CUBICVR_OBJECTCONTROLLER_H
 
-#include <CubicVR/cvr_defines.h>
-
-#include <CubicVR/GLExt.h>
-
 #include <CubicVR/XYZ.h>
-#include <CubicVR/Mesh.h>
-//#include <CubicVR/Renderer.h>
-//#include <CubicVR/Envelope.h>
 
 #ifdef ARCH_PSP
 #include <fastmath.h>

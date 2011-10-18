@@ -30,7 +30,7 @@ public:
 		bits=NULL;
 	}
 	
-	bool Init(int numberOfBits)
+	bool init(int numberOfBits)
 	{
 		//Delete any memory allocated to bits
 		if(bits)
@@ -48,32 +48,32 @@ public:
 			return false;
 		}
 		
-		ClearAll();
+		clearAll();
 		
 		return true;
 	}
 	
-	inline void ClearAll()
+	inline void clearAll()
 	{
 		memset(bits, 0, numBytes);
 	}
 	
-	inline void SetAll()
+	inline void setAll()
 	{
 		memset(bits, 0xFF, numBytes);
 	}
 	
-	inline void Clear(int bitNumber)
+	inline void clear(int bitNumber)
 	{
 		bits[bitNumber>>3] &= ~(1<<(bitNumber & 7));
 	}
 	
-	inline void Set(int bitNumber)
+	inline void set(int bitNumber)
 	{
 		bits[bitNumber>>3] |= 1<<(bitNumber&7);
 	}
 	
-	inline unsigned char IsSet(int bitNumber)
+	inline unsigned char isSet(int bitNumber)
 	{
 		return bits[bitNumber>>3] & 1<<(bitNumber&7);
 	}

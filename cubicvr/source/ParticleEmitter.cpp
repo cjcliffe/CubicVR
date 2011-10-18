@@ -23,6 +23,7 @@
 */
 
 #include <CubicVR/ParticleEmitter.h>
+#include <CubicVR/Vector.h>
 
 /* Check ParticleEmitter.h, this class is in the experimental stage. */
 

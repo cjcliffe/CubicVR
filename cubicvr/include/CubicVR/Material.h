@@ -25,8 +25,6 @@
 #ifndef CUBICVR_MATERIAL
 #define CUBICVR_MATERIAL
 
-#include <CubicVR/cvr_defines.h>
-
 #include <vector>
 #include <map>
 #include <string>
@@ -43,8 +41,6 @@
 #endif
 #endif
 #endif
-
-#include <CubicVR/GLExt.h>
 
 #include <CubicVR/Texture.h>
 #include <CubicVR/Resource.h>

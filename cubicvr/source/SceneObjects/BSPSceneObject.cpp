@@ -45,8 +45,8 @@ BSPSceneObject::BSPSceneObject(char * filename, int curveTesselation) : RigidSce
 	mRigidBody->setActivationState(WANTS_DEACTIVATION); 
 	
 	segmentMask = new BITSET;
-	segmentMask->Init(bspObject->clusterObject.numSegments);
-	segmentMask->SetAll();
+	segmentMask->init(bspObject->clusterObject.numSegments);
+	segmentMask->setAll();
 	
 //	createRigidBody();
 //	colShape->setMargin(0.005);

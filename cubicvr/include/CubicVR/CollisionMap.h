@@ -25,13 +25,14 @@
 #ifndef CUBICVR_COLLISIONMAP
 #define CUBICVR_COLLISIONMAP
 
+class Face;
+
 #include <CubicVR/Mesh.h>
-#include <CubicVR/Transform.h>
 #include <CubicVR/Renderer.h>
-//#include <CubicVR/SceneObject.h>
-#include <vector>
+#include <CubicVR/Transform.h>
 #include <btBulletDynamicsCommon.h>
 #include <BulletCollision/CollisionShapes/btOptimizedBvh.h>
+#include <vector>
 
 #define CMAP_SPHERE_NOMINAL 0.3f
 

@@ -29,13 +29,12 @@
 #define FLOAT_TOLERANCE 0.1f
 
 
-#include <CubicVR/cvr_defines.h>
-
 #include <vector>
 
 #include <CubicVR/Vector.h>
 #include <CubicVR/Material.h>
 #include <CubicVR/UV.h>
+#include <CubicVR/RGB.h>
 
 using namespace std;
 

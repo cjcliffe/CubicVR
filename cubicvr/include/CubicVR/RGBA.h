@@ -29,6 +29,18 @@
 
 #include <CubicVR/RGB.h>
 
+#ifdef ARCH_PSP
+struct va_rgba
+{
+	unsigned char r, g, b, a;
+};
+#else
+struct va_rgba
+{
+	float r, g, b, a;
+};
+#endif
+
 class IMPEXP RGBA : public RGB
 {
 public:

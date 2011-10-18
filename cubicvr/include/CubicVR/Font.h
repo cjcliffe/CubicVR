@@ -35,13 +35,11 @@
 
   */
 
-#include <CubicVR/cvr_defines.h>
 #include <CubicVR/Bitmap.h>
-#include <CubicVR/systemfont.h>
 
 #include <string>
 
-class IMPEXP Font
+class Font
 {
 private:
 public:

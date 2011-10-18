@@ -26,10 +26,6 @@
 #define CUBICVR_CAMERA_H
 
 
-#include <CubicVR/cvr_defines.h>
-#include <CubicVR/GLExt.h>
-#include <CubicVR/XYZ.h>
-#include <CubicVR/Motion.h>
 #include <CubicVR/SceneObject.h>
 
 

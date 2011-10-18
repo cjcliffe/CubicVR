@@ -25,6 +25,9 @@
 #ifndef SECTORREF_H
 #define SECTORREF_H
 
+class SceneObject;
+class Light;
+
 typedef struct _SectorRef
 {
 	SceneObject *sceneobj;

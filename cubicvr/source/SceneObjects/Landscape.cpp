@@ -144,8 +144,8 @@ Landscape::Landscape(cvrFloat size_in, unsigned int divisions_in_w, unsigned int
 
 //	printf("calc uv\n");
 
-	segmentMask.Init(obj->numSegments);
-	segmentMask.SetAll();
+	segmentMask.init(obj->numSegments);
+	segmentMask.setAll();
 	obj->segmentMask = &segmentMask;
 //	obj->calcSegmentBounds();
 	
@@ -859,7 +859,7 @@ void Landscape::drawDebugHeightField()
 	
 	for (int i = 0; i < obj->numSegments; i++)
 	{
-		if (segmentMask.IsSet(i))
+		if (segmentMask.isSet(i))
 		{
 			obj->getSegmentBounds(i,pts[0],pts[1]);
 			Pencil::drawBB(pts[0],pts[1]);

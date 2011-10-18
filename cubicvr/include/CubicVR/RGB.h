@@ -32,6 +32,11 @@
 #undef RGB
 #endif
 
+struct va_rgb
+{
+	float r, g, b;
+};
+
 
 class IMPEXP RGB
 {

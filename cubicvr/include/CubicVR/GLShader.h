@@ -25,43 +25,18 @@
 	THE SOFTWARE.
  */
 
-#include <CubicVR/cvr_defines.h>
-#include <CubicVR/Light.h>
+
+
+#include <CubicVR/GLExt.h>
+#include <CubicVR/Vector.h>
+#include <CubicVR/map_string.h>
+#include <CubicVR/Logger.h>
 
 #include <map>
 #include <string>
 
-#include <CubicVR/map_string.h>
-
-
-#ifdef OPENGL_ES
-#include <OpenGLES/ES1/glext.h>
-#endif
-
-#ifdef WIN32
-//#include <GL/glew.h>
-//#include <GL/wglew.h>
-//#include <GL/glut.h>
-#include <gl/GL.h>
-//#include <gl/GLAux.h>
-#include <gl/GLU.h>
-#endif
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#include <OpenGL/glu.h>
-#endif
-
-#ifdef ARCH_DC
-//#include <kos.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
-#include <CubicVR/Logger.h>
 
 #define FailGLError(X) {int err = (int)glGetError(); \
 	if (err != GL_NO_ERROR) \
@@ -133,7 +108,7 @@ struct shaderQueueEntry
 };
 
 
-class IMPEXP GLShader
+class GLShader
 {
 protected:
 	std::map<const char *, shaderValPair> shaderVals;

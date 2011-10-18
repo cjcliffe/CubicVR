@@ -38,7 +38,11 @@
 #endif
 
 
-
+/* vertex array structures */
+struct va_xyz
+{
+	float x, y, z;
+};
 
 class IMPEXP XYZ
 {

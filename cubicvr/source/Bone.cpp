@@ -24,6 +24,8 @@
 */
 
 #include <CubicVR/Bone.h>
+#include <CubicVR/Motion.h>
+#include <CubicVR/Renderer.h>
 #include <CubicVR/Transform.h>
 #include <CubicVR/GLExt.h>
 

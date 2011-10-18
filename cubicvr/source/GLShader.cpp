@@ -22,7 +22,8 @@
 	THE SOFTWARE.
  */
 #if !defined(_PSP)
-#include "CubicVR/GLShader.h"
+#include <CubicVR/GLShader.h>
+#include <CubicVR/Light.h>
 
 GLShader GLShader::defaultShader;
 GLhandleARB GLShader::activeProgram = 0;

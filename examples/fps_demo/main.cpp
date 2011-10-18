@@ -429,7 +429,7 @@ void Update(void)
 	{
 		bsp->bspObject->disableVIS(true);
 		bsp->bspObject->showAll(true);
-		bsp->segmentMask->SetAll();
+		bsp->segmentMask->setAll();
 	}
 	
 	if(keyPress['i'])

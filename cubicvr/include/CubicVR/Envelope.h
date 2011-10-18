@@ -29,8 +29,6 @@
 	Portions adapted from the work of Ernie Wright from the lightwave SDK
 */
 
-#include <CubicVR/cvr_defines.h>
-
 #include <map>
 
 #ifdef ARCH_PSP
@@ -78,7 +76,7 @@ struct float_less
 #define ENV_BEH_LINEAR     5
 
 
-class IMPEXP EnvelopeKey
+class EnvelopeKey
 {
 public:
 	
@@ -97,7 +95,7 @@ public:
 };
 
 
-class IMPEXP Envelope
+class Envelope
 {
 public:
 

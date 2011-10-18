@@ -25,13 +25,7 @@
 #ifndef CUBICVR_OBJECT_H
 #define CUBICVR_OBJECT_H
 
-#include <CubicVR/cvr_defines.h>
-
-#include <CubicVR/GLExt.h>
-
-#include <CubicVR/Vector.h>
 #include <CubicVR/Face.h>
-#include <CubicVR/Material.h>
 #include <CubicVR/BITSET.h>
 #include <CubicVR/ResourceManager.h>
 
@@ -49,28 +43,9 @@
 
 
 
-/* vertex array structures */
-struct va_xyz
-{
-	float x, y, z;
-};
 
-struct va_rgb
-{
-	float r, g, b;
-};
 
-#ifdef ARCH_PSP
-struct va_rgba
-{
-	unsigned char r, g, b, a;
-};
-#else
-struct va_rgba
-{
-	float r, g, b, a;
-};
-#endif
+
 
 struct va_uv
 {
@@ -142,7 +117,7 @@ struct smoothingPair
  */
  
  
-class IMPEXP Mesh : public Resource
+class Mesh : public Resource
 {
 private:
 	/// used internally to make sure we have enough points for a given request

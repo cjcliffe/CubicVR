@@ -8,10 +8,11 @@
 //	Distributed under the New BSD Licence. (See accompanying file License.txt or copy at
 //	http://www.paulsprojects.net/NewBSDLicense.txt)
 //////////////////////////////////////////////////////////////////////////////////////////	
-#include <CubicVR/GLExt.h>
 #include <CubicVR/IMAGE.h>
+#include <CubicVR/GLExt.h>
 #include <CubicVR/Logger.h>
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string>

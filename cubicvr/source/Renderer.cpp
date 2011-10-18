@@ -23,6 +23,9 @@
 */
 
 #include <CubicVR/Renderer.h>
+#include <CubicVR/Light.h>
+#include <CubicVR/AreaLight.h>
+#include <CubicVR/Mesh.h>
 
 #ifndef ARCH_PSP
 Mesh *VertexBufferRenderer::lockObj = NULL;
@@ -195,7 +198,7 @@ void VertexBufferRenderer::render(Mesh &obj, int stage)
 						
 			if (obj.numSegments >= 1 && obj.segmentMask)
 			{
-				if (obj.segmentMask->IsSet((*mat_segment_type_i).first) == false)
+				if (obj.segmentMask->isSet((*mat_segment_type_i).first) == false)
 				{
 					fault = true;
 				}
@@ -795,7 +798,7 @@ void ShadowRenderer::render(Mesh &obj, int stage)
 			
 			if (obj.numSegments >= 1 && obj.segmentMask)
 			{
-				if (obj.segmentMask->IsSet((*mat_segment_type_i).first) == false)
+				if (obj.segmentMask->isSet((*mat_segment_type_i).first) == false)
 				{
 					fault = true;
 				}

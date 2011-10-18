@@ -26,15 +26,16 @@
 #define SCENEOBJECT_H
 
 
-#include <CubicVR/cvr_defines.h>
 
 #include <CubicVR/Motion.h>
+#include <CubicVR/Mesh.h>
+#include <CubicVR/BITSET.h>
 #include <CubicVR/Renderer.h>
 #include <CubicVR/ObjectController.h>
-#include <CubicVR/CollisionMap.h>
 #ifndef ARCH_DC
 #include <CubicVR/ParticleSystem.h>
 #endif
+#include <CubicVR/CollisionMap.h>
 #include <CubicVR/SectorRef.h>
 #include <CubicVR/Bone.h>
 #include <CubicVR/FRUSTUM.h>
@@ -60,7 +61,7 @@ class SceneObjectCore
 };
 
 
-class IMPEXP SceneObject : public SceneObjectCore, public Controllable, public ObjectController, public Resource
+class SceneObject : public SceneObjectCore, public Controllable, public ObjectController, public Resource
 {
 private:
 	std::set<SceneObject *>::iterator children_i;

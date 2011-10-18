@@ -23,6 +23,9 @@
 */
 #if !defined(_PSP)
 #include <CubicVR/Font.h>
+#include <CubicVR/GLExt.h>
+#include <CubicVR/systemfont.h>
+
 #include <cstring>
 
 Font::Font(int width_in, int height_in, unsigned char *font_in)

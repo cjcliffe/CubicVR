@@ -10,14 +10,17 @@
 //	http://www.paulsprojects.net/NewBSDLicense.txt)
 //////////////////////////////////////////////////////////////////////////////////////////	
 
-#include <CubicVR/GLExt.h>
+
+#include <CubicVR/BSP.h>
+
 #include <stdio.h>
 #include <memory.h>
-#include <CubicVR/IMAGE.h>
+
+#include <CubicVR/GLExt.h>
 #include <CubicVR/math/Maths.h>
-#include <CubicVR/BSP.h>
 #include <CubicVR/Texture.h>
-#include <CubicVR/SectorMap.h>
+#include <CubicVR/UV.h>
+//#include <CubicVR/SectorMap.h>
 
 ////////////////////BSP::Load///////////////
 ////////////////////////////////////////////
@@ -204,7 +207,7 @@ bool BSP::LoadFaces(FILE * file, int curveTesselation)
 	memset(faceDirectory, 0, numTotalFaces*sizeof(BSP_FACE_DIRECTORY_ENTRY));
 
 	//Init the "faces drawn" bitset
-	facesToDraw.Init(numTotalFaces);
+	facesToDraw.init(numTotalFaces);
 
 	numMeshFaces = 0;
 	numPatches = 0;
@@ -678,7 +681,7 @@ bool BSP::LoadBSPData(FILE * file)
 		delete [] loadLeaves;
 	loadLeaves=NULL;
 
-	leafActive.Init(numLeaves);
+	leafActive.init(numLeaves);
 
 	return true;
 }
@@ -738,11 +741,11 @@ void BSP::CalculateVisibleFaces(const XYZ &cameraPosition_xyz, FRUSTUM &frustum,
 	//Clear the list of faces drawn
 	if (single_cluster)
 	{
-		if (!show_all) segmentMask.ClearAll();
+		if (!show_all) segmentMask.clearAll();
 	}
 	else
 	{
-		if (!show_all) leafActive.ClearAll();
+		if (!show_all) leafActive.clearAll();
 	}
 	
 	VECTOR3D cameraPosition;
@@ -762,7 +765,7 @@ void BSP::CalculateVisibleFaces(const XYZ &cameraPosition_xyz, FRUSTUM &frustum,
 			continue;
 
 		//if this leaf does not lie in the frustum, continue
-		if(!frustum.IsBoundingBoxInside(leaves[i].boundingBoxVertices))
+		if(!frustum.isBoundingBoxInside(leaves[i].boundingBoxVertices))
 			continue;
 
 		//loop through faces in this leaf and mark them to be drawn
@@ -780,7 +783,7 @@ void BSP::CalculateVisibleFaces(const XYZ &cameraPosition_xyz, FRUSTUM &frustum,
 //					printf("polygonFaces[polygonFaceNumber].segmentIndex: %d\n",polygonFaces[polygonFaceNumber].segmentIndex);
 					if (polygonFaces[polygonFaceNumber].segmentIndex)
 					{
-						segmentMask.Set(polygonFaces[polygonFaceNumber].segmentIndex);
+						segmentMask.set(polygonFaces[polygonFaceNumber].segmentIndex);
 					}
 				}
 				if (faceDirectory[faceNumber].faceType==bspPatch)
@@ -790,7 +793,7 @@ void BSP::CalculateVisibleFaces(const XYZ &cameraPosition_xyz, FRUSTUM &frustum,
 //					printf("patches[polygonFaceNumber].segmentIndex: %d\n",patches[polygonFaceNumber].segmentIndex);
 					if (patches[polygonFaceNumber].segmentIndex)
 					{
-						segmentMask.Set(patches[polygonFaceNumber].segmentIndex);
+						segmentMask.set(patches[polygonFaceNumber].segmentIndex);
 					}
 				}
 				if (faceDirectory[faceNumber].faceType==bspMeshFace)
@@ -800,14 +803,14 @@ void BSP::CalculateVisibleFaces(const XYZ &cameraPosition_xyz, FRUSTUM &frustum,
 //					printf("meshFaces[polygonFaceNumber].segmentIndex: %d\n",meshFaces[polygonFaceNumber].segmentIndex);
 					if (meshFaces[polygonFaceNumber].segmentIndex)
 					{
-						segmentMask.Set(meshFaces[polygonFaceNumber].segmentIndex);
+						segmentMask.set(meshFaces[polygonFaceNumber].segmentIndex);
 					}
 				}
 			}
 		}
 		else
 		{
-			leafActive.Set(i);
+			leafActive.set(i);
 		}
 	}
 }

@@ -25,14 +25,12 @@
 #ifndef CUBICVR_SHADER
 #define CUBICVR_SHADER
 
-#include <CubicVR/cvr_defines.h>
+#include <set>
+#include <CubicVR/XYZ.h>
 
-#include <CubicVR/GLExt.h>
-
-#include <CubicVR/Light.h>
-#include <CubicVR/AreaLight.h>
-
-#include <CubicVR/Mesh.h>
+class Light;
+class AreaLight;
+class Mesh;
 
 #define SHADER_STAGE_NULL	0
 #define SHADER_STAGE_OPAQUE	1
@@ -41,7 +39,7 @@
 #define SHADER_STAGE_NOTEXTURE 4
 #define SHADER_STAGE_SHADOW 5
 
-class IMPEXP Renderer
+class Renderer
 {
 	public:
 		std::set<Light *> *lights;
@@ -79,25 +77,25 @@ class IMPEXP Renderer
 
 #if !defined(OPENGL_ES) && !defined(ARCH_PSP)
 
-class IMPEXP LineRenderer : public Renderer
+class LineRenderer : public Renderer
 {
 	public:
 		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
-class IMPEXP VertexColorRenderer : public Renderer
+class VertexColorRenderer : public Renderer
 {
 	public:
 		void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
-class IMPEXP ShadowRenderer : public Renderer
+class ShadowRenderer : public Renderer
 {
 public:
 	void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
 };
 
-class IMPEXP ImmediateRenderer : public Renderer
+class ImmediateRenderer : public Renderer
 {
 public:
 	void render(Mesh &obj, int stage = SHADER_STAGE_NULL);
@@ -105,7 +103,7 @@ public:
 
 #endif
 
-class IMPEXP VertexBufferRenderer : public Renderer	/* todo: commenting */
+class VertexBufferRenderer : public Renderer	/* todo: commenting */
 {
 	public:
 	
@@ -121,7 +119,7 @@ class IMPEXP VertexBufferRenderer : public Renderer	/* todo: commenting */
 
 
 
-class IMPEXP MeshRenderer : public Renderer	// determines whehter the object is cached or not
+class MeshRenderer : public Renderer	// determines whehter the object is cached or not
 {
 	private:
 		VertexBufferRenderer cShader;

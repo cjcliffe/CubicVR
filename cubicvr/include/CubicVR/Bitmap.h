@@ -34,11 +34,8 @@
 	TODO: doxygen commenting
   */
 
-#include <CubicVR/cvr_defines.h>
-#include <CubicVR/GLExt.h>
-
 /* single color bitmaps */
-class IMPEXP Bitmap 
+class Bitmap
 {
 private:
 public:

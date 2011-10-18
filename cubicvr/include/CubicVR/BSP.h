@@ -21,12 +21,11 @@
 #ifndef BSP_H
 #define BSP_H
 
-#include <CubicVR/Mesh.h>
-#include <CubicVR/GLExt.h>
-#include <CubicVR/BITSET.h>
-#include <CubicVR/FRUSTUM.h>
-#include <CubicVR/Material.h>
 #include <CubicVR/Renderer.h>
+#include <CubicVR/FRUSTUM.h>
+#include <CubicVR/BITSET.h>
+#include <CubicVR/Mesh.h>
+
 
 //Directory entry in header
 class BSP_DIRECTORY_ENTRY

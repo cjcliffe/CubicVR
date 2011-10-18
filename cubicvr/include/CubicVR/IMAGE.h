@@ -46,7 +46,6 @@ typedef struct tagBITMAPINFOHEADER{
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
 #endif
 
-#include <stdio.h>
 #include <CubicVR/lodepng.h>
 
 class IMAGE

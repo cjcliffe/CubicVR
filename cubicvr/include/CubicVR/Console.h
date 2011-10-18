@@ -27,9 +27,7 @@
 #ifndef CUBICVR_CONSOLE
 #define CUBICVR_CONSOLE
 
-#include <CubicVR/cvr_defines.h>
 #include <CubicVR/SceneObject.h>
-#include <CubicVR/UVMapper.h>
 
 
 class IMPEXP Console: public SceneObject
