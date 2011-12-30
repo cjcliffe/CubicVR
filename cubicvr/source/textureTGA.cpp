@@ -104,7 +104,7 @@ IMPEXP bool LoadUncompressedTGA(TextureImage * texture, const char * filename, F
 
 	tga.bytesPerPixel	= (tga.Bpp / 8);									// Compute the number of BYTES per pixel
 	tga.imageSize		= (tga.bytesPerPixel * tga.Width * tga.Height);		// Compute the total amout ofmemory needed to store data
-	texture->imageData	= (GLubyte *)std::malloc(tga.imageSize);					// Allocate that much memory
+	texture->imageData	= (GLubyte *)malloc(tga.imageSize);					// Allocate that much memory
 
 	if(texture->imageData == NULL)											// If no space was allocated
 	{
@@ -118,7 +118,7 @@ IMPEXP bool LoadUncompressedTGA(TextureImage * texture, const char * filename, F
 //		MessageBox(NULL, "Could not read image data", "ERROR", MB_OK);		// Display Error
 		if(texture->imageData != NULL)										// If imagedata has data in it
 		{
-			std::free(texture->imageData);										// Delete data from memory
+			free(texture->imageData);										// Delete data from memory
 		}
 		fclose(fTGA);														// Close file
 		return false;														// Return failed
@@ -192,7 +192,7 @@ IMPEXP bool LoadCompressedTGA(TextureImage * texture, const char * filename, FIL
 
 	tga.bytesPerPixel	= (tga.Bpp / 8);									// Compute BYTES per pixel
 	tga.imageSize		= (tga.bytesPerPixel * tga.Width * tga.Height);		// Compute amout of memory needed to store image
-	texture->imageData	= (GLubyte *)std::malloc(tga.imageSize);					// Allocate that much memory
+	texture->imageData	= (GLubyte *)malloc(tga.imageSize);					// Allocate that much memory
 
 	if(texture->imageData == NULL)											// If it wasnt allocated correctly..
 	{
@@ -204,7 +204,7 @@ IMPEXP bool LoadCompressedTGA(TextureImage * texture, const char * filename, FIL
 	GLuint pixelcount	= tga.Height * tga.Width;							// Nuber of pixels in the image
 	GLuint currentpixel	= 0;												// Current pixel being read
 	GLuint currentbyte	= 0;												// Current byte 
-	GLubyte * colorbuffer = (GLubyte *)std::malloc(tga.bytesPerPixel);			// Storage for 1 pixel
+	GLubyte * colorbuffer = (GLubyte *)malloc(tga.bytesPerPixel);			// Storage for 1 pixel
 
 	do
 	{
@@ -219,7 +219,7 @@ IMPEXP bool LoadCompressedTGA(TextureImage * texture, const char * filename, FIL
 			}
 			if(texture->imageData != NULL)									// If there is stored image data
 			{
-				std::free(texture->imageData);									// Delete image data
+				free(texture->imageData);									// Delete image data
 			}
 			return false;													// Return failed
 		}
@@ -240,12 +240,12 @@ IMPEXP bool LoadCompressedTGA(TextureImage * texture, const char * filename, FIL
 
 					if(colorbuffer != NULL)												// See if colorbuffer has data in it
 					{
-						std::free(colorbuffer);												// If so, delete it
+						free(colorbuffer);												// If so, delete it
 					}
 
 					if(texture->imageData != NULL)										// See if there is stored Image data
 					{
-						std::free(texture->imageData);										// If so, delete it too
+						free(texture->imageData);										// If so, delete it too
 					}
 
 					return false;														// Return failed
@@ -274,12 +274,12 @@ IMPEXP bool LoadCompressedTGA(TextureImage * texture, const char * filename, FIL
 
 					if(colorbuffer != NULL)												// If there is data in colorbuffer
 					{
-						std::free(colorbuffer);												// Delete it
+						free(colorbuffer);												// Delete it
 					}
 
 					if(texture->imageData != NULL)										// If there is Image data
 					{
-						std::free(texture->imageData);										// delete it
+						free(texture->imageData);										// delete it
 					}
 
 					return false;														// Return failed
@@ -300,12 +300,12 @@ IMPEXP bool LoadCompressedTGA(TextureImage * texture, const char * filename, FIL
 
 				if(colorbuffer != NULL)													// If there is data in the colorbuffer
 				{
-					std::free(colorbuffer);													// delete it
+					free(colorbuffer);													// delete it
 				}
 
 				if(texture->imageData != NULL)											// If thereis image data
 				{
-					std::free(texture->imageData);											// delete it
+					free(texture->imageData);											// delete it
 				}
 
 				return false;															// return failed
@@ -336,12 +336,12 @@ IMPEXP bool LoadCompressedTGA(TextureImage * texture, const char * filename, FIL
 
 					if(colorbuffer != NULL)												// If there is data in colorbuffer
 					{
-						std::free(colorbuffer);												// Delete it
+						free(colorbuffer);												// Delete it
 					}
 
 					if(texture->imageData != NULL)										// If there is Image data
 					{
-						std::free(texture->imageData);										// delete it
+						free(texture->imageData);										// delete it
 					}
 
 					return false;														// Return failed

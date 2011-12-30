@@ -47,6 +47,8 @@ void LogHook::doLog(logLevel lev, const char *log_str)
 
 std::set<LogHook *> Logger::logSet;
 bool Logger::std_out_val = true;
+bool Logger::file_out_val = false;
+FILE *Logger::output_file = NULL;
 
 void Logger::log(const char *format, ...)
 {
@@ -107,6 +109,12 @@ void Logger::doLog(logLevel lev, const char *log_str)
 	{
 		printf("%s",log_str);
 	}
+
+	if (file_out_val && output_file)
+	{
+		fputs(log_str, output_file);
+		fflush(output_file);
+	}
 		
 }
 
@@ -114,6 +122,21 @@ void Logger::doLog(logLevel lev, const char *log_str)
 void Logger::setStandardOutput(bool val)
 {
 	std_out_val = val;
+}
+
+
+void Logger::setOutputFile(const char *file_path)
+{
+	std_out_val = false;
+	file_out_val = true;
+
+	output_file = fopen(file_path,"w");
+
+	const char *test_str = "String Test\n\n";
+
+//	fputs("------- LOG START -------\n\n", output_file);
+	fwrite((void *)test_str, 1, 13, output_file);
+
 }
 
 

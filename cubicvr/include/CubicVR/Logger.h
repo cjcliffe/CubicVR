@@ -60,7 +60,8 @@ public:
 class Logger
 {
 private:
-	static bool std_out_val;
+	static FILE *output_file;
+	static bool std_out_val, file_out_val;
 	static std::set<LogHook *> logSet;
 	static void doLog(logLevel lev, const char *log_str);
 	
@@ -75,4 +76,5 @@ public:
 	static void log(logLevel lev, std::string &log_str);
 	
 	static void setStandardOutput(bool val);
+	static void setOutputFile(const char *file_path);
 };

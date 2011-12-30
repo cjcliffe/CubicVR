@@ -50,7 +50,10 @@ Gamepad::Gamepad()
 	#endif
 	
 	#ifdef ARCH_DC	
-		c = maple_first_controller();
+//		c = maple_first_controller();
+//		c = maple_enum_type(0, MAPLE_FUNC_CONTROLLER);
+		c = NULL;
+		pad = NULL;
 	#endif
 }
 
@@ -130,7 +133,8 @@ bool Gamepad::Button(int btn)
 	#endif
 
 	#ifdef ARCH_DC
-		if(!(pad.buttons & btn))					return 1;
+		if (!pad) return 0;
+		if (pad->buttons & btn)					return 1;
 	#endif
 	
 	return 0;
@@ -146,7 +150,8 @@ float Gamepad::Left_Trigger()
 	#endif
 	
 	#ifdef ARCH_DC
-		return (float)((float)pad.ltrig / 255);
+		if (!pad) return 0;
+		return (float)((float)pad->ltrig / 255);
 	#endif
 	
 	return 0;
@@ -162,7 +167,8 @@ float Gamepad::Right_Trigger()
 	#endif
 	
 	#ifdef ARCH_DC
-		return (float)((float)pad.rtrig / 255);
+		if (!pad) return 0;
+		return (float)((float)pad->rtrig / 255);
 	#endif
 	
 	return 0;
@@ -199,10 +205,18 @@ void Gamepad::Update()
 	#endif
 	
 	#ifdef ARCH_DC
-		if (cont_get_cond(c, &pad) < 0)
-		{
-			Logger::log(LOG_ERROR,"Error reading controller\n");
+		c = maple_enum_type(0, MAPLE_FUNC_CONTROLLER);
+		
+		if (c) {
+			pad = (cont_state_t *)maple_dev_status(c);
+		} else {
+			pad = NULL;
 		}
+
+/*			if (!pad)
+			{
+				Logger::log(LOG_ERROR,"Error reading controller\n");
+			}*/
 
 		// else if(buttons == CONTROLLER_L_TRIG)			return cond.ltrig;
 		// else if(buttons == CONTROLLER_R_TRIG)			return cond.rtrig;
@@ -236,6 +250,7 @@ float Gamepad::Axis(int axi, int which)
 	
 	Update();
 	
+
 	// X axis
 	if(axi == 0)
 	{
@@ -257,7 +272,8 @@ float Gamepad::Axis(int axi, int which)
 		#endif
 			
 		#ifdef ARCH_DC
-			value = float(float(pad.joyx - 128) / 128);
+			if (!pad) return 0;
+			value = float(float(pad->joyx) / 128);
 		#endif
 	}
 	
@@ -274,7 +290,8 @@ float Gamepad::Axis(int axi, int which)
 		#endif
 		
 		#ifdef ARCH_DC
-			value = float(float(pad.joyy - 128) / 128);
+			if (!pad) return 0;
+			value = float(float(pad->joyy) / 128);
 		#endif
 	}
 	

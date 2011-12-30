@@ -3,8 +3,8 @@
 */
 
 #include <kos.h>
-#include <KGLX/gl.h>
-#include <KGLX/glu.h>
+#include <GLX/gl.h>
+#include <GLX/glu.h>
 
 #include <CubicVR/Timer.h>
 #include <CubicVR/Mesh.h>
@@ -15,7 +15,6 @@
 #include <CubicVR/SceneObjects/RigidSceneObject.h>
 #include <CubicVR/SceneObjects/RigidBox.h>
 #include <CubicVR/SceneObjects/Landscape.h>
-
 
 #include <CubicVR/Gamepad.h>
 
@@ -28,12 +27,12 @@ bool pause_pressed=false;
 
 #define NUM_LIGHTS 3
 
-Object boxObj;
+Mesh boxObj;
 SceneObject box;
 Light myLights[NUM_LIGHTS];
 
 Timer myTimer;
-ObjectShader shader;
+MeshRenderer shader;
 SceneObject targetObj;
 Gamepad *mGamepad;
 
@@ -45,7 +44,7 @@ btDefaultCollisionConstructionInfo *pspCollisionConstruct;
 
 
 
-void makeBox(Object &boxObj, float box_size, Material *box_mat)
+void makeBox(Mesh &boxObj, float box_size, Material *box_mat)
 {
 	float half_box = box_size/2.0;
 	
@@ -185,8 +184,13 @@ void mkLandscape()
 {
 	Material *objMat = new Material();	
 
+#ifndef SDCARD_BUILD
 	unsigned long objTex = Texture::create("/rd/grass.pcx","grass");
-	
+#else
+	unsigned long objTex = Texture::create("/sd/grass.pcx","grass");
+
+#endif	
+
 	objMat->bindTexture(0,objTex,TEXTURE_DIFF);
 	objMat->setMaxSmooth(60);
 	
@@ -208,11 +212,17 @@ void mkLandscape()
 
 void InitScene()
 {
+	Logger::log("Creating Material\n\n");
+
 	// Generate a box material
 	Material *boxMaterial = new Material();
-	
+
 	// Load textures for this material
+#ifdef SDCARD_BUILD
+	Texture::create("/sd/crate.pcx","crate1");	
+#else
 	Texture::create("/rd/crate.pcx","crate1");	
+#endif
 	// Apply the textures as layer 0, 1, 2
 	boxMaterial->bindTexture(0,Texture::getTextureId("crate1"),TEXTURE_DIFF);
 	
@@ -231,7 +241,7 @@ void InitScene()
 	
 	// Now cache the object onto the card for best performance.
 	boxObj.cache(true);
-	CacheShader tmpShader;
+	MeshRenderer tmpShader;
 
 	mkLandscape();
 
@@ -389,12 +399,18 @@ pvr_init_params_t params = {
         (1024+512)*1024
 };
 
+
+#ifndef SDCARD_BUILD
 extern uint8 romdisk[];
 KOS_INIT_ROMDISK(romdisk);
-
+#endif
 
 int main(int argc, char **argv) 
 {
+#ifdef SDCARD_BUILD
+	Logger::setOutputFile("/sd/bullet.log");
+#endif
+
 	/* Initialize KOS */
     pvr_init(&params);
 
@@ -402,6 +418,7 @@ int main(int argc, char **argv)
 
 	/* Get basic stuff initialized */
 	glKosInit();
+
 
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -412,10 +429,10 @@ int main(int argc, char **argv)
 	glCullFace(GL_BACK);
 
 
-	printf("init..\n");
+	Logger::log("init..\n");
 	InitScene();
 	myTimer.start();
-	printf("go\n");
+	Logger::log("go\n");
 
 	mGamepad = new Gamepad();
 	
@@ -423,6 +440,7 @@ int main(int argc, char **argv)
 	{
 		mGamepad->Update();
 		if(mGamepad->Button(GAMEPAD_BTN_START))		break;
+
 		
 		/* Begin frame */
 		glKosBeginFrame();

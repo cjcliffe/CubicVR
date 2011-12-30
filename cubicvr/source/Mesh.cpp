@@ -2046,7 +2046,7 @@ void Mesh::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) //
 #ifdef ARCH_PSP
 			cache_data.cache_element = (cvrElement *)malloc(element_count*sizeof(cvrElement));
 #else
-			cache_data.cache_element = (cvrElement *)std::calloc(element_count,sizeof(cvrElement));
+			cache_data.cache_element = (cvrElement *)calloc(element_count,sizeof(cvrElement));
 #endif		
 			// step through the materials/faces 
 			for (obj_matref_i = mat_reflist.begin(); obj_matref_i != mat_reflist.end(); obj_matref_i++)

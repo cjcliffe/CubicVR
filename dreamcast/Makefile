@@ -130,9 +130,6 @@ SectorMap.o: ../cubicvr/source/SectorMap.cpp
 
 #new
 
-Bitmap.o: ../cubicvr/source/Bitmap.cpp
-	$(BUILDCMD) Bitmap.o $^
-
 BITSET.o: ../cubicvr/source/BITSET.cpp
 	$(BUILDCMD) BITSET.o $^
 
@@ -208,9 +205,6 @@ RigidCapsule.o: ../cubicvr/source/SceneObjects/RigidCapsule.cpp
 BSPSceneObject.o: ../cubicvr/source/SceneObjects/BSPSceneObject.cpp
 	$(BUILDCMD) BSPSceneObject.o $^
 
-BSPSceneObject.o: ../cubicvr/source/SceneObjects/BSPSceneObject.cpp
-	$(BUILDCMD) BSPSceneObject.o $^
-
 
 tinyxml.o: ../cubicvr/source/tinyxml/tinyxml.cpp
 	$(BUILDCMD) tinyxml.o $^
@@ -223,10 +217,6 @@ tinyxmlerror.o: ../cubicvr/source/tinyxml/tinyxmlerror.cpp
 
 tinyxmlparser.o: ../cubicvr/source/tinyxml/tinyxmlparser.cpp
 	$(BUILDCMD) tinyxmlparser.o $^
-
-
-Resource.o: ../cubicvr/source/Resource.cpp
-	$(BUILDCMD) Resource.o $^
 
 bullet:
 	cd bullet && make

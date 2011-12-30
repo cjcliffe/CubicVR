@@ -3,7 +3,7 @@
 # (c)2001 Benoit Miller
 #   
 
-TARGET = bullet.elf
+TARGET = basic_test.elf
 OBJS = main.o
 
 all: OBJS += romdisk.o 
@@ -25,16 +25,11 @@ rm-elf:
 	-rm -f $(TARGET) romdisk.img romdisk.o
 
 sd: rm-elf $(TARGET) dist
-	sh-elf-objcopy -R .stack -O binary $(TARGET) bullet.bin
+	sh-elf-objcopy -R .stack -O binary $(TARGET) basic_test.bin
 
 $(TARGET): $(OBJS)
 	$(KOS_CC) $(KOS_CFLAGS) $(KOS_LDFLAGS) -o $(TARGET) $(KOS_START) \
 		$(OBJS) $(OBJEXTRA)-L$(KOS_BASE)/lib -L../../ -lcubicvr -lstdc++ -lkglx -lpcx -lkosutils -lbulletdynamics -lbulletcollision -lbulletmath -lm $(KOS_LIBS) -L../../build/lib/
-
-
-# -L../../dcbullet/
-
-#  -L../../../dependencies/product/lib/bullet/dreamcast/
 
 romdisk.img:
 	mkdir romdisk || true
