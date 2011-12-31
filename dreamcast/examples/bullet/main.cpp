@@ -18,6 +18,15 @@
 
 #include <CubicVR/Gamepad.h>
 
+#ifdef SD_CARD
+const char *GRASS_PCX = "/sd/bullet/grass.pcx";
+const char *CRATE_PCX = "/sd/bullet/crate.pcx";
+#else
+const char *GRASS_PCX = "/rd/grass.pcx";
+const char *CRATE_PCX = "/rd/crate.pcx";
+#endif
+
+
 Camera myCamera(640,480, 50, 1, 300);
 RigidScene myScene(640,480);
 RigidBox myRigidSceneObj;
@@ -184,12 +193,7 @@ void mkLandscape()
 {
 	Material *objMat = new Material();	
 
-#ifndef SDCARD_BUILD
-	unsigned long objTex = Texture::create("/rd/grass.pcx","grass");
-#else
-	unsigned long objTex = Texture::create("/sd/grass.pcx","grass");
-
-#endif	
+	unsigned long objTex = Texture::create(GRASS_PCX,"grass");
 
 	objMat->bindTexture(0,objTex,TEXTURE_DIFF);
 	objMat->setMaxSmooth(60);
@@ -218,11 +222,8 @@ void InitScene()
 	Material *boxMaterial = new Material();
 
 	// Load textures for this material
-#ifdef SDCARD_BUILD
-	Texture::create("/sd/crate.pcx","crate1");	
-#else
-	Texture::create("/rd/crate.pcx","crate1");	
-#endif
+	Texture::create(CRATE_PCX,"crate1");	
+
 	// Apply the textures as layer 0, 1, 2
 	boxMaterial->bindTexture(0,Texture::getTextureId("crate1"),TEXTURE_DIFF);
 	
@@ -400,19 +401,15 @@ pvr_init_params_t params = {
 };
 
 
-#ifndef SDCARD_BUILD
+#ifndef SD_CARD
 extern uint8 romdisk[];
 KOS_INIT_ROMDISK(romdisk);
 #endif
 
 int main(int argc, char **argv) 
 {
-#ifdef SDCARD_BUILD
-	Logger::setOutputFile("/sd/bullet.log");
-#endif
-
 	/* Initialize KOS */
-    pvr_init(&params);
+	pvr_init(&params);
 
 	printf("bullet test beginning\n");
 

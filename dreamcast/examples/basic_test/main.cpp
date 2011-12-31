@@ -12,6 +12,13 @@
 #include <CubicVR/Scene.h>
 #include <CubicVR/Gamepad.h>
 
+#ifdef SD_CARD
+const char *CRATE_PCX = "/sd/basic_test/crate.pcx";
+#else
+const char *CRATE_PCX = "/rd/crate.pcx";
+#endif
+
+
 Camera myCamera(640,480, 50, 1, 300);
 Scene myScene(640,480);
 
@@ -111,11 +118,8 @@ void InitScene()
 	Material *boxMaterial = new Material();
 
 	// Load textures for this material
-#ifdef SDCARD_BUILD
-	Texture::create("/sd/crate.pcx","crate1");	
-#else
-	Texture::create("/rd/crate.pcx","crate1");	
-#endif
+	Texture::create(CRATE_PCX,"crate1");	
+
 	// Apply the textures as layer 0, 1, 2
 	boxMaterial->bindTexture(0,Texture::getTextureId("crate1"),TEXTURE_DIFF);
 
@@ -175,12 +179,12 @@ Gamepad *mGamepad;
 
 int main(int argc, char **argv) 
 {
-#ifdef SDCARD_BUILD
-	Logger::setOutputFile("/sd/basic_test.log");
-#endif
+//#ifdef SDCARD_BUILD
+//	Logger::setOutputFile("/sd/basic_test.log");
+//#endif
 
 	/* Initialize KOS */
-    pvr_init(&params);
+ 	pvr_init(&params);
 
 	/* Get basic stuff initialized */
 	glKosInit();
