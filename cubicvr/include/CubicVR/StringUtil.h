@@ -37,6 +37,12 @@ THE SOFTWARE.
 
 using namespace std;
 
+#if defined(_WIN32) || defined(_WIN64) || defined(WINDOWS)
+	#define PATH_SEP "\\"
+#else
+	#define PATH_SEP "/"
+#endif
+
 void str_replace(const string &needle, const string &replacement, string &haystack);
 void str_explode(vector<string> &vect_out, const string &seperator, const string &in_str);
 void str_implode(string &str_out, const string &seperator, vector<string> &str_vect);

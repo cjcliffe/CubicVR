@@ -26,7 +26,10 @@
 #define CUBICVR_MAPSTRING
 
 #include <string>
+#include <algorithm>
+#include <map>
 #include <functional> 
+#include <CubicVR/StringUtil.h>
 
 /* map comparison function */
 struct string_less : public std::binary_function<std::string,std::string,bool> 
@@ -51,6 +54,39 @@ class MapString
 {
 public:
 	virtual const char *getString(const char *str_ref) = 0;
+};
+
+
+class ExtensionMapString
+{
+private:
+	std::map<string,string> extMap;
+public:
+	const char *getString(const char *str_ref) {
+		string path_in(str_ref),path_str,file_str,file_base,file_ext;
+		str_file_extract(path_in, path_str, file_str, file_base, file_ext);
+		std::transform(file_ext.begin(), file_ext.end(), file_ext.begin(), ::tolower);
+
+		printf("string expanded to: path: %s, file: %s, base: %s, ext: %s\n",path_str.c_str(),file_str.c_str(),file_base.c_str(),file_ext.c_str());
+
+		if (extMap.find(file_ext) != extMap.end()) {
+			file_ext = extMap[file_ext];
+			if (path_str.length()) {
+				return (path_str+string(PATH_SEP)+file_base+string(".")+file_ext).c_str();
+			} else {
+				return (file_base+string(".")+file_ext).c_str();
+			}
+		}
+
+		return str_ref;
+	}
+
+	void addTranslation(string from, string to) {
+		string fromExt(from);
+		std::transform(from.begin(), from.end(), from.begin(), ::tolower);
+		extMap[fromExt] = to;
+	}
+
 };
 
 #endif

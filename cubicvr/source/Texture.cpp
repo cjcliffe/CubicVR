@@ -335,79 +335,74 @@ void Texture::generate()
 
 bool Texture::load(std::string strFn)
 {
-	setId(strFn);
-	//Create texture
-	//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.width, img.height, 0, img.format, GL_UNSIGNED_BYTE, img.data);	
-#ifdef ARCH_PSP
-	const char *filename = strFn.c_str();
-	
-	int filenameLength=strlen(filename);
-   
-	if(	strncmp((filename+filenameLength-3), "TGA", 3)==0 ||
-	   strncmp((filename+filenameLength-3), "tga", 3)==0)
-		{
-   			Logger::log("[Texture:%s] Loading....",strFn.c_str());
-   
-   			if( !psp_texture.LoadTGA((char *)strFn.c_str()) )
-   			{
-   				Logger::log(LOG_ERROR,"failed!\n");
-   				//sceKernelExitGame();
-				return false;
-   			}
-   			else
-   			{
-   				Logger::log("ok.");
-				return true;
-   			}
-   			psp_texture.Swizzle();
-   			Logger::log("\n");
-	}
+	string path_str,file_str,file_base,file_ext;
+	str_file_extract(strFn, path_str, file_str, file_base, file_ext);
+	std::transform(file_ext.begin(), file_ext.end(), file_ext.begin(), ::tolower);
 
-#else
-	bool isJpgTexture = false;
-	
-	if(	strncmp((strFn.c_str()+strFn.length()-3), "JPG", 3)==0 ||
-	   strncmp((strFn.c_str()+strFn.length()-3), "jpg", 3)==0)
-		isJpgTexture = true;
+	setId(file_str);
 
 	bool imgLoaded = false;
-		
-#ifdef ARCH_DC
+   
+	//Create texture
+	//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.width, img.height, 0, img.format, GL_UNSIGNED_BYTE, img.data);	
 
-	const char *filename = strFn.c_str();
+	// Special loaders for platforms first..
+
+#ifdef ARCH_PSP	// PSP only supports TGA at the moment...
+	if (file_ext==string("tga")) {
+			Logger::log("Loading Texture: [%s] as [PSP TGA]\n", file_str.c_str());
+
+   			imgLoaded = psp_texture.LoadTGA((char *)strFn.c_str());
+
+			if (imgLoaded) {
+	   			psp_texture.Swizzle();	
+   				Logger::log("ok.\n");
+				return true;
+			} else {
+   				Logger::log(LOG_ERROR,"failed!\n");
+				return false;
+   			}
+	}
+#else
+
+	bool isJpgTexture = false;
 	
-	int filenameLength=strlen(filename);
+	if(	file_ext==string("jpg") || file_ext==string("jpeg") ) {
+		isJpgTexture = true;
+	}
+
 	
-	if(	strncmp((filename+filenameLength-3), "PCX", 3)==0 ||
-	   strncmp((filename+filenameLength-3), "pcx", 3)==0)
-		{
-			Logger::log("Loading PCX using dreamcast loader");
+#ifdef ARCH_DC // DC supports PCX and PVR
+	if (file_ext==string("pcx")) {
+
+			Logger::log("Loading Texture: [%s] as [DC PCX]\n", file_str.c_str());
 			generate();
 			
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_FILTER, GL_FILTER_BILINEAR);
-			loadtxr(filename, &glTexId);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_FILTER, GL_FILTER_BILINEAR);
+
+			loadtxr(strFn.c_str(), &glTexId);
 			return true;
-		}
-	else if(	strncmp((filename+filenameLength-3), "PVR", 3)==0 ||
-	   strncmp((filename+filenameLength-3), "pvr", 3)==0)
-		{
-			Logger::log("Loading PVR using dreamcast loader\n");
+
+	} else if (file_ext==string("pvr"))	{
+
+			Logger::log("Loading Texture: [%s] as [DC PVR]\n", file_str.c_str());
 			generate();
 			
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_FILTER, GL_FILTER_BILINEAR);
-			loadpvr(filename, &glTexId);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_FILTER, GL_FILTER_BILINEAR);
+
+			loadpvr(strFn.c_str(), &glTexId);
 			return true;
-		}	
+	}	
 #endif
 	
+	// Generic loader for remainder
 	imgLoaded = img.Load((char *)strFn.c_str());
 	
-	if (imgLoaded)
-	{
+	if (imgLoaded) {
 		generate();
 		glEnable(GL_TEXTURE_2D);
 
@@ -430,8 +425,9 @@ bool Texture::load(std::string strFn)
 #endif
 
 #ifndef ARCH_DC
-		if(isJpgTexture)
+		if(isJpgTexture) {
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		}
 #endif
 
 		format = img.format;
@@ -440,10 +436,10 @@ bool Texture::load(std::string strFn)
 		glTexImage2D(GL_TEXTURE_2D, 0, img.format, img.width, img.height, 0, img.format, GL_UNSIGNED_BYTE, img.data);	
 
 #ifndef ARCH_DC
-		if(isJpgTexture)
+		if(isJpgTexture) {
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		}
 #endif
-
 
 		return true;
 	}
@@ -452,17 +448,6 @@ bool Texture::load(std::string strFn)
 		return false;
 	}
 #endif
-//	char c = toupper(strFn[strFn.length()-3]);
-//			
-//	if (c == 'T')
-//	{
-//		load(strFn,FORMAT_TGA);
-//	}
-//	else 
-//	if (c == 'P')
-//	{
-//		load(strFn,FORMAT_PNG);
-//	}
 }
 
 #ifndef ARCH_PSP
@@ -472,10 +457,14 @@ bool Texture::loadMipmap(std::string strFn)
 {
 	bool isJpgTexture = false;
 
-	if(	strncmp((strFn.c_str()+strFn.length()-3), "JPG", 3)==0 ||
-	   strncmp((strFn.c_str()+strFn.length()-3), "jpg", 3)==0)
+	string path_str,file_str,file_base,file_ext;
+	str_file_extract(strFn, path_str, file_str, file_base, file_ext);
+	std::transform(file_ext.begin(), file_ext.end(), file_ext.begin(), ::tolower);
+
+	if (file_ext==string("jpg") || file_ext==string("jpeg")) {
 		isJpgTexture = true;
-	
+	}
+
 	//if a jpg texture, need to set UNPACK_ALIGNMENT to 1
 		
 	if (img.Load((char *)strFn.c_str()))

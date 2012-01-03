@@ -59,25 +59,14 @@ void str_implode(string &str_out, const string &seperator, vector<string> &str_v
 
 void str_file_extract(string path_in, string &path_str,string &file_str,string &file_base,string &file_ext)
 {
-	const char *path_chr;
-	
-	if (path_in.find("\\",0) != string::npos) 
-	{
-		path_chr = "\\";
-	}
-	else 
-	{
-		path_chr = "/";
-	}
-	
 	vector<string> fileArray;
 	
-	str_explode(fileArray,path_chr,path_in);
+	str_explode(fileArray,PATH_SEP,path_in);
 	
 	file_str = fileArray.back();
 	fileArray.pop_back();
 	
-	str_implode(path_str, path_chr, fileArray);
+	str_implode(path_str, PATH_SEP, fileArray);
 	
 	vector<string> fileNameArray;
 	

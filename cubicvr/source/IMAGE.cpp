@@ -11,6 +11,7 @@
 #include <CubicVR/IMAGE.h>
 #include <CubicVR/GLExt.h>
 #include <CubicVR/Logger.h>
+#include <CubicVR/StringUtil.h>
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -35,9 +36,16 @@
     #include <CubicVR/tinyjpeg/tinyjpeg.h>
 #endif
 
+using namespace std;
+
 //Load - load a texture from a file
-bool IMAGE::Load(char * filename)
+bool IMAGE::Load(char *filename)
 {
+	string path_str,file_str,file_base,file_ext;
+	str_file_extract(string(filename), path_str, file_str, file_base, file_ext);
+	std::transform(file_ext.begin(), file_ext.end(), file_ext.begin(), ::tolower);
+
+
 	//Clear the data if already used
 	if(data)
 		delete [] data;
@@ -48,23 +56,18 @@ bool IMAGE::Load(char * filename)
 #ifndef ARCH_PSP
 	format=0;
 #endif	
-	Logger::log("Loading Texture: [%s]:\n", filename);
+	Logger::log("Loading Texture: [%s] as ", file_str.c_str());
 
-
-	int filenameLength=strlen(filename);
-
-	if(	strncmp((filename+filenameLength-3), "BMP", 3)==0 ||
-		strncmp((filename+filenameLength-3), "bmp", 3)==0)
+	if (file_ext == string("bmp")) {
+		Logger::log("[BMP file]\n");
 		return LoadBMP(filename);
-	
-	if(	strncmp((filename+filenameLength-3), "PCX", 3)==0 ||
-		strncmp((filename+filenameLength-3), "pcx", 3)==0)
+	}
+	if (file_ext == string("pcx")) {
+		Logger::log("[PCX file]\n");
 		return LoadPCX(filename);
-	
-	if(	strncmp((filename+filenameLength-3), "TGA", 3)==0 ||
-		strncmp((filename+filenameLength-3), "tga", 3)==0)
-	{
-		Logger::log("Loading '%s' [TGA file]\n", filename);
+	}
+	if (file_ext == string("tga")) {
+		Logger::log("[TGA file]\n");
 		return LoadTGA(filename);
 	}
 
@@ -72,19 +75,20 @@ bool IMAGE::Load(char * filename)
 #ifndef ARCH_PSP
 #ifndef ARCH_DC
 
-	if(	strncmp((filename+filenameLength-3), "JPG", 3)==0 ||
-	   strncmp((filename+filenameLength-3), "jpg", 3)==0)
+	if(file_ext==string("jpg") || file_ext==string("jpeg"))	{
+		Logger::log("[JPEG file]\n");
 		return LoadJPG(filename);
+	}
 #endif
 #endif
 #endif
 	
-	
-	if(	strncmp((filename+filenameLength-3), "PNG", 3)==0 ||
-	   strncmp((filename+filenameLength-3), "png", 3)==0)
+	if(	file_ext == string("png")) {
+		Logger::log("[PNG file]\n");
 		return LoadPNG(filename);
-	
-	Logger::log(LOG_ERROR,"%s does not end in \".tga\", \".bmp\", \".jpg\", \".png\" or \".pcx\"\n", filename);
+	}
+
+	Logger::log(LOG_ERROR,"[ ERROR - not .tga, .bmp, .jpg, .jpeg, .png or .pcx extension ]\n", file_str.c_str());
 	return false;
 }
 
