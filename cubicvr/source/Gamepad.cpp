@@ -50,10 +50,12 @@ Gamepad::Gamepad()
 	#endif
 	
 	#ifdef ARCH_DC	
-//		c = maple_first_controller();
-//		c = maple_enum_type(0, MAPLE_FUNC_CONTROLLER);
-		c = NULL;
-		pad = NULL;
+		#if defined(maple_first_controller)
+			c = maple_first_controller();
+		#else
+			c = NULL;
+			pad = NULL;
+		#endif
 	#endif
 }
 
@@ -133,8 +135,12 @@ bool Gamepad::Button(int btn)
 	#endif
 
 	#ifdef ARCH_DC
-		if (!pad) return 0;
-		if (pad->buttons & btn)					return 1;
+		#if defined(maple_first_controller)
+			if(!(pad.buttons & btn))				return 1;
+		#else
+			if (!pad) return 0;
+			if (pad->buttons & btn)					return 1;
+		#endif
 	#endif
 	
 	return 0;
@@ -151,7 +157,11 @@ float Gamepad::Left_Trigger()
 	
 	#ifdef ARCH_DC
 		if (!pad) return 0;
-		return (float)((float)pad->ltrig / 255);
+		#if defined(maple_first_controller)
+			return (float)((float)pad.ltrig / 255);			
+		#else
+			return (float)((float)pad->ltrig / 255);
+		#endif
 	#endif
 	
 	return 0;
@@ -168,7 +178,11 @@ float Gamepad::Right_Trigger()
 	
 	#ifdef ARCH_DC
 		if (!pad) return 0;
-		return (float)((float)pad->rtrig / 255);
+		#if defined(maple_first_controller)
+			return (float)((float)pad.rtrig / 255);			
+		#else
+			return (float)((float)pad->rtrig / 255);
+		#endif
 	#endif
 	
 	return 0;
@@ -205,18 +219,17 @@ void Gamepad::Update()
 	#endif
 	
 	#ifdef ARCH_DC
-		c = maple_enum_type(0, MAPLE_FUNC_CONTROLLER);
+		#if defined(maple_first_controller)
+			cont_get_cond(c, &pad);
+		#else
+			c = maple_enum_type(0, MAPLE_FUNC_CONTROLLER);
 		
-		if (c) {
-			pad = (cont_state_t *)maple_dev_status(c);
-		} else {
-			pad = NULL;
-		}
-
-/*			if (!pad)
-			{
-				Logger::log(LOG_ERROR,"Error reading controller\n");
-			}*/
+			if (c) {
+				pad = (cont_state_t *)maple_dev_status(c);
+			} else {
+				pad = NULL;
+			}
+		#endif
 
 		// else if(buttons == CONTROLLER_L_TRIG)			return cond.ltrig;
 		// else if(buttons == CONTROLLER_R_TRIG)			return cond.rtrig;
@@ -273,7 +286,11 @@ float Gamepad::Axis(int axi, int which)
 			
 		#ifdef ARCH_DC
 			if (!pad) return 0;
-			value = float(float(pad->joyx) / 128);
+			#if defined(maple_first_controller)
+				value = float(float(pad.joyx - 128) / 128);
+			#else
+				value = float(float(pad->joyx) / 128);
+			#endif
 		#endif
 	}
 	
@@ -291,7 +308,11 @@ float Gamepad::Axis(int axi, int which)
 		
 		#ifdef ARCH_DC
 			if (!pad) return 0;
-			value = float(float(pad->joyy) / 128);
+			#if defined(maple_first_controller)
+				value = float(float(pad.joyy - 128) / 128);
+			#else
+				value = float(float(pad->joyy) / 128);
+			#endif
 		#endif
 	}
 	

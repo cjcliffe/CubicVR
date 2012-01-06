@@ -120,7 +120,12 @@ private:
 	#endif
 	
 	#ifdef ARCH_DC
-		maple_device_t*		c;					// Dremacast controller
-		cont_state_t* 		pad;					// DC Datastruct for controller info
+		#if defined(maple_first_controller)
+			uint8				c;						// Dremacast controller number
+			cont_cond_t 		pad;					// DC Datastruct for controller info
+		#else
+			maple_device_t*		c;						// Dreamcast controller
+			cont_state_t* 		pad;					// DC Datastruct for controller info
+		#endif
 	#endif
 };

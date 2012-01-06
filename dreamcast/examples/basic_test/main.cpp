@@ -175,6 +175,11 @@ pvr_init_params_t params = {
 };
 
 
+#ifndef SD_CARD
+extern uint8 romdisk[];
+KOS_INIT_ROMDISK(romdisk);
+#endif
+
 Gamepad *mGamepad;
 
 int main(int argc, char **argv) 

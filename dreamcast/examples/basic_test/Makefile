@@ -6,7 +6,13 @@ OBJS = main.o
 RESOURCES = ../resources/images/crate.pcx
 
 all: OBJS += romdisk.o 
+all: LIBS += -lkglx 
 all: rm-elf romdisk.o $(TARGET) dist
+
+rc4: OBJS += romdisk.o 
+rc4: LIBS += -lglx 
+rc4: rm-elf romdisk.o $(TARGET) dist
+
 
 include $(KOS_BASE)/Makefile.rules
 
@@ -29,7 +35,7 @@ sd: rm-elf $(TARGET) dist
 
 $(TARGET): $(OBJS)
 	$(KOS_CC) $(KOS_CFLAGS) $(KOS_LDFLAGS) -o $(TARGET) $(KOS_START) \
-		$(OBJS) $(OBJEXTRA)-L$(KOS_BASE)/lib -L../../ -lcubicvr -lstdc++ -lkglx -lpcx -lkosutils -lbulletdynamics -lbulletcollision -lbulletmath -lm $(KOS_LIBS) -L../../build/lib/
+		$(OBJS) $(OBJEXTRA)-L$(KOS_BASE)/lib -L../../ -lcubicvr -lstdc++ $(LIBS) -lpcx -lkosutils -lbulletdynamics -lbulletcollision -lbulletmath -lm $(KOS_LIBS) -L../../build/lib/
 
 romdisk.img:
 	mkdir romdisk || true
