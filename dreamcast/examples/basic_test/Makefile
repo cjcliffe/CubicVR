@@ -16,6 +16,7 @@ rc4: rm-elf romdisk.o $(TARGET) dist
 
 include $(KOS_BASE)/Makefile.rules
 
+sd: LIBS += -lkglx
 sd: KOS_CFLAGS += -DSD_CARD
 	
 BUILDCMD=$(KOS_CC) $(KOS_CFLAGS) -I../../build/include/ -I./ -DARCH_DC -O2 -funroll-loops -c -o 
