@@ -226,7 +226,7 @@ void ObjectController::transformBegin(bool no_pivot, bool no_scale, bool update_
 		{
 			glPushMatrix();
 				glMultMatrixf(w_trans);
-				if (scale.x != 1 || scale.y != 1 || scale.z != 1 && !no_scale)
+				if (!no_scale && (scale.x != 1 || scale.y != 1 || scale.z != 1))
 				{
 			#ifdef ARCH_PSP
 					ScePspFVector3 scaleVec = { scale.x, scale.y, scale.z };

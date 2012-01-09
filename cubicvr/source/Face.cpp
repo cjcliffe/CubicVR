@@ -118,7 +118,9 @@ bool Face::triangleDistanceTest(XYZ &v_test,float dist_test)
 	XYZ t,u,ret;
 	Vector v;
 	
-	if (face_normal.x==face_normal.y==face_normal.z==0) calcFaceNormal();
+	if (face_normal.x == 0 && face_normal.y == 0 && face_normal.z == 0) {
+		calcFaceNormal();
+	}
 	
 	d = planeDistanceTo(v_test);
 	

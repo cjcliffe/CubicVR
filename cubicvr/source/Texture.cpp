@@ -82,14 +82,17 @@ struct pvr_tex {
 void loadpvr( const char * file_name, GLuint *txr ) {
 
   /* set up the files and buffers */
-  FILE * pvr_file;
-  char * pvr_header, * pvr_buffer;
-  int header_len;
+  FILE *pvr_file;
+  char *pvr_header = NULL, *pvr_buffer = NULL;
+  int header_len=0;
   struct pvr_tex pvr;
+  pvr.texWidth = pvr.texHeight = pvr.txrFmt = pvr.txrColor = 0;
   
   /* open the pvr file */
   pvr_file = fopen( file_name ,"rb");
-  if (pvr_file==NULL) printf ("File error",stderr);	
+  if (pvr_file==NULL) {
+	Logger::log("Error reading PVR file [%s]\n",file_name);	
+  }
 
   /* Read the possible 0x00100000 byte header */  
   pvr_header = (char*)malloc( 32 );
@@ -103,10 +106,10 @@ void loadpvr( const char * file_name, GLuint *txr ) {
   fseek (pvr_file , 0, SEEK_SET);
     
   /* Allocate RAM to contain the PVR file */
-  if( pvr_buffer ) free( pvr_buffer );
+//  if( pvr_buffer ) free( pvr_buffer );
   pvr_buffer = (char*)memalign( 32, pvrSize );
   //pvr_buffer = (char*)malloc( pvrSize );
-  if ( pvr_buffer == NULL ) printf ("Memory error\n");
+  if ( pvr_buffer == NULL ) Logger::log ("PVR memory alloc error\n");
 
   /* GBIX = 0x00100000 byte header */
   if( (char)pvr_header[0] == 'G' && (char)pvr_header[1] == 'B'
@@ -195,7 +198,7 @@ void loadpvr( const char * file_name, GLuint *txr ) {
   printf("PVR TXR Size: %i bytes, %ix%i pixels\n", pvrSize, pvr.texWidth, pvr.texHeight );
   
   /* Allocate VRAM */
-  if(pvr.txrAddr) pvr_mem_free(pvr.txrAddr);
+//  if(pvr.txrAddr) pvr_mem_free(pvr.txrAddr);
   pvr.txrAddr = pvr_mem_malloc(pvrSize);
   
   /* Transfer the texture from RAM to VRAM */

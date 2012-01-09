@@ -129,7 +129,7 @@ IMPEXP bool LoadUncompressedTGA(TextureImage * texture, const char * filename, F
 
 	for(GLuint cswap = 0; cswap < tga.imageSize; cswap += tga.bytesPerPixel)
 	{
-		int r,g,b,a;
+		int r,g,b,a=0;
 	
 		r = texture->imageData[cswap];
 		g = texture->imageData[cswap+1];

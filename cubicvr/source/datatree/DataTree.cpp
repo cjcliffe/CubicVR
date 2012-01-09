@@ -259,8 +259,8 @@ void DataElement::set(vector<long> &longvect_in)
 
 void DataElement::set(vector<float> &floatvect_in)
 {
-	long ptr;
-	float temp_float;
+//	long ptr;
+//	float temp_float;
     
 	data_type = DATA_FLOATVECTOR;
 	

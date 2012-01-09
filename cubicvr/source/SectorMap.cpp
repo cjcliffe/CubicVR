@@ -381,7 +381,7 @@ void SectorMap::renderFrustum(MATRIX4X4 projMatrix, MATRIX4X4 modelMatrix, float
 	frust.update(projMatrix,modelMatrix);
 	
 	XYZ aabb1, aabb2;
-	XYZ f_bounds[8];
+//	XYZ f_bounds[8];
 	
 	
 	XYZ far_top_left,far_top_right,far_bottom_left,far_bottom_right,near_top_left,near_top_right,near_bottom_left,near_bottom_right;
@@ -1371,7 +1371,7 @@ void SectorMap::process()
 		bbMinLast = (*i)->aabbMin_last;
 		bbMaxLast = (*i)->aabbMax_last;
 		
-		moved = (bbMin != bbMinLast || bbMax != bbMaxLast && (bbMinLast != bbMaxLast)); // (*i)->moved(); // 
+		moved = (((bbMin != bbMinLast) || (bbMax != bbMaxLast)) && (bbMinLast != bbMaxLast)); // (*i)->moved(); // 
 
 		if (!moved) continue;
 		

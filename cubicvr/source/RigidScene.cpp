@@ -26,10 +26,11 @@
 #include <CubicVR/Mesh.h>
 
 
-RigidScene::RigidScene(int scr_width_in, int scr_height_in, XYZ aabbMin, XYZ aabbMax) : Scene(scr_width_in,scr_height_in), maxProxies(16384) , worldAabbMin(-10000,-10000,-10000) , worldAabbMax(10000,10000,10000), dynamicsWorld(NULL), constraints_setup(false), rigidUpdate(true), collisionEvents(false)
+RigidScene::RigidScene(int scr_width_in, int scr_height_in, XYZ aabbMin, XYZ aabbMax) : Scene(scr_width_in,scr_height_in), dynamicsWorld(NULL), worldAabbMin(-10000,-10000,-10000) , worldAabbMax(10000,10000,10000), maxProxies(16384), constraints_setup(false), collisionEvents(false)
 #if !defined(ARCH_PSP) && !defined(OPENGL_ES)
 , debugDrawer(NULL)
 #endif
+, rigidUpdate(true)
 {
 
 

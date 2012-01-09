@@ -48,12 +48,15 @@
  */
 
 Vehicle::Vehicle () : 
+rightIndex(0),
+upIndex(1),
+forwardIndex(2),
 gEngineForce(0.0f), 
 gBreakingForce(0.0f), 
 maxEngineForce(2000.0f), 
 maxBreakingForce(125.0f), 
 gVehicleSteering(0.0f), 
-steeringClamp(0.51f), 
+steeringClamp(0.51f)
 //wheelRadius(0.39f), 
 //wheelWidth(0.3f), 
 //wheelFriction(0.94f), 
@@ -63,9 +66,6 @@ steeringClamp(0.51f),
 //suspensionRestLength(0.04f),
 //rollInfluence(2.0f),
 //connectionHeight(-0.10f),
-rightIndex(0),
-upIndex(1),
-forwardIndex(2)
 //frontAxelZ(1.6f),
 //rearAxelZ(-1.3f),
 //axelWidth(0.848f*2.0f)
@@ -77,12 +77,15 @@ forwardIndex(2)
 
 
 Vehicle::Vehicle (Mesh &carObj_in, Mesh &carCollisionObj_in) : 
+rightIndex(0),
+upIndex(1),
+forwardIndex(2),
 gEngineForce(0.0f), 
 gBreakingForce(0.0f), 
 maxEngineForce(2000.0f), 
 maxBreakingForce(125.0f), 
 gVehicleSteering(0.0f), 
-steeringClamp(0.51f), 
+steeringClamp(0.51f)
 //wheelRadius(0.39f), 
 //wheelWidth(0.3f), 
 //wheelFriction(0.94f), 
@@ -92,9 +95,6 @@ steeringClamp(0.51f),
 //suspensionRestLength(0.04f),
 ////rollInfluence(2.0f),
 //connectionHeight(-0.10f),
-rightIndex(0),
-upIndex(1),
-forwardIndex(2)
 //frontAxelZ(1.6f),
 //rearAxelZ(-1.3f),
 //axelWidth(0.848f*2.0f)

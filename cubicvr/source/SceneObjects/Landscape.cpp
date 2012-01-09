@@ -38,7 +38,7 @@
 	#define SEG_SQUARE 32
 #endif
 
-Landscape::Landscape(cvrFloat size_in, unsigned int divisions_in_w, unsigned int divisions_in_h, float max_height_in, Material *matRef_in, bool cache) : heightfieldData(NULL), debugShape(NULL)
+Landscape::Landscape(cvrFloat size_in, unsigned int divisions_in_w, unsigned int divisions_in_h, float max_height_in, Material *matRef_in, bool cache) : debugShape(NULL), heightfieldData(NULL)
 {
 	divisions_w = divisions_in_w;
 	divisions_h = divisions_in_h;
@@ -347,7 +347,7 @@ bool Landscape::loadPNGMap(char *png_map, float lo, float hi)
 		for (i = 0; i < obj->points.size(); i++)
 		{
 			unsigned short tmp_int;
-			float height_val;
+			float height_val=0;
 			
 			switch (bpp)
 			{

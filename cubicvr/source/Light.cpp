@@ -37,7 +37,7 @@ GLint Light::active_projector = -1;
 #endif
 
 
-Light::Light(bool dynamic_in) : shadowmapTex(0), coneTex(0), has_target(false), has_shadow(false), parent(NULL), has_projector(false), glLightId(0), nearclip(1.0f), farclip(200.0f), sceneObjTarget(NULL)
+Light::Light(bool dynamic_in) : shadowmapTex(0),  coneTex(0), glLightId(0), nearclip(1.0f), farclip(200.0f), has_target(false), has_shadow(false), has_projector(false), parent(NULL), sceneObjTarget(NULL)
 {
 	setType(LIGHT_POINT);
 	setAmbient(RGB(0.0f,0.0f,0.0f));

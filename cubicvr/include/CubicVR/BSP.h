@@ -298,45 +298,21 @@ public:
 class BSP
 {
 public:
-	bool Load(char * filename, int curveTesselation);
-	
-	int CalculateCameraLeaf(const VECTOR3D & cameraPosition);
-
-	void CalculateVisibleFaces(const XYZ &cameraPosition, FRUSTUM &frustum, BITSET &segmentMask);
-
-//	void buildClusterObjects();
-	void buildSingleCluster();
-
-	void DrawGLSL(MeshRenderer &shader);
-
-	inline void setLightMapGamma(float gamma_val) { gamma=gamma_val; };
-
 	unsigned long shader_mask;
-	
-	void showAll(bool show_all_in);
-	void disableVIS(bool disable_vis_in);
-	
 	bool show_all;
 	bool disable_vis;
-	
+	bool single_cluster;
+
 	//header
 	BSP_HEADER header;
-
 
 	//vertices
 	int numVertices;
 	BSP_VERTEX * vertices;
-//	std::vector<Object *> clusterObjects;
 	Mesh clusterObject;
-	
-	bool LoadVertices(FILE * file);
-
-	std::vector<unsigned long> face_test;
-	
 
 	//faces
 	int numTotalFaces;
-	bool single_cluster;
 
 	BSP_FACE_DIRECTORY_ENTRY * faceDirectory;
 
@@ -355,10 +331,8 @@ public:
 
 	BITSET facesToDraw;	//holds which faces need to be drawn
 	BITSET leafActive;
-//	std::vector<bool> leafActive;
-	
-	bool LoadFaces(FILE * file, int curveTesselation);
 
+	std::vector<unsigned long> face_test;
 
 	float gamma;
 
@@ -373,23 +347,16 @@ public:
 	bool * isTextureTGA;
 
 	BSP_LOAD_TEXTURE * loadTextures;
-	
-	
-	bool LoadTextures(FILE * file);
-
 
 	//lightmaps
 	int numLightmaps;
+
 	//OpenGL identifiers for lightmaps
 	unsigned long * lightmapTextures;
 	GLuint whiteTexture;	//used if no lightmap specified
 
-	bool LoadLightmaps(FILE * file);
-
-
 	//entities
 	char * entityString;
-
 
 	//Leaves
 	int numLeaves;
@@ -410,18 +377,43 @@ public:
 	
 	//visibility data
 	BSP_VISIBILITY_DATA visibilityData;
+
+
+	bool Load(char * filename, int curveTesselation);
+	
+	int CalculateCameraLeaf(const VECTOR3D & cameraPosition);
+
+	void CalculateVisibleFaces(const XYZ &cameraPosition, FRUSTUM &frustum, BITSET &segmentMask);
+
+	void buildSingleCluster();
+
+	void DrawGLSL(MeshRenderer &shader);
+
+	inline void setLightMapGamma(float gamma_val) { gamma=gamma_val; };
+	
+	void showAll(bool show_all_in);
+	void disableVIS(bool disable_vis_in);
+	
+	bool LoadVertices(FILE * file);
+	
+	bool LoadFaces(FILE * file, int curveTesselation);
+	
+	bool LoadTextures(FILE * file);
+
+	bool LoadLightmaps(FILE * file);
+
 	//returns true/false based on if a cluster is visible
 	int isClusterVisible(int cameraCluster, int testCluster);
 
 	bool LoadBSPData(FILE * file);
 
-
-	BSP() : numVertices(0), vertices(NULL),
+	BSP() : show_all(false), disable_vis(false), single_cluster(false), 
+			numVertices(0), vertices(NULL), 
 			numPolygonFaces(0), polygonFaces(NULL),
 			numPatches(0), patches(NULL),
 			numTextures(0), decalMaterials(NULL), decalTextures(NULL),
 			numLightmaps(0), lightmapTextures(NULL),
-			entityString(NULL), single_cluster(false), disable_vis(false), show_all(false), nullMat(NULL)
+			entityString(NULL), nullMat(NULL)
 	{
 		gamma = 2.5f;
 	}

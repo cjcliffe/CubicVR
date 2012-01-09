@@ -21,9 +21,9 @@ void str_replace(const string &needle, const string &replacement, string &haysta
 /* split a string by 'seperator' into a vector of string pointers */
 void str_explode(vector<string> &vect_out, const string &seperator, const string &in_str)
 {
-	int i = 0, j = 0;
-	int seperator_len = seperator.length();
-	int str_len = in_str.length();
+	unsigned int i = 0, j = 0;
+	unsigned int seperator_len = seperator.length();
+	unsigned int str_len = in_str.length();
 
 	while(i < str_len) 
 	{ 

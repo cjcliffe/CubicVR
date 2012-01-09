@@ -937,7 +937,7 @@ IMPEXP void loadLWO(Mesh &obj, const string &fn, MapString *mapStr, map<Material
 				
 				IFFBlock *vmapData;
 				
-				while (vmapData = blokData.getBlock("VMAP",vmapCount))
+				while ((vmapData = blokData.getBlock("VMAP",vmapCount)))
 				{
 					string vmapName;
 					vmapData->getString(vmapName);
@@ -1150,7 +1150,7 @@ IMPEXP void loadLWO(Mesh &obj, const string &fn, MapString *mapStr, map<Material
 	
 	IFFBlock *ptagData;
 			
-	while (ptagData = lwo_data.getBlock("PTAG",ptagCount))
+	while ((ptagData = lwo_data.getBlock("PTAG",ptagCount)))
 	{
 		char ptagHeader[4];
 		ptagData->getHeader(ptagHeader);

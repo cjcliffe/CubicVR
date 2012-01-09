@@ -36,20 +36,20 @@ void RigidSceneObject::QuaternionToEulerXYZ(const btQuaternion &quat,XYZ &euler)
 }
 
 
-RigidSceneObject::RigidSceneObject():mass(1.0f),restitution(0.0f),friction(0.5f),colShape(NULL),mRigidBody(NULL),constraints_setup(false),rigid_parent(false),cmap_obj(NULL),rigidMargin(0) 
+RigidSceneObject::RigidSceneObject():mRigidBody(NULL),colShape(NULL),rigidMargin(0),cmap_obj(NULL),constraints_setup(false),mass(1.0f),restitution(0.0f),friction(0.5f),rigid_parent(false)
 {
 
 }
 
 
-RigidSceneObject::RigidSceneObject(Mesh &obj_in):mass(1.0f),restitution(0.0f),friction(0.5f),colShape(NULL),mRigidBody(NULL),constraints_setup(false),rigid_parent(false),rigidMargin(0)
+RigidSceneObject::RigidSceneObject(Mesh &obj_in):mRigidBody(NULL),colShape(NULL),rigidMargin(0),constraints_setup(false),mass(1.0f),restitution(0.0f),friction(0.5f),rigid_parent(false)
 {
 	obj = &obj_in;
 	cmap_obj = &obj_in;
 }
 
 
-RigidSceneObject::RigidSceneObject(Mesh &obj_in,Mesh &collision_obj):mass(1.0f),restitution(0.0f),friction(0.5f),colShape(NULL),mRigidBody(NULL),constraints_setup(false),rigid_parent(false),rigidMargin(0)
+RigidSceneObject::RigidSceneObject(Mesh &obj_in,Mesh &collision_obj):mRigidBody(NULL),colShape(NULL),rigidMargin(0),constraints_setup(false),mass(1.0f),restitution(0.0f),friction(0.5f),rigid_parent(false)
 {
 	obj = &obj_in;
 	cmap_obj = &collision_obj;

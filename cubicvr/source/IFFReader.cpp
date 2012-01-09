@@ -116,7 +116,7 @@ void IFFReader::processIFFBlock(char *in_data, long data_size, int ptr_size)
 	{
 		char block_header[4];
 		char block_size_buf[4];
-		long block_size;
+		long block_size = 0;
 		char *block_data;
 
 		memcpy(block_header,in_data+block_ptr,4);

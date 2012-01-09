@@ -319,7 +319,8 @@ void nurbsError(GLenum errorCode)
 #endif
 #endif
 
-Mesh::Mesh() : cache_state(false) , buffer_state(false), open_buffer(NULL), bbMin(0,0,0), bbMax(0,0,0), tangent_binormal_state(false), hasColorMap(false), dynamic_colors(NULL), numSegments(1), activeSegment(0), segmentMask(NULL), Resource()
+Mesh::Mesh() : Resource(), bbMin(0,0,0), bbMax(0,0,0), cache_state(false), tangent_binormal_state(false),  buffer_state(false), open_buffer(NULL), 
+hasColorMap(false), numSegments(1), activeSegment(0), dynamic_colors(NULL), segmentMask(NULL)
 {
 	pointCacheOffset = 0;
 	normalCacheOffset = 0;
@@ -431,32 +432,51 @@ void Mesh::setOriginalFile(string originalFile_in)
 	originalFile = originalFile_in; 
 }
 
-void Mesh::clean()
+void Mesh::clean(bool cleanAll)
 {
-	if (cache_state) cache(false);	// clean up any cache data
-	
-	for (cvrIndex i = 0; i < points.size(); i++)
+	cvrIndex i;
+
+	if (cleanAll) {
+
+		if (cache_state) cache(false);	// clean up any cache data
+
+		numSegments = 1;
+
+		pointCacheOffset = 0;
+		normalCacheOffset = 0;
+		uvCacheOffset = 0;
+		colorMapOffset = 0;
+#ifdef ARCH_PSP
+		dataOfs = 0;
+#endif
+
+		bbMin = bbMax = XYZ(0,0,0);
+
+		//TODO: remove dependence on mat_cache_data structure so it can be cleaned..
+		mat_cache_data.clear();
+	}
+
+	for (i = 0; i < points.size(); i++)
 	{
 		delete points[i];
 	}
+
+	for (i = 0; i < faces.size(); i++)
+	{
+		delete faces[i];
+	}
+
+	points.clear();
+	faces.clear();
+	mat_reflist.clear();
+	vertex_cacheref.clear();
+	point_smoothCache.clear();		
+
 
 //#ifndef ARCH_DC
 //	setMaterialMask(false);
 //#endif	
 	
-	points.clear();
-	faces.clear();
-	mat_reflist.clear();
-#ifndef ARCH_PSP
-	mat_cache_data.clear();
-#endif
-	vertex_cacheref.clear();
-	normalCacheOffset = 0;
-	point_smoothCache.clear();		
-
-	numSegments = 1;
-	
-	bbMin = bbMax = XYZ(0,0,0);
 //	printf("ptsize:%d\n",points.size());
 }
 
@@ -1008,10 +1028,6 @@ void Mesh::updateColorCache()
 {
 	if (!dynamic_colors) return;
 
-	va_rgb *bind;
-	
-	if (!bind) return;
-	
 	if (open_buffer) 
 	{
 		memcpy(open_buffer+colorMapOffset,dynamic_colors,sizeof(va_rgb)*cache_data.vertex_count);
@@ -1198,218 +1214,6 @@ void Mesh::bindFaceMaterial(cvrIndex faceNum, Material *mat)
 //	reflistAdd(faceNum);
 };
 
-
-/*
- 
-#ifdef ARCH_PSP
-void Object::cache(bool cache_state_in, bool dynamic_state_in)
-{
-	unsigned int m;
-	map<Material *, map< unsigned int, map<unsigned short, set<cvrIndex>, ltushort>, ltuint > >::iterator obj_matref_i;
-	map< unsigned int, map<unsigned short, set<cvrIndex>, ltushort>, ltuint >::iterator matref_segment_i;
-	map<unsigned short, set<cvrIndex>, ltushort>::iterator matref_type_i;
-	set<cvrIndex>::iterator type_face_i;
-
-	if (!cache_state && cache_state_in)		
-	{
-		printf("Constructing Un-optimized PSP Cache..");
-		// construct a compiled vertex array cache that can be called via drawarray
-	
-//		std::map<cvrIndex, std::map<cvrIndex, std::set<cvrIndex>, ltindex>, ltindex>::iterator obj_matref_i;
-//		std::map<cvrIndex, std::set<cvrIndex>, ltindex>::iterator matref_type_i;
-//		std::set<cvrIndex>::iterator type_face_i;
-
-		buildRefList();
-		
-		for (obj_matref_i = mat_reflist.begin(); obj_matref_i != mat_reflist.end(); obj_matref_i++)
-		{
-			printf("Material Ref: %lu\n",(*obj_matref_i).first);
-			if (!(*obj_matref_i).second.empty())
-			{
-				unsigned int cache_total;
-				map<cvrIndex,cvrIndex> cache_size;
-				map<Material *,map<cvrIndex,cvrIndex> > faceCount;
-				unsigned int interleave_size = sizeof(va_uv) + sizeof(unsigned int) + sizeof(va_xyz) + sizeof(va_xyz);
-				unsigned int cache_multiplier = 0;
-				
-				cache_size.clear();
-
-				for (matref_segment_i = (*obj_matref_i).second.begin(); matref_segment_i != (*obj_matref_i).second.end(); matref_segment_i++)
-				{					
-					for (matref_type_i = (*matref_segment_i).second.begin(); matref_type_i != (*matref_segment_i).second.end(); matref_type_i++)
-					{
-						cache_size[(*matref_type_i).first] = 0;
-						psp_elemcount[(*obj_matref_i).first][(*matref_type_i).first] = 0;
-						faceCount[(*obj_matref_i).first][(*matref_type_i).first] = 0;
-					}					
-				}
-				
-				for (matref_segment_i = (*obj_matref_i).second.begin(); matref_segment_i != (*obj_matref_i).second.end(); matref_segment_i++)
-				{					
-					for (matref_type_i = (*matref_segment_i).second.begin(); matref_type_i != (*matref_segment_i).second.end(); matref_type_i++)
-					{
-						cache_multiplier = (*matref_type_i).first * (*matref_type_i).second.size();
-
-						cache_size[(*matref_type_i).first] += sizeof(va_uv)*cache_multiplier;	// UV
-						cache_size[(*matref_type_i).first] += sizeof(unsigned int)*cache_multiplier;	// Color
-						cache_size[(*matref_type_i).first] += sizeof(va_xyz)*cache_multiplier; // Normal
-						cache_size[(*matref_type_i).first] += sizeof(va_xyz)*cache_multiplier; // Vertex
-					}
-
-				}
-				
-				for (matref_segment_i = (*obj_matref_i).second.begin(); matref_segment_i != (*obj_matref_i).second.end(); matref_segment_i++)
-				{					
-					for (matref_type_i = (*matref_segment_i).second.begin(); matref_type_i != (*matref_segment_i).second.end(); matref_type_i++)
-					{
-						if (cache_size[(*matref_type_i).first] != 0)
-						{
-							psp_reflist[(*obj_matref_i).first][(*matref_type_i).first] = new char[cache_size[(*matref_type_i).first]];
-							cache_total += cache_size[(*matref_type_i).first];
-							cache_size[(*matref_type_i).first] = 0;
-						}
-					}
-				}
-				
-				printf("Allocated object cache: %d bytes\n",cache_total);				
-				printf("Interleave size: %d bytes\n",interleave_size);					
-
-					for (matref_type_i = (*matref_segment_i).second.begin(); matref_type_i != (*matref_segment_i).second.end(); matref_type_i++)
-					{
-						printf("Face Type: %lu points\n",(*matref_type_i).first);
-	
-						if (!(*matref_type_i).second.empty())
-						{							
-							// num points * num faces
-							
-							printf("Processing faces... ");
-							for (type_face_i = (*matref_type_i).second.begin(); type_face_i != (*matref_type_i).second.end(); type_face_i++)
-							{
-								unsigned int pointCount = 0;
-								std::vector<XYZ *>::iterator points_i;
-								
-								Face *currentFace = faces[(*type_face_i)];						
-								
-								//printf("%lu, ",(*type_face_i));
-															
-								for (points_i = currentFace->points.begin(); points_i != currentFace->points.end(); points_i++)
-								{
-									char *psp_reflist_p = psp_reflist[(*obj_matref_i).first][(*matref_type_i).first];
-									
-									va_xyz xyz_tmp;
-									va_xyz normal_tmp;
-									va_uv uv_tmp;
-									
-									xyz_tmp.x = currentFace->points[pointCount]->x;
-									xyz_tmp.y = currentFace->points[pointCount]->y;
-									xyz_tmp.z = currentFace->points[pointCount]->z;
-									
-									if (currentFace->point_normals.size())
-									{									
-										normal_tmp.x = currentFace->point_normals[pointCount].x;
-										normal_tmp.y = currentFace->point_normals[pointCount].y;
-										normal_tmp.z = currentFace->point_normals[pointCount].z;
-									}
-									else
-									{
-										normal_tmp.x = currentFace->face_normal.x;
-										normal_tmp.y = currentFace->face_normal.y;
-										normal_tmp.z = currentFace->face_normal.z;
-									}
-									
-									if (currentFace->uv.size())
-									{
-										uv_tmp.u = currentFace->uv[0][pointCount].u;
-										uv_tmp.v = currentFace->uv[0][pointCount].v;
-									}
-									else
-									{
-										uv_tmp.u = 0;
-										uv_tmp.v = 0;
-									}								
-
-									char *ofs = psp_reflist_p;
-									
-									ofs += (*matref_type_i).first * faceCount[(*obj_matref_i).first][(*matref_type_i).first] * interleave_size;
-									ofs += pointCount * interleave_size;
-									
-									unsigned int color = GU_COLOR( 1.0f, 1.0f, 1.0f, 1.0f );
-
-									memcpy(ofs,&uv_tmp,sizeof(va_uv));
-									ofs += sizeof(va_uv);
-									memcpy(ofs,&color,sizeof(unsigned int));
-									ofs += sizeof(unsigned int);
-									memcpy(ofs,&normal_tmp,sizeof(va_xyz));
-
-									ofs += sizeof(va_xyz);
-									vertex_cacheref[currentFace->pointref[pointCount]].push_back(ofs);	
-									memcpy(ofs,&xyz_tmp,sizeof(va_xyz));
-									
-									pointCount++;
-								}
-								
-								faceCount[(*obj_matref_i).first][(*matref_type_i).first]++;
-							}
-	//						printf("%lu",(*matref_type_i).second.size());
-							
-							psp_elemcount[(*obj_matref_i).first][(*matref_type_i).first] += (*matref_type_i).second.size();
-						}
-						printf("\n");
-					}
-				}
-			}
-		
-		// cache now initialized :) 
-		cache_state = true;	
-	}
-	else if (cache_state && !cache_state_in)
-	{
-		// cache deinitialized
-		cache_state = false;
-	}
-	else	// state already set, do nothing
-	{
-	
-	}
-};
-
-void Object::updatePointNormalCache(cvrIndex pointNum, int subCount, XYZ &normal_val)
-{
-	std::deque<char *>::iterator pointref_i;
-
-	va_xyz xyzTemp;
-	xyzTemp.x = normal_val.x;
-	xyzTemp.y = normal_val.y;
-	xyzTemp.z = normal_val.z;
-	
-	
-//	for (pointref_i = vertex_cacheref[pointNum].begin(); pointref_i != vertex_cacheref[pointNum].end(); pointref_i++)
-//	{		
-		float *ofs = (float *)vertex_cacheref[pointNum][subCount];
-
-		memmove(ofs - sizeof(va_xyz),(char *)&xyzTemp,sizeof(va_xyz));
-//	}
-}
-
-void Object::updatePointCache(cvrIndex pointNum)
-{
-	std::deque<char *>::iterator pointref_i;
-
-	for (pointref_i = vertex_cacheref[pointNum].begin(); pointref_i != vertex_cacheref[pointNum].end(); pointref_i++)
-	{		
-		char *ofs = (*pointref_i);
-
-		va_xyz xyzTemp;
-		xyzTemp.x = points[pointNum]->x;
-		xyzTemp.y = points[pointNum]->y;
-		xyzTemp.z = points[pointNum]->z;
-		
-		memmove(ofs,(char *)&xyzTemp,sizeof(va_xyz));
-	}
-}
- 
-
-*/
 
 void Mesh::updatePointCache(cvrIndex pointNum)
 {
@@ -1820,12 +1624,12 @@ void Mesh::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) //
 #ifdef ARCH_PSP
 		va_uv *cache_uvs;
 		if (cache_data.max_uvs > 1) cache_data.max_uvs = 1;
-		va_rgba *cache_colors;
+		va_rgba *cache_colors = NULL;
 #else
 		std::vector<va_uv *> cache_uvs;
 		/* allocate cache array pointers */
 		cache_uvs.resize(cache_data.max_uvs);				
-		va_rgb *cache_colors;
+		va_rgb *cache_colors = NULL;
 #endif
 		va_xyz *cache_points;
 		va_xyz *cache_normals;
@@ -2136,10 +1940,10 @@ void Mesh::cache(bool cache_state_in, bool dynamic_cache, bool vertex_buffer) //
 	}
 	else if (cache_state && !cache_state_in)
 	{
-		GLuint buffer[2];
-
 		/* remove any current buffer assignment */
 #if !defined(ARCH_PSP) && !defined(OPENGL_ES) && !defined(ARCH_DC)
+			GLuint buffer[2];
+
 			glDisableClientState(GL_NORMAL_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);

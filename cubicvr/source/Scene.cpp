@@ -946,7 +946,7 @@ STRINGIFY(
 
 
 
-Scene::Scene() : screen_w(512), screen_h(512), cam(NULL), sectorMap(NULL), initialized(false) 
+Scene::Scene() : screen_w(512), screen_h(512), initialized(false), sectorMap(NULL), cam(NULL)
 #if !defined(ARCH_PSP) && !defined(OPENGL_ES) && !defined(ARCH_DC)
 ,hdr_enabled(false), hdr_buffer_open(false), hdrProcess(512, 512), deferred_shading(false), renderBuffer(NULL), render_buffer_open(false)
 #endif
@@ -959,7 +959,7 @@ Scene::Scene() : screen_w(512), screen_h(512), cam(NULL), sectorMap(NULL), initi
 };
 
 
-Scene::Scene(int scr_width, int scr_height) : cam(NULL), sectorMap(NULL), initialized(false)
+Scene::Scene(int scr_width, int scr_height) : initialized(false), sectorMap(NULL), cam(NULL)
 #if !defined(ARCH_PSP) && !defined(OPENGL_ES) && !defined(ARCH_DC)
 , hdr_enabled(false), hdrProcess(scr_width, scr_height), hdr_buffer_open(false), deferred_shading(false), renderBuffer(NULL), render_buffer_open(false), blurAmt(0.0)
 #endif
@@ -2425,10 +2425,11 @@ void Scene::render()
 		sectorMap->process();		
 	}
 	
-	
+#ifndef ARCH_DC	
 	bool has_shadow_lights = false;
-	bool has_regular_lights = false;
+#endif
 
+	bool has_regular_lights = false;
 	
 	if (sectorMap && cam) 
 	{
@@ -2743,13 +2744,11 @@ if (deferred_shading)
 #if !defined(ARCH_PSP) && !defined(OPENGL_ES)
 	if (debug.lights)
 	{
-		float q;
-		
-		
 		if (cam) cam->setup();
 		
 		Texture::clearAllTextures();
 #ifndef ARCH_DC
+		float q;
 		GLShader::clear();
 #endif
 		glDepthFunc(GL_LESS);

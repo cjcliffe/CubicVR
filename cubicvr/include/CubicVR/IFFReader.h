@@ -99,7 +99,8 @@ public:
 	void getHeader(char *header) 
 	{ 
 		memcpy(header,data+block_ptr,4); 
-		header[4] = 0; 
+		// no idea why there's an array bounds warning here?
+		header[4] = 0;
 		block_ptr+=4; 
 	}
 

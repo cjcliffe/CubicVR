@@ -1346,6 +1346,9 @@ void BSP::buildSingleCluster()
 						}
 
 						break;
+					case bspBillboard:
+						// TODO: billboards not defined
+					break;
 				}
 			}
 		}

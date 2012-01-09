@@ -80,7 +80,7 @@ public:
 	inline cvrFloat angle(Vector &v_in)
 	{
 #ifdef ARCH_DC
-		float ang;
+		float ang=0;
 		sh4_dot_single3(x,y,z, v_in.x, v_in.y, v_in.z, ang);
 		return fabs(acos(ang));
 #else

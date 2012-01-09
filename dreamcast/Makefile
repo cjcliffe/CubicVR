@@ -2,8 +2,6 @@
 # CubicVR Makefile http://www.cubicvr.org/
 #   
 
-#TARGET = cubicvr.elf
-
 BULLET_PREFIX=build/include/
 
 CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matrix.o Motion.o RGB.o RGBA.o Timer.o Transform.o Vector.o XYZ.o SectorMap.o BITSET.o BSP.o MATRIX4X4.o PLANE.o VECTOR3D.o systemfont.o tinyxml.o tinystr.o tinyxmlerror.o tinyxmlparser.o Resource.o ResourceManager.o ResourcePool.o Logger.o StringUtil.o
@@ -16,7 +14,7 @@ CUBICVR_GL_OBJS = Camera.o  GLExt.o  Mesh.o objectLWO.o UV.o UVMapper.o SceneObj
 CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o Vehicle.o RigidBox.o RigidSphere.o SoftScene.o SoftSceneObject.o Particle.o ParticleEmitter.o ParticleSystem.o RigidCapsule.o
 
 
-all: rm-elf bullet cubicvr
+all: bullet cubicvr
 	@mkdir build || true
 	@mkdir build/lib || true
 	@mkdir build/include || true
@@ -27,15 +25,7 @@ all: rm-elf bullet cubicvr
 include $(KOS_BASE)/Makefile.rules
 
 clean:
-	-rm -f $(TARGET) $(OBJS) $(CUBICVR_OBJS) $(CUBICVR_GL_OBJS) $(CUBICVR_DYNAMICS_OBJS) *.a romdisk.*
-
-rm-elf:
-	-rm -f $(TARGET)
-
-#$(TARGET): $(OBJS) romdisk.o
-#	$(KOS_CC) $(KOS_CFLAGS) $(KOS_LDFLAGS) -o $(TARGET) $(KOS_START) \
-#		$(OBJS) romdisk.o $(OBJEXTRA) -L$(KOS_BASE)/lib -lkosutils 
-
+	-rm -f $(OBJS) $(CUBICVR_OBJS) $(CUBICVR_GL_OBJS) $(CUBICVR_DYNAMICS_OBJS) *.a romdisk.*
 
 BUILDCMD=$(KOS_CC) $(KOS_CFLAGS) -DARCH_DC -O3 -funroll-loops -D_arch_dreamcast -I../cubicvr/include/ -I../cubicvr/include/math/ -I$(BULLET_PREFIX) -I./ -c -o 
 	
@@ -218,7 +208,11 @@ tinyxmlerror.o: ../cubicvr/source/tinyxml/tinyxmlerror.cpp
 tinyxmlparser.o: ../cubicvr/source/tinyxml/tinyxmlparser.cpp
 	$(BUILDCMD) tinyxmlparser.o $^
 
-bullet:
+
+force_look:
+	true
+
+bullet: force_look
 	cd bullet && make
 	
 cubicvr: libcubicvr.a

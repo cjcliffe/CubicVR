@@ -87,7 +87,8 @@ public:
 	vector<va_xyz> bone_vertex_index;
 	vector<va_xyz> bone_vertex_weight;
 	
-	bool shadow_self, shadow_cast, shadow_receive, isvisible, active;
+	bool shadow_self, shadow_cast, shadow_receive;
+	bool isvisible, active;
 	bool dynamic_object, bounds_only;
 	float mass, restitution, friction;
 	

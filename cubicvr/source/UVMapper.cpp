@@ -43,7 +43,7 @@ void UVMapper::apply(Mesh &obj, Material *materialRef)
 
 void UVMapper::apply(Mesh &obj, Material *materialRef, unsigned short layerRef)
 {
-	float u,v,s,t;
+	float u=0,v=0,s=0,t=0;
 	Vector normal;
 
 	map<unsigned short, set<cvrIndex>, ltushort>::iterator h;
@@ -177,7 +177,7 @@ void UVMapper::rotatexyz(XYZ &rot_in, XYZ &point_in, XYZ &point_out)
 void UVMapper::getUV(XYZ &point_in, UV &uv_out)
 {
 	/* s, t = texture space coordinates, lon, lat = longitude and latitude space coordinates */
-	float s,t,lon,lat;
+	float s=0,t=0,lon=0,lat=0;
 	
 	XYZ uvpoint = point_in;
 

@@ -36,11 +36,10 @@ IMPEXP void loadLWS(Scene &scene, const std::string fn, MapString *mapStr)
 	int motionType = NO_MOTION;
 	//int newObj = -1, newCam = -1, newLight = -1, newBone = -1;
 	Mesh *newObj;
-	Camera *newCam;
+	Camera *newCam = NULL;
 	Light *newLight;
-	
 
-	int newBone;
+	int newBone = -1;
 	
 //	int newSceneObj = -1;
 	SceneObject *newSceneObj = NULL;

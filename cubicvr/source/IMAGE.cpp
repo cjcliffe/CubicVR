@@ -698,9 +698,9 @@ bool IMAGE::LoadUncompressedTrueColorTGA(char * filename)
 	height=	header[3]*256+header[2];						//determine image height
 	bpp=	header[4];
 
-	if(	width<=0	||											//if width <=0
-		height<=0	||											//or height<=0
-		bpp!=24 && bpp!=32)										//bpp not 24 or 32
+	if((width<=0	||											//if width <=0
+		height<=0)	||											//or height<=0
+		(bpp!=24 && bpp!=32))									//bpp not 24 or 32
 	{
 		fclose(file);											//close the file
 		Logger::log(LOG_ERROR,"%s's height or width is less than zero, or the TGA is not 24 or 32 bpp.\n", filename);
@@ -789,9 +789,9 @@ bool IMAGE::LoadCompressedTrueColorTGA(char * filename)
 	height=	header[3]*256+header[2];						//determine image height
 	bpp=	header[4];
 
-	if(	width<=0	||											//if width <=0
-		height<=0	||											//or height<=0
-		bpp!=24 && bpp!=32)										//bpp not 24 or 32
+	if(	(width<=0	||											//if width <=0
+		height<=0)	||											//or height<=0
+		(bpp!=24 && bpp!=32))										//bpp not 24 or 32
 	{
 		fclose(file);											//close the file
 		Logger::log(LOG_ERROR,"%s's height or width is less than zero, or the TGA is not 24 or 32 bpp.\n", filename);

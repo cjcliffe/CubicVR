@@ -32,7 +32,7 @@
 
 Camera *Camera::lastActive = NULL;
 
-Camera::Camera() : width(512), height(512), fov(60), nearclip(1.0f), farclip(2000.0f), type(CAMERA_FREE), sceneObjTarget(NULL)
+Camera::Camera() : type(CAMERA_FREE), fov(60), nearclip(1.0f), farclip(2000.0f), width(512), height(512), sceneObjTarget(NULL)
 {
 	position = XYZ(0,0,0);
 	rotation = XYZ(0,0,0);

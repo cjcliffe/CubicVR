@@ -32,7 +32,7 @@
 static matrix_t ml __attribute__((aligned(32)));
 #endif
 
-SceneObject::SceneObject() : obj(NULL), parent(NULL), shadow_self(true), shadow_cast(true), shadow_receive(true), isvisible(true), cmap(NULL), active(true), bones(NULL), segmentMask(NULL), hasVisibility(false), aabbMin(0,0,0), aabbMax(0,0,0)
+SceneObject::SceneObject() : parent(NULL), cmap(NULL), obj(NULL), bones(NULL), segmentMask(NULL), shadow_self(true), shadow_cast(true), shadow_receive(true), isvisible(true), active(true), hasVisibility(false), aabbMin(0,0,0), aabbMax(0,0,0)
 #ifndef ARCH_PSP
 	,dynamic_colors(NULL)
 #endif
@@ -50,7 +50,7 @@ SceneObject::SceneObject() : obj(NULL), parent(NULL), shadow_self(true), shadow_
 };
 
 
-SceneObject::SceneObject(Mesh &obj_in) : parent(NULL), shadow_self(true), shadow_cast(true), shadow_receive(true), isvisible(true), cmap(NULL),  active(true), bones(NULL), segmentMask(NULL), hasVisibility(false), aabbMin(0,0,0), aabbMax(0,0,0)
+SceneObject::SceneObject(Mesh &obj_in) : parent(NULL), cmap(NULL), bones(NULL), segmentMask(NULL), shadow_self(true), shadow_cast(true), shadow_receive(true), isvisible(true), active(true), hasVisibility(false), aabbMin(0,0,0), aabbMax(0,0,0)
 #ifndef ARCH_PSP
 	,dynamic_colors(NULL)
 #endif
@@ -148,6 +148,7 @@ bool SceneObject::onLoad()
 //	if (properties->rootNode().hasAnother("restitution"))	restitution = properties->rootNode().child("restitution").element().getDouble();
 	
 	// Physics info
+/*
 	printf("-------------------\nPhysics Properties\n-------------------\n");
 	printf("dynamic_object?\t%d\n", dynamic_object);
 	printf("bounds_only?\t%d\n", bounds_only);
@@ -155,6 +156,7 @@ bool SceneObject::onLoad()
 	printf("friction?\t %f\n", friction);
 	printf("restitution?\t %f\n", restitution);
 	printf("-------------------\n");
+*/
 	
 	//if (properties->rootNode().hasAnother("friction")) properties->rootNode().child("friction").element().get(friction);
 	//if (properties->rootNode().hasAnother("restitution")) properties->rootNode().child("restitution").element().get(restitution);
@@ -348,6 +350,7 @@ void SceneObject::calculateBoneMap(BoneSet *bones)
 			bone_vertex_weight[i].z=bone_vertex_weight[i].y;
 			bone_vertex_weight[i].y=bone_vertex_weight[i].x;
 			bone_vertex_weight[i].x=weight;
+
 			printf("index[v:%d,b:%d]: %f, %f, %f\n",i,j,bone_vertex_index[i].x,bone_vertex_index[i].y,bone_vertex_index[i].z);
 			printf("weight[v:%d,b:%d]: %f, %f, %f\n",i,j,bone_vertex_weight[i].x,bone_vertex_weight[i].y,bone_vertex_weight[i].z);
 			
@@ -1198,7 +1201,7 @@ void SceneObject::calcVisibility(const XYZ & camPosition, FRUSTUM &frustum)
 	//	mat_load(&tmp_matrix);
 
 		va_xyz *cache_normals = (va_xyz *)obj->cache_data.data+obj->normalCacheOffset;
-		va_rgb *cache_colors = (va_rgb *)obj->cache_data.data+obj->colorMapOffset;
+//		va_rgb *cache_colors = (va_rgb *)obj->cache_data.data+obj->colorMapOffset;
 		va_xyz *cache_points = (va_xyz *)obj->cache_data.data+obj->pointCacheOffset;
 
 		if (renderer.lights)
@@ -1225,13 +1228,13 @@ void SceneObject::calcVisibility(const XYZ & camPosition, FRUSTUM &frustum)
 			va_xyz lightPos;
 			float w = 1;
 
-			float dx, dy, dz, dist, ang;
+			float dist=0, ang=0;
 			bool pos_calc;
 			set<Light *>::iterator lights_i;
 			
 			lights_i = (*renderer.lights).begin();
 
-			for (int j = 0; j < renderer.lights->size(); j++)
+			for (unsigned int j = 0; j < renderer.lights->size(); j++)
 			{
 				light = (*lights_i);
 
@@ -1241,7 +1244,7 @@ void SceneObject::calcVisibility(const XYZ & camPosition, FRUSTUM &frustum)
 
 				pos_calc = false;
 
-				for (int i = 0; i < obj->cache_data.vertex_count; i++)
+				for (unsigned int i = 0; i < obj->cache_data.vertex_count; i++)
 				{
 					#ifdef ARCH_DC
 						trans_pt = cache_points[i];

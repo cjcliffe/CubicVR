@@ -30,7 +30,7 @@
 #include <CubicVR/ResourceManager.h>
 
 
-Resource::Resource() : loaded(false), initialized(false), idName(""), typeName("resource"), properties(NULL), header(NULL)
+Resource::Resource() : properties(NULL), header(NULL), idName(""), typeName("resource"),  loaded(false), initialized(false)
 {
 //	idName = std::string("unnamed");
 //	loaded = false;

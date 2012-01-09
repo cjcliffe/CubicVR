@@ -287,7 +287,7 @@ enum SceneObjectArrayParamShadow
 
 btCollisionShape *CollisionMap::makeCollisionShape(float mass, const XYZ &scale, vector<int> *arrayParam, XYZ *spacing)
 {
-	cvrIndex i,j,k;
+	cvrIndex i = 0;
 	
 	if (!meshes.size()) return NULL;
 	
@@ -439,6 +439,7 @@ void CollisionMap::compileSphereMap(float nominal_rad)
 	Logger::log("Compiling sphere map for collision mesh nominal radius %f\n\n",nominal_rad);
 	
 	collision_box bbox;
+	bbox.xmin = bbox.xmax = bbox.ymin = bbox.ymax = bbox.zmin = bbox.zmax = 0;
 	
 	for (meshes_i = meshes.begin(); meshes_i != meshes.end(); meshes_i++)
 	{

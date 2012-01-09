@@ -234,8 +234,8 @@ public:
 
 	
 	
-	// clear the cache and contents of this object
-	void clean();
+	// remove unused contents from memory after compile, optionally clear all data
+	void clean(bool cleanAll=false);
 	
 	
 	map <char *, int, string_less> seg_ref;

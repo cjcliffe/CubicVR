@@ -46,7 +46,7 @@
 Material Material::nullMaterial = Material();
 
 
-Material::Material() : ambient(0.02f, 0.02f, 0.02f, 1.0f), diffuse(0.7f, 0.7f, 0.7f, 1.0f), specular(0.0f, 0.0f, 0.0f, 1.0f), color(1.0f,1.0f,1.0f,1.0f), shininess(0.0f), sidedness(MATERIAL_FACE_FRONT), max_smooth(0), cached(false), dList(0), shader_mask(0), color_mask(false), alpha_mask(false)
+Material::Material() : ambient(0.02f, 0.02f, 0.02f, 1.0f), diffuse(0.7f, 0.7f, 0.7f, 1.0f), specular(0.0f, 0.0f, 0.0f, 1.0f), color(1.0f,1.0f,1.0f,1.0f), shader_mask(0), color_mask(false), alpha_mask(false), shininess(0.0f), sidedness(MATERIAL_FACE_FRONT), max_smooth(0), cached(false), dList(0)
 #if !defined(OPENGL_ES) && !defined(ARCH_PSP)  && !defined(ARCH_DC)
  ,program(NULL)
 
@@ -158,7 +158,7 @@ void Material::texSetup(unsigned int layerType)
 		{
 			if (layer[i].texture_ref) 
 			{
-				int tex_num;
+//				int tex_num;
 				//tex_num = Texture::nextTexture();
 
 #if !defined(OPENGL_ES) && !defined(ARCH_DC) && !defined(ARCH_PSP)

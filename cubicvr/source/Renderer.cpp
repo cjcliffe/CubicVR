@@ -984,10 +984,11 @@ void ImmediateRenderer::render(Mesh &obj, int stage)
 		// (*obj_matref_i).first // material reference
 		Material *mat = (*obj_matref_i).first;
 
+#ifndef ARCH_DC
 		unsigned int tex_offset = Texture::tex_use+1;
-
 		// if it has a transparency mask, textures will be needed for depth calc on shadow
 		bool has_mask = mat->hasMask();	
+#endif
 
 		/* if we're in the opaque shader stage then we need to discard the transparent materials and vice versa */
 		if (stage == SHADER_STAGE_NULL || stage == SHADER_STAGE_OPAQUE || stage == SHADER_STAGE_NOTEXTURE)
@@ -1135,7 +1136,7 @@ void MeshRenderer::render(Mesh &obj, int stage)
 };
 
 
-Renderer::Renderer() : shadow_alpha(0.6f), lights(NULL), shadowModelMatrix(NULL)
+Renderer::Renderer() : lights(NULL), shadowModelMatrix(NULL), shadow_alpha(0.6f)
 {
 	
 };
