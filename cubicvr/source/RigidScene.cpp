@@ -82,7 +82,9 @@ RigidScene::RigidScene(int scr_width_in, int scr_height_in, XYZ aabbMin, XYZ aab
 
 	///the maximum size of the collision world. Make sure objects stay within these boundaries
 	///Don't make the world AABB size too large, it will harm simulation quality and performance
-	overlappingPairCache = new btAxisSweep3(worldAabbMin,worldAabbMax,maxProxies);
+	///overlappingPairCache = new btAxisSweep3(worldAabbMin,worldAabbMax,maxProxies);
+
+	overlappingPairCache = new btDbvtBroadphase();	
 
 	solver = new btSequentialImpulseConstraintSolver();
 

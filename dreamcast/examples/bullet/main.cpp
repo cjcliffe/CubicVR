@@ -18,13 +18,8 @@
 
 #include <CubicVR/Gamepad.h>
 
-#ifdef SD_CARD
-const char *GRASS_PCX = "/sd/bullet/grass.pcx";
-const char *CRATE_PCX = "/sd/bullet/crate.pcx";
-#else
-const char *GRASS_PCX = "/rd/grass.pcx";
-const char *CRATE_PCX = "/rd/crate.pcx";
-#endif
+const char *GRASS_PCX = RES_PATH "grass.pcx";
+const char *CRATE_PCX = RES_PATH "crate.pcx";
 
 
 Camera myCamera(640,480, 50, 1, 300);
@@ -401,7 +396,7 @@ pvr_init_params_t params = {
 };
 
 
-#ifndef SD_CARD
+#ifdef ROMDISK
 extern uint8 romdisk[];
 KOS_INIT_ROMDISK(romdisk);
 #endif

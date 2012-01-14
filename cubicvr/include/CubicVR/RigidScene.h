@@ -47,7 +47,8 @@ protected:
 	btVector3 worldAabbMin;
 	btVector3 worldAabbMax;
 	
-	btAxisSweep3* overlappingPairCache;
+//	btAxisSweep3* overlappingPairCache;
+	btDbvtBroadphase* overlappingPairCache;
 	btSequentialImpulseConstraintSolver* solver;
 	
 	int	maxProxies;

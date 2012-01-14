@@ -372,7 +372,7 @@ bool Mesh::destroy()
 {
 	if (!initialized) return true;
 	
-	clean();
+	clean(true);
 
 	initialized = false;
 
@@ -454,6 +454,15 @@ void Mesh::clean(bool cleanAll)
 
 		//TODO: remove dependence on mat_cache_data structure so it can be cleaned..
 		mat_cache_data.clear();
+		if (cache_data.cache_element)	{
+			std::free(cache_data.cache_element);
+			cache_data.cache_element = NULL;
+		}
+		if (cache_data.data) {
+			delete cache_data.data;
+			cache_data.data = NULL;
+		}
+	
 	}
 
 	for (i = 0; i < points.size(); i++)
@@ -472,6 +481,12 @@ void Mesh::clean(bool cleanAll)
 	vertex_cacheref.clear();
 	point_smoothCache.clear();		
 
+#if !defined(ARCH_DC) && !defined(ARCH_PSP) && !defined(OPENGL_ES)
+	if (cache_data.data) {
+		delete cache_data.data;
+		cache_data.data = NULL;
+	}
+#endif
 
 //#ifndef ARCH_DC
 //	setMaterialMask(false);

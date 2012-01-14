@@ -1,0 +1,13 @@
+glTexImage2D: LEVELs ignorados
+gltex: GL_TEXTURE_2D & 0x0f y +1 ????
+glTexParameteri: default pname !!!??
+glmisc: Anulado glEnable GL_BLEND por mensaje
+glGet: GL_PROJECTION_MATRIX correcto
+NORMAL_ARRAY !?
+GL_PACK_ALIGNMENT y GL_ALPHA_SCALE ????
+poner STOREDQUEUES en pixconvs
+GL_POINTS: end_points (revisar)
+GL_LINES: end_lines
+GL_QUAD_STRIP: end_quad_strip
+GL_POLYGON: end_polygon
+glDrawPixels

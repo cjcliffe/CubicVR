@@ -79,7 +79,8 @@ SoftScene::SoftScene(int scr_width_in, int scr_height_in)
 #endif
 	
 	dispatcher = new btCollisionDispatcher(collisionConfiguration);
-	overlappingPairCache = new btAxisSweep3(worldAabbMin,worldAabbMax,maxProxies);
+//	overlappingPairCache = new btAxisSweep3(worldAabbMin,worldAabbMax,maxProxies);
+	overlappingPairCache = new btDbvtBroadphase();
 
 	solver = new btSequentialImpulseConstraintSolver();
 

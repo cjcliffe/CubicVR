@@ -14,12 +14,14 @@ CUBICVR_GL_OBJS = Camera.o  GLExt.o  Mesh.o objectLWO.o UV.o UVMapper.o SceneObj
 CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o Vehicle.o RigidBox.o RigidSphere.o SoftScene.o SoftSceneObject.o Particle.o ParticleEmitter.o ParticleSystem.o RigidCapsule.o
 
 
-all: bullet cubicvr
+all: bullet libkglx cubicvr
 	@mkdir build || true
 	@mkdir build/lib || true
 	@mkdir build/include || true
 	@mkdir build/include/CubicVR || true
+	@mkdir build/include/GLX || true	
 	cp -R ../cubicvr/include/* build/include/
+	cp -R libkglx/include/GL/* build/include/GLX/
 	cp libcubicvr.a build/lib/
 
 include $(KOS_BASE)/Makefile.rules
@@ -214,6 +216,9 @@ force_look:
 
 bullet: force_look
 	cd bullet && make
+
+libkglx: force_look
+	cd libkglx && make
 	
 cubicvr: libcubicvr.a
 
