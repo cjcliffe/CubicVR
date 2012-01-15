@@ -68,6 +68,7 @@ SET(CubicVR_SRCS
   source/Mesh.cpp
   source/ObjectController.cpp
   source/objectLWO.cpp
+  source/OBJLoader.cpp
   source/Particle.cpp
   source/ParticleEmitter.cpp
   source/ParticleSystem.cpp
@@ -163,6 +164,7 @@ SET (CubicVR_HDRS
   include/CubicVR/Mesh.h
   include/CubicVR/ObjectController.h
   include/CubicVR/objectLWO.h
+  include/CubicVR/OBJLoader.h
   include/CubicVR/Particle.h
   include/CubicVR/ParticleEmitter.h
   include/CubicVR/ParticleSystem.h

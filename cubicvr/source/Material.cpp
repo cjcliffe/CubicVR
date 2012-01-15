@@ -567,6 +567,10 @@ void Material::bindTexture(unsigned short texLayer, cvrIndex texRefId, short tex
 //	}
 };
 
+void Material::bindTexture(cvrIndex texRefId, short tex_type)	
+{
+	bindTexture(0,texRefId,tex_type);
+};
 
 void Material::bindTexture(cvrIndex texRefId)
 {

@@ -427,7 +427,7 @@ int main(int argc, char **argv)
 	Logger::log("go\n");
 
 	mGamepad = new Gamepad();
-	
+
 	while(1) 
 	{
 		mGamepad->Update();

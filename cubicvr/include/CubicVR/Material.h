@@ -135,6 +135,8 @@ class Material: public Resource
 #endif
 		/// bind texture to a specific layer of this material
 		void bindTexture(unsigned short texLayer, cvrIndex texRefId, short tex_type);
+		/// bind texture to layer 0 of this material
+		void bindTexture(cvrIndex texRefId, short tex_type);
 		/// bind texture to last layer
 		void bindTexture(cvrIndex texRefId);
 

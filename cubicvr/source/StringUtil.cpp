@@ -59,6 +59,10 @@ void str_implode(string &str_out, const string &seperator, vector<string> &str_v
 
 void str_file_extract(string path_in, string &path_str,string &file_str,string &file_base,string &file_ext)
 {
+	if (path_in.length() == 0) {
+		return;
+	}	
+	
 	vector<string> fileArray;
 	
 	str_explode(fileArray,PATH_SEP,path_in);

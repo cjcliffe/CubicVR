@@ -8,7 +8,7 @@ CUBICVR_OBJS = Resource.o Gamepad.o Envelope.o Face.o IFFReader.o lodepng.o Matr
 
 # TGALoader.o Font.o Bitmap.o VECTOR2D.o VECTOR4D.o  RigidSceneDebug.o BSPSceneObject.o 
 
-CUBICVR_GL_OBJS = Camera.o  GLExt.o  Mesh.o objectLWO.o UV.o UVMapper.o SceneObject.o ObjectController.o Scene.o sceneLWS.o Renderer.o CollisionMap.o Texture.o Light.o Material.o \
+CUBICVR_GL_OBJS = Camera.o  GLExt.o  Mesh.o objectLWO.o OBJLoader.o UV.o UVMapper.o SceneObject.o ObjectController.o Scene.o sceneLWS.o Renderer.o CollisionMap.o Texture.o Light.o Material.o \
  Bone.o DataTree.o FRUSTUM.o IMAGE.o sceneLWS.o SceneObject.o textureTGA.o Pencil.o
 
 CUBICVR_DYNAMICS_OBJS = RigidScene.o RigidScene.o RigidSceneObject.o Landscape.o Vehicle.o RigidBox.o RigidSphere.o SoftScene.o SoftSceneObject.o Particle.o ParticleEmitter.o ParticleSystem.o RigidCapsule.o
@@ -69,6 +69,8 @@ ObjectController.o: ../cubicvr/source/ObjectController.cpp
 	$(BUILDCMD) ObjectController.o $^
 objectLWO.o: ../cubicvr/source/objectLWO.cpp
 	$(BUILDCMD) objectLWO.o $^
+OBJLoader.o: ../cubicvr/source/OBJLoader.cpp
+	$(BUILDCMD) OBJLoader.o $^
 Particle.o: ../cubicvr/source/Particle.cpp
 	$(BUILDCMD) Particle.o $^
 ParticleEmitter.o: ../cubicvr/source/ParticleEmitter.cpp

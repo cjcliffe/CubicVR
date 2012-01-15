@@ -317,6 +317,9 @@ void Texture::destroy(cvrIndex texNum)
 
 cvrIndex Texture::getTextureId(std::string tex_name)
 {
+	if (nameref.find(tex_name)==nameref.end()) {
+		return 0;
+	} 
 	return nameref[tex_name];
 };
 	
