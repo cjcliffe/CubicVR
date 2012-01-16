@@ -701,7 +701,7 @@ void VertexBufferRenderer::setup(Mesh &obj, bool init_texcoord)
 			
 		}
 	
-	if (obj.hasColorMap && obj.dynamic_colors)	// Mostly just for Dreamcast lighting at the moment
+	if (obj.dynamic_colors)	// Mostly just for Dreamcast lighting at the moment
 	{
 		glColorPointer(3, GL_FLOAT, 0, (const GLvoid *)obj.dynamic_colors);				
 		glEnableClientState(GL_COLOR_ARRAY);	

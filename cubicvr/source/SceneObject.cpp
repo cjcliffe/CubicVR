@@ -587,7 +587,7 @@ void SceneObject::render(Renderer &renderer, int stage, bool initShadowMatrix, b
 	glMatrixMode(GL_MODELVIEW);
 
 	#ifndef ARCH_PSP
-	if (obj) if (obj->hasColorMap)
+	if (obj) if (obj->hasColorMap || (dynamic_colors != NULL))
 	{
 		if (dynamic_colors) 
 		{

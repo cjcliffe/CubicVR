@@ -22,7 +22,7 @@ Gamepad *mGamepad;
 
 bool pause_pressed=false;
 
-#define NUM_LIGHTS 3
+#define NUM_LIGHTS 2
 
 Light myLights[NUM_LIGHTS];
 
@@ -38,7 +38,6 @@ void InitScene()
 	OBJLoader meshLoader;
 
 	boxObj = meshLoader.load(MODEL_OBJ);
-	
 	boxObj->cache(true);
 	boxObj->clean();		// remove unused data
 
@@ -50,7 +49,7 @@ void InitScene()
 	{
 		myLights[i].setType(LIGHT_POINT);
 		myLights[i].diffuse = RGB((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX);
-		myLights[i].setCutoff(10);
+		myLights[i].setCutoff(13);
 		myScene.bind(myLights[i]);
 	}
 
@@ -97,7 +96,7 @@ void draw_gl(void)
 
 pvr_init_params_t params = {
         /* Enable opaque and translucent polygons with size 16 */
-        { PVR_BINSIZE_32, PVR_BINSIZE_0, PVR_BINSIZE_32, PVR_BINSIZE_0, PVR_BINSIZE_0 },
+        { PVR_BINSIZE_16, PVR_BINSIZE_0, PVR_BINSIZE_16, PVR_BINSIZE_0, PVR_BINSIZE_0 },
 
         /* Vertex buffer size 512K */
         (512)*1024
