@@ -30,6 +30,7 @@
 
 /* DataElement class */
 
+
 DataElement::DataElement()
 {
 	data_type = DATA_NULL;
@@ -259,8 +260,8 @@ void DataElement::set(vector<long> &longvect_in)
 
 void DataElement::set(vector<float> &floatvect_in)
 {
-//	long ptr;
-//	float temp_float;
+	long ptr;
+	float temp_float;
     
 	data_type = DATA_FLOATVECTOR;
 	
@@ -526,7 +527,7 @@ void DataElement::get(vector<float> &floatvect_in) throw (DataTypeMismatchExcept
 	long ptr;
 	if (!data_type) return;
     
-	if (data_type != DATA_FLOATVECTOR && data_type != DATA_DOUBLEVECTOR) throw(new DataTypeMismatchException("Type mismatch, not a FLOAT VECTOR"));
+	if (data_type != DATA_FLOATVECTOR && data_type != DATA_DOUBLEVECTOR  && data_type != DATA_INTVECTOR && data_type != DATA_LONGVECTOR) throw(new DataTypeMismatchException("Type mismatch, not a FLOAT VECTOR"));
     
 	ptr = 0;
     
@@ -539,6 +540,17 @@ void DataElement::get(vector<float> &floatvect_in) throw (DataTypeMismatchExcept
 			memcpy(&temp_double,data_val+ptr,sizeof(double));
 			floatvect_in.push_back((float)temp_double);
 			ptr += sizeof(double);
+		}
+	}
+    if (data_type == DATA_INTVECTOR)
+	{
+		int temp_int;
+		while  (ptr < data_size)
+		{
+			temp_int = 0;
+			memcpy(&temp_int,data_val+ptr,sizeof(int));
+			floatvect_in.push_back((float)temp_int);
+			ptr += sizeof(int);
 		}
 	}
 	else
@@ -626,7 +638,7 @@ void DataElement::get(vector<XYZ> &xyzvect_in) throw (DataTypeMismatchException)
 
 long DataElement::getSerializedSize()
 {
-	return sizeof(short int)+sizeof(long)+data_size;	
+	return sizeof(unsigned char)+sizeof(unsigned int)+data_size;	
 }
 
 
@@ -640,10 +652,10 @@ long DataElement::getSerialized(char **ser_str)
 	
     ser_pointer = *ser_str;
 	
-	memcpy(ser_pointer, &data_type, sizeof(short int));
-    ser_pointer+=sizeof(short int);
-	memcpy(ser_pointer, &data_size, sizeof(long));
-    ser_pointer+=sizeof(long);
+	memcpy(ser_pointer, &data_type, sizeof(unsigned char));
+    ser_pointer+=sizeof(unsigned char);
+	memcpy(ser_pointer, &data_size, sizeof(unsigned int));
+    ser_pointer+=sizeof(unsigned int);
 	memcpy(ser_pointer, data_val, data_size);
     
 	return ser_size;	
@@ -654,10 +666,10 @@ void DataElement::setSerialized(char *ser_str)
 {
 	char *ser_pointer = ser_str;
     
-	memcpy(&data_type,ser_pointer,sizeof(short int));
-    ser_pointer+=sizeof(short int);
-	memcpy(&data_size,ser_pointer,sizeof(long));
-    ser_pointer+=sizeof(long);
+	memcpy(&data_type,ser_pointer,sizeof(unsigned char));
+    ser_pointer+=sizeof(unsigned char);
+	memcpy(&data_size,ser_pointer,sizeof(unsigned int));
+    ser_pointer+=sizeof(unsigned int);
     
 	data_init(data_size);
 	memcpy(data_val,ser_pointer,data_size);
@@ -669,6 +681,7 @@ void DataElement::setSerialized(char *ser_str)
 DataNode::DataNode()
 {
 	ptr = 0;
+    parentNode = NULL;
 }
 
 
@@ -676,6 +689,7 @@ DataNode::DataNode(const char *name_in)
 {
 	ptr = 0;
 	node_name = name_in;
+    parentNode = NULL;
 }
 
 
@@ -704,6 +718,8 @@ DataNode &DataNode::newChild(const char *name_in)
 {
 	children.push_back(new DataNode(name_in));
 	childmap[name_in].push_back(children.back());
+    
+    children.back()->setParentNode(*this);
     
 	return *children.back();
 }
@@ -950,11 +966,7 @@ std::string trim(std::string& s,const std::string& drop = " ")
 }
 
 
-
-void DataTree::setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node)
-{
-	TiXmlText *pText;
-	int t = elxml->Type();
+void DataTree::decodeXMLText(DataNode *elem, const char *src_text, DT_FloatingPointPolicy fpp) {
     
 	long tmp_long;
     int tmp_int;
@@ -975,7 +987,145 @@ void DataTree::setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node)
 	vector<XYZ> tmp_xyzvect;
 	
     bool vInts = false;
-    bool vFloats = false;
+
+    string in_text = src_text;
+    
+    trim(in_text);
+    trim(in_text,"\r\n");
+    tmp_stream.clear();
+    tmp_stream2.clear();
+    
+    if (in_text.find_first_not_of("0123456789-") == string::npos)
+    {
+        tmp_stream << in_text;
+        tmp_stream >> tmp_long;
+        
+        tmp_int = tmp_long;
+        
+        if (tmp_int == tmp_long) {
+            elem->element().set((int)tmp_int);                        
+        } else {
+            elem->element().set((long)tmp_long);                        
+        }                    
+    }
+    else if (in_text.find_first_not_of("0123456789.e+-") == string::npos)
+    {
+        tmp_stream << in_text;
+        
+        if (fpp == USE_FLOAT) {
+            tmp_stream >> tmp_float;
+            
+            elem->element().set((float)tmp_float);
+        } else {
+            tmp_stream >> tmp_double;
+            
+            elem->element().set((double)tmp_double);
+        }
+    }
+    else if (in_text.find_first_not_of("0123456789.,e+-") == string::npos)
+    {
+        str_replace(","," ",in_text);
+        tmp_stream << in_text;
+        tmp_stream >> tmp_xyz.x;
+        tmp_stream >> tmp_xyz.y;
+        tmp_stream >> tmp_xyz.z;
+        
+        elem->element().set(tmp_xyz);
+    }
+    else if (in_text.find_first_not_of("0123456789- ") == string::npos)
+    {
+        tmp_stream << in_text;
+        
+        vInts = true;
+        
+        while (!tmp_stream.eof())
+        {
+            tmp_stream >> tmp_long;
+            tmp_int = tmp_long;
+            if (tmp_int != tmp_long) {
+                vInts = false; 
+                //                        printf("Failed int: [%d] != [%ld]\n",tmp_int,tmp_long);
+            }
+            tmp_longvect.push_back((long)tmp_long);
+        }
+        
+        if (vInts) {
+            tmp_intvect.clear();
+            for (tmp_longvect_i = tmp_longvect.begin(); tmp_longvect_i != tmp_longvect.end(); tmp_longvect_i++)
+            {
+                tmp_intvect.push_back(*tmp_longvect_i);
+            }
+            tmp_longvect.clear();
+            elem->element().set(tmp_intvect);
+        } else {
+            elem->element().set(tmp_longvect);
+        }
+    }
+    else if (in_text.find_first_not_of("0123456789.e-+ ") == string::npos)
+    {
+        tmp_stream << in_text;
+        
+        if (fpp == USE_FLOAT) {
+            tmp_floatvect.clear();
+        } else {
+            tmp_doublevect.clear();
+        }
+        
+        while (!tmp_stream.eof())
+        {
+            
+            if (fpp == USE_FLOAT) {
+                tmp_stream >> tmp_float;
+                tmp_floatvect.push_back(tmp_float);
+            } else {
+                tmp_stream >> tmp_double;
+                tmp_doublevect.push_back(tmp_double);
+            }
+        }
+        
+        if (fpp == USE_FLOAT) {
+            elem->element().set(tmp_floatvect);
+        } else {
+            elem->element().set(tmp_doublevect);
+        }
+    }
+    else if (in_text.find_first_not_of("0123456789.,e-+ ") == string::npos)
+    {
+        tmp_stream << in_text;
+        
+        while (!tmp_stream.eof())
+        {
+            tmp_stream >> tmp_str2;
+            
+            str_replace(","," ",tmp_str2);
+            
+            tmp_stream2 << tmp_str2;
+            
+            tmp_stream2 >> tmp_xyz.x;
+            tmp_stream2 >> tmp_xyz.y;
+            tmp_stream2 >> tmp_xyz.z;
+            
+            tmp_stream2.clear();
+            
+            tmp_xyzvect.push_back(tmp_xyz);
+        }
+        
+        elem->element().set(tmp_xyzvect);
+    }
+    else
+    {
+        elem->element().set(src_text);
+        //					printf( "Unhandled DataTree XML Field: [%s]", tmp_str.c_str() );	
+    }
+    
+}
+
+
+void DataTree::setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node, DT_FloatingPointPolicy fpp)
+{
+	TiXmlText *pText;
+	int t = elxml->Type();
+ 	string tmp_str;
     
 	switch ( t )
 	{
@@ -996,7 +1146,9 @@ void DataTree::setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node)
                 // following badgerfish xml->json and xml->ruby convention for attributes..
                 string attrName("@");
                 attrName.append(attribs->Name());
-                elem->newChild(attrName.c_str()).element().set(attribs->Value());
+ 
+                decodeXMLText(&elem->newChild(attrName.c_str()), attribs->Value(), fpp);
+
                 attribs = attribs->Next();
             }
             
@@ -1013,136 +1165,12 @@ void DataTree::setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node)
 			
 		case TiXmlNode::TEXT:
             pText = elxml->ToText();
-            
-            tmp_str = pText->Value();
-			
-            trim(tmp_str);
-            trim(tmp_str,"\r\n");
-            tmp_stream.clear();
-            tmp_stream2.clear();
-			
-            if (tmp_str.find_first_not_of("0123456789-") == string::npos)
-            {
-                tmp_stream << tmp_str;
-                tmp_stream >> tmp_long;
-                
-                tmp_int = tmp_long;
-                
-                if (tmp_int == tmp_long) {
-                    elem->element().set((int)tmp_int);                        
-                } else {
-                    elem->element().set((long)tmp_long);                        
-                }                    
-            }
-            else if (tmp_str.find_first_not_of("0123456789.e+-") == string::npos)
-            {
-                tmp_stream << tmp_str;
-                tmp_stream >> tmp_double;
-                
-                tmp_float = tmp_double;
-                
-                if (tmp_float == tmp_double) {
-                    elem->element().set((float)tmp_float);
-                } else {
-                    elem->element().set((double)tmp_double);
-                }                    
-            }
-            else if (tmp_str.find_first_not_of("0123456789.,e+-") == string::npos)
-            {
-                str_replace(","," ",tmp_str);
-                tmp_stream << tmp_str;
-                tmp_stream >> tmp_xyz.x;
-                tmp_stream >> tmp_xyz.y;
-                tmp_stream >> tmp_xyz.z;
-                
-                elem->element().set(tmp_xyz);
-            }
-            else if (tmp_str.find_first_not_of("0123456789- ") == string::npos)
-            {
-                tmp_stream << tmp_str;
-                
-                vInts = true;
-                
-                while (!tmp_stream.eof())
-                {
-                    tmp_stream >> tmp_long;
-                    tmp_int = tmp_long;
-                    if (tmp_int != tmp_long) vInts = false;
-                    tmp_longvect.push_back((long)tmp_long);
-                }
-                
-                if (vInts) {
-                    tmp_intvect.clear();
-                    for (tmp_longvect_i = tmp_longvect.begin(); tmp_longvect_i != tmp_longvect.end(); tmp_longvect_i++)
-                    {
-                        tmp_intvect.push_back(*tmp_longvect_i);
-                    }
-                    tmp_longvect.clear();
-                    elem->element().set(tmp_intvect);
-                } else {
-                    elem->element().set(tmp_longvect);
-                }
-            }
-            else if (tmp_str.find_first_not_of("0123456789.e-+ ") == string::npos)
-            {
-                tmp_stream << tmp_str;
-                
-                vFloats = false;
-                
-                while (!tmp_stream.eof())
-                {
-                    tmp_stream >> tmp_double;
-                    tmp_doublevect.push_back(tmp_double);
-                }
-                
-                if (vFloats) {
-                    tmp_floatvect.clear();
-                    for (tmp_doublevect_i = tmp_doublevect.begin(); tmp_doublevect_i != tmp_doublevect.end(); tmp_doublevect_i++)
-                    {
-                        tmp_floatvect.push_back(*tmp_doublevect_i);
-                    }
-                    tmp_doublevect.clear();
-                    elem->element().set(tmp_floatvect);
-                } else {
-                    elem->element().set(tmp_doublevect);
-                }
-            }
-            else if (tmp_str.find_first_not_of("0123456789.,e-+ ") == string::npos)
-            {
-                tmp_stream << tmp_str;
-                
-                while (!tmp_stream.eof())
-                {
-                    tmp_stream >> tmp_str2;
-                    
-                    str_replace(","," ",tmp_str2);
-                    
-                    tmp_stream2 << tmp_str2;
-                    
-                    tmp_stream2 >> tmp_xyz.x;
-                    tmp_stream2 >> tmp_xyz.y;
-                    tmp_stream2 >> tmp_xyz.z;
-                    
-                    tmp_stream2.clear();
-                    
-                    tmp_xyzvect.push_back(tmp_xyz);
-                }
-                
-                elem->element().set(tmp_xyzvect);
-            }
-            else
-            {
-                elem->element().set(string(pText->Value()));
-                //					printf( "Unhandled DataTree XML Field: [%s]", tmp_str.c_str() );	
-            }
-			
+ 			
+            decodeXMLText(elem, pText->Value(), fpp);
 			
             //				pText = elxml->ToText();
             //				printf( "Text: [%s]", pText->Value() );
-            
-			
-			
-			break;
+ 			break;
 			
 		case TiXmlNode::DECLARATION:
             //				printf( "Declaration" );
@@ -1193,7 +1221,7 @@ void DataTree::setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node)
 	
 	for ( pChild = elxml->FirstChild(); pChild != 0; pChild = pChild->NextSibling()) 
 	{
-		setFromXML( elem, pChild, false );
+		setFromXML( elem, pChild, false, fpp );
 	}
 	
 }
@@ -1551,6 +1579,51 @@ long DataTree::getSerializedSize(DataElement &de_node_names, bool debug)	/* get 
 	return total_size;
 }
 
+void DataNode::findAll(const char *name_in, vector<DataNode *> &node_list_out)
+{
+	stack<DataNode *> dn_stack;
+
+  	/* start at the root */
+	dn_stack.push(this);
+    
+    if (string(getName()) == string(name_in)) node_list_out.push_back(this);
+    
+	while (!dn_stack.empty())
+	{
+        while (dn_stack.top()->hasAnother(name_in)) {
+            node_list_out.push_back(&dn_stack.top()->getNext(name_in));
+        }
+            
+        
+        /* if it has children, traverse into them */
+        if (dn_stack.top()->hasAnother())
+        {
+            dn_stack.push(&dn_stack.top()->getNext());
+            dn_stack.top()->rewind();
+        }
+        else
+        {
+            /* no more children, back out until we have children, then add next child to the top */
+            while (!dn_stack.empty())
+            {
+                if (!dn_stack.top()->hasAnother()) 
+                {
+                    dn_stack.top()->rewind();
+                    dn_stack.pop();
+                }
+                else break;
+            }
+            
+            if (!dn_stack.empty())
+            {
+                dn_stack.push(&dn_stack.top()->getNext());
+                dn_stack.top()->rewind();	
+            }
+        }
+	}		
+  
+}
+
 
 long DataTree::getSerialized(char **ser_str, bool debug)
 {
@@ -1789,7 +1862,7 @@ void DataTree::setSerialized(char *ser_str, bool debug)
 }
 
 
-bool DataTree::LoadFromFileXML(const std::string& filename)
+bool DataTree::LoadFromFileXML(const std::string& filename, DT_FloatingPointPolicy fpp)
 {
 	TiXmlDocument doc(filename.c_str());
 	bool loadOkay = doc.LoadFile();
@@ -1810,7 +1883,7 @@ bool DataTree::LoadFromFileXML(const std::string& filename)
 	
     rootNode().setName(xml_root_node->ToElement()->Value());
     
-	setFromXML(&rootNode(),xml_root_node);
+	setFromXML(&rootNode(),xml_root_node,true,fpp);
     
 	return true;
 }
@@ -1835,6 +1908,7 @@ bool DataTree::SaveToFileXML(const std::string& filename)
 	return true;
 }
 
+/*
 bool DataTree::SaveToFile(const std::string& filename)
 {
     char *serialized;
@@ -1875,3 +1949,106 @@ bool DataTree::LoadFromFile(const std::string& filename)
     
 	return true;
 }
+*/
+
+
+bool DataTree::SaveToFile(const std::string& filename, bool compress, int compress_level)
+{
+	long dataSize, compressedSize, headerSize;  
+    char *serialized, *hdr_serialized, *compressed;
+    DataTree dtHeader;
+    
+    dataSize = getSerialized(&serialized);
+    
+    if (compress) {
+        compressed = new char[(int)ceil(dataSize*1.5)];
+        
+        compressedSize = fastlz_compress_level(compress_level, serialized, dataSize, compressed);
+        
+        compressed = (char *)realloc(compressed, compressedSize);
+        
+        delete serialized;
+    }
+    
+    
+    DataNode &header = dtHeader.rootNode();
+    
+    header^"version" = 1.0f;
+    header^"compression" = string(compress?"FastLZ":"none");
+    header^"uncompressed_size" = dataSize;
+    
+    headerSize = dtHeader.getSerialized(&hdr_serialized);
+    
+    std::ofstream fout(filename.c_str(), ios::binary);
+    
+    fout.write((char *) &headerSize, sizeof(long));
+	fout.write((char *) &(compress?compressedSize:dataSize), sizeof(long));
+    
+    fout.write(hdr_serialized, headerSize);
+    fout.write(compress?compressed:serialized, compress?compressedSize:dataSize);
+    
+    fout << flush;
+    fout.close();
+    
+    delete hdr_serialized;
+    
+    if (!compress) {
+        delete serialized;   
+    } else {
+        delete compressed;   
+    }
+    
+    return true;
+}
+
+
+bool DataTree::LoadFromFile(const std::string& filename)
+{
+    char *compressed,*serialized,*hdr_serialized;
+	long dataSize,headerSize,compressedSize;
+	
+	ifstream fin(filename.c_str(), ios::binary);
+	
+	fin.read((char *)&headerSize, sizeof(long));
+	fin.read((char *)&compressedSize, sizeof(long));
+    
+    hdr_serialized = new char[headerSize];
+	fin.read(hdr_serialized,headerSize);
+    
+    DataTree dtHeader;
+	dtHeader.setSerialized(hdr_serialized);
+    DataNode &header = dtHeader.rootNode();
+    
+    string compressionType = header["compression"];
+    dataSize = header["uncompressed_size"];
+    
+    bool uncompress = false;
+    
+    if (compressionType=="FastLZ") { 
+        uncompress = true; 
+    }
+    
+    if (uncompress) {
+        compressed = new char[compressedSize];
+        fin.read(compressed,compressedSize);
+        
+        serialized = new char[dataSize];
+        fastlz_decompress(compressed, compressedSize, serialized, dataSize);
+        
+        delete compressed;
+    } else {
+        serialized = new char[dataSize];
+        fin.read(serialized,dataSize);
+    }
+    
+	fin.close();
+    
+	setSerialized(serialized);
+	
+	delete serialized;
+	delete hdr_serialized;
+	
+	return true;
+}
+
+

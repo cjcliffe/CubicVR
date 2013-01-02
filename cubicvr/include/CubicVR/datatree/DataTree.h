@@ -37,6 +37,7 @@
 #include <CubicVR/XYZ.h>
 #include <CubicVR/map_string.h>
 #include <CubicVR/tinyxml/tinyxml.h>
+#include <CubicVR/fastlz/fastlz.h>
 
 
 using namespace std;
@@ -90,8 +91,8 @@ public:
 class DataElement
 {
 private:
-    short int data_type;
-    long data_size;
+    unsigned char data_type;
+    unsigned int data_size;
     
     char *data_val;
     
@@ -165,6 +166,7 @@ public:
 class DataNode
 {
 private:
+    DataNode *parentNode;
     vector<DataNode *> children;
     map<string, vector<DataNode *>, string_less> childmap;
     map<string, unsigned int, string_less> childmap_ptr;
@@ -182,7 +184,10 @@ public:
     
     void setName(const char *name_in);
     string &getName() { return node_name; }
-    
+
+    DataNode *getParentNode() { return parentNode; };
+    void setParentNode(DataNode &parentNode_in) { parentNode = &parentNode_in; };
+
     int numChildren();	/* Number of children */
     int numChildren(const char *name_in); /* Number of children named 'name_in' */
     
@@ -192,14 +197,57 @@ public:
     DataNode &child(const char *name_in, int index = 0) throw (DataInvalidChildException);
     DataNode &child(int index) throw (DataInvalidChildException);
     
+    
     bool hasAnother(const char *name_in);	/* useful for while() loops in conjunction with getNext() */
     bool hasAnother();
     DataNode &getNext(const char *name_in) throw (DataInvalidChildException); /* get next of specified name */
     DataNode &getNext() throw (DataInvalidChildException);	/* get next child */
     void rewind(const char *name_in);	/* rewind specific */
     void rewind();	/* rewind generic */
+        
+    void findAll(const char *name_in, vector<DataNode *> &node_list_out);
+    
+    operator string () { string s; element().get(s); return s; }
+    operator int () { int v; element().get(v); return v; }
+    operator long () { long v; element().get(v); return v; }
+    operator float () { float v; element().get(v); return v; }
+    operator double () { double v; element().get(v); return v; }
+
+    operator vector<int> () { vector<int> v; element().get(v);  return v; }
+    operator vector<long> () { vector<long> v; element().get(v);  return v; }
+    operator vector<float> () { vector<float> v; element().get(v);  return v; }
+    operator vector<double> () { vector<double> v; element().get(v);  return v; }
+    
+    const string &operator= (const string &s) { element().set(s); return s; }
+
+    int operator= (int i) { element().set(i); return i; }
+    long operator= (long i) { element().set(i); return i; }
+    float operator= (float i) { element().set(i); return i; }
+    double operator= (double i) { element().set(i); return i; }
+
+    
+    vector<int> &operator= (vector<int> &v) { element().set(v); return v; }
+    vector<long> &operator= (vector<long> &v) { element().set(v); return v; }
+    vector<float> &operator= (vector<float> &v) { element().set(v); return v; }
+    vector<double> &operator= (vector<double> &v) { element().set(v); return v; }
+
+    DataNode &operator[] (const char *name_in) { return getNext(name_in); }
+    DataNode &operator[] (int idx) { return child(idx); }
+
+    bool operator() (const char *name_in) { return hasAnother(name_in); }
+    bool operator() () { return hasAnother(); }
+
+    DataNode &operator ^(const char *name_in) { return newChild(name_in); }
+
 };
 
+
+typedef vector<DataNode *> DataNodeList;
+
+enum DT_FloatingPointPolicy {
+    USE_FLOAT,
+    USE_DOUBLE
+};
 
 class DataTree
 {
@@ -209,21 +257,26 @@ private:
 public:
     DataTree(const char *name_in);
     DataTree();
-    ~DataTree();		
+    ~DataTree();
     
     DataNode &rootNode();
     
     void nodeToXML(DataNode *elem, TiXmlElement *elxml);
-    void setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node=true);
+    void setFromXML(DataNode *elem, TiXmlNode *elxml, bool root_node=true, DT_FloatingPointPolicy fpp=USE_FLOAT);
+    void decodeXMLText(DataNode *elem, const char *in_text, DT_FloatingPointPolicy fpp);
     
     void printXML();	/* print datatree as XML */
     long getSerializedSize(DataElement &de_node_names, bool debug=false);	/* get serialized size + return node names header */
     long getSerialized(char **ser_str, bool debug=false);	
     void setSerialized(char *ser_str, bool debug=false);
     
-    bool LoadFromFileXML(const std::string& filename);
+    bool LoadFromFileXML(const std::string& filename, DT_FloatingPointPolicy fpp=USE_FLOAT);
     bool SaveToFileXML(const std::string& filename);
-    bool SaveToFile(const std::string& filename);
+    
+//    bool SaveToFile(const std::string& filename);
+//    bool LoadFromFile(const std::string& filename);
+
+    bool SaveToFile(const std::string& filename, bool compress = true, int compress_level = 2);
     bool LoadFromFile(const std::string& filename);
 };
 
